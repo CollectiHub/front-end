@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+      "outDir": "../out-tsc/spec",
+      "baseUrl": "./",
+      "module": "commonjs",
+      "types": ["jest", "node"]
+  },
+  "files": ["src/setup-jest.ts", "src/polyfills.ts"],
+  "include": ["jest.confit.ts","src/**/*.spec.ts", "src/**/*.d.ts"]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "cards-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
