@@ -5,7 +5,7 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     component = new AppComponent();
-  })
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

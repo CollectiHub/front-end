@@ -5,8 +5,8 @@ const config: CapacitorConfig = {
   appName: 'cards-app',
   webDir: 'www',
   server: {
-    androidScheme: 'https'
-  }
+    androidScheme: 'https',
+  },
 };
 
 export default config;

@@ -6,13 +6,84 @@
       "files": ["*.ts"],
       "parserOptions": {
         "project": ["tsconfig.json"],
+        "sourceType": "module",
         "createDefaultProgram": true
       },
+      "plugins": ["import", "prettier", "rxjs", "@typescript-eslint", "@ngrx", "unused-imports"],
       "extends": [
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:rxjs/recommended",
+        "prettier"
       ],
       "rules": {
+        "@typescript-eslint/explicit-function-return-type": [
+          "warn",
+          {
+            "allowExpressions": true,
+            "allowTypedFunctionExpressions": true,
+            "allowFunctionsWithoutTypeParameters": true
+          }
+        ],
+        "prettier/prettier": ["error"],
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          {
+            "vars": "all",
+            "varsIgnorePattern": "^_",
+            "args": "after-used",
+            "argsIgnorePattern": "^_"
+          }
+        ],
+        "unused-imports/no-unused-imports": "error",
+        "unused-imports/no-unused-vars": [
+          "warn",
+          {
+            "vars": "all",
+            "varsIgnorePattern": "^_",
+            "args": "after-used",
+            "argsIgnorePattern": "^_"
+          }
+        ],
+        "no-useless-constructor": "error",
+        "@typescript-eslint/no-useless-constructor": "error",
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": ["../../../**"],
+            "paths": [
+              {
+                "name": "@angular/core/testing",
+                "importNames": ["TestBed"],
+                "message": "We do't use TestBed. See documentation/UNIT_TESTING.md'"
+              }
+            ]
+          }
+        ],
+        "sort-imports": [
+          "error",
+          {
+            "ignoreCase": false,
+            "ignoreDeclarationSort": true,
+            "ignoreMemberSort": false,
+            "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+            "allowSeparatedGroups": true
+          }
+        ],
+        "import/order": [
+          "error",
+          {
+            "groups": ["builtin", "external", "internal", "parent", "sibling", "index", "object", "type"],
+            "newlines-between": "always",
+            "alphabetize": {
+              "order": "asc",
+              "caseInsensitive": true
+            }
+          }
+        ],
         "@angular-eslint/component-class-suffix": [
           "error",
           {
@@ -34,13 +105,133 @@
             "prefix": "app",
             "style": "camelCase"
           }
+        ],
+        "@typescript-eslint/array-type": "error",
+        "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/no-explicit-any": "warn",
+        "@typescript-eslint/no-empty-interface": "error",
+        "@typescript-eslint/no-var-requires": "error",
+        "@typescript-eslint/explicit-member-accessibility": ["error", { "accessibility": "no-public" }],
+        "@typescript-eslint/member-ordering": [
+          "error",
+          {
+            "default": [
+              "public-static-field",
+              "protected-static-field",
+              "private-static-field",
+              "public-decorated-field",
+              "protected-decorated-field",
+              "private-decorated-field",
+              "public-instance-field",
+              "protected-instance-field",
+              "private-instance-field",
+              "public-static-get",
+              "protected-static-get",
+              "private-static-get",
+              "public-instance-get",
+              "protected-instance-get",
+              "private-instance-get",
+              "public-static-set",
+              "protected-static-set",
+              "private-static-set",
+              "public-instance-set",
+              "protected-instance-set",
+              "private-instance-set",
+              "constructor",
+              "public-static-method",
+              "protected-static-method",
+              "private-static-method",
+              "public-instance-method",
+              "protected-instance-method",
+              "private-instance-method"
+            ]
+          }
+        ],
+        "@ngrx/updater-explicit-return-type": "warn",
+        "@ngrx/no-dispatch-in-effects": "warn",
+        "@ngrx/no-effects-in-providers": "error",
+        "@ngrx/prefer-action-creator-in-of-type": "warn",
+        "@ngrx/prefer-concat-latest-from": "warn",
+        "@ngrx/prefer-effect-callback-in-block-statement": "warn",
+        "@ngrx/use-effects-lifecycle-interface": "warn",
+        "@ngrx/avoid-combining-selectors": "warn",
+        "@ngrx/avoid-dispatching-multiple-actions-sequentially": "error",
+        "@ngrx/avoid-duplicate-actions-in-reducer": "error",
+        "@ngrx/avoid-mapping-selectors": "warn",
+        "@ngrx/good-action-hygiene": "warn",
+        "@ngrx/no-multiple-global-stores": "error",
+        "@ngrx/no-reducer-in-key-names": "warn",
+        "@ngrx/no-store-subscription": "warn",
+        "@ngrx/no-typed-global-store": "warn",
+        "@ngrx/on-function-explicit-return-type": "warn",
+        "@ngrx/prefer-action-creator-in-dispatch": "warn",
+        "@ngrx/prefer-action-creator": "warn",
+        "@ngrx/prefer-inline-action-props": "warn",
+        "@ngrx/prefer-one-generic-in-create-for-feature-selector": "warn",
+        "@ngrx/prefer-selector-in-select": "warn",
+        "@ngrx/prefix-selectors-with-select": "warn",
+        "@ngrx/select-style": "warn",
+        "@ngrx/use-consistent-global-store-name": "warn",
+        "rxjs/no-async-subscribe": "error",
+        "rxjs/no-create": "error",
+        "rxjs/no-ignored-notifier": "error",
+        "rxjs/no-ignored-replay-buffer": "error",
+        "rxjs/no-ignored-takewhile-value": "error",
+        "rxjs/no-implicit-any-catch": "off",
+        "rxjs/no-index": "error",
+        "rxjs/no-internal": "error",
+        "rxjs/no-nested-subscribe": "error",
+        "rxjs/no-redundant-notify": "error",
+        "rxjs/no-sharereplay": "error",
+        "rxjs/no-subclass": "error",
+        "rxjs/no-subject-unsubscribe": "error",
+        "rxjs/no-unbound-methods": "error",
+        "rxjs/no-unsafe-subject-next": "error",
+        "rxjs/no-unsafe-takeuntil": "error",
+        "rxjs/finnish": [
+          "error",
+          {
+            "Functions": true,
+            "methods": true,
+            "names": {
+              "^(canActivate|canActivateChild|canDeactivate|canLoad|intercept|resolve|validate|store|storeMock|mockStore|getTranslation)$": false
+            },
+            "parameters": false,
+            "properties": false,
+            "strict": false,
+            "types": {
+              "^EventEmitter$": false,
+              "^ParamMap$": false,
+              "^Params$": false,
+              "^Router$": false,
+              "^ActivatedRoute$": false,
+              "^WebSocketSubject$": false,
+              "^Store$": false
+            },
+            "variables": true
+          }
         ]
       }
     },
     {
+      "files": ["*.ts"],
+      "extends": ["plugin:@ngrx/recommended"]
+    },
+    {
+      "files": ["*.spec.ts"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    },
+    {
       "files": ["*.html"],
+      "parser": "@angular-eslint/template-parser",
+      "plugins": ["@angular-eslint/template"],
       "extends": ["plugin:@angular-eslint/template/recommended"],
-      "rules": {}
+      "rules": {
+        "@angular-eslint/template/prefer-self-closing-tags": "error"
+      }
     }
   ]
 }
