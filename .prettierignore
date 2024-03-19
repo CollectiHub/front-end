@@ -1,0 +1,9 @@
+/dist
+/tmp
+/out-tsc
+.idea/
+/node_modules
+.vscode
+.editorconfig
+/.angular/cache
+/coverage

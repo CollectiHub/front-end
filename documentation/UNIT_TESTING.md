@@ -105,6 +105,21 @@ You can also use mockFn() to create a jest.fn() with the calledWith extension:
  fn.calledWith(1, 2).mockReturnValue('str');
 ```
 [Read More](https://github.com/marchaos/jest-mock-extended)
+
+#### classWithProviders
+The `classWithProviders` function is used to create an instance of a class with provided mock mock dependencies. It takes a configuration object with two properties: `providers` and `token`.
+
+##### Example
+import { classWithProviders } from '@ngx-unit-test/inject-mocks';
+
+// Create an instance with mock dependencies
+const instance = classWithProviders({
+    providers: [{ provide: MyService, useValue: mockService }],
+    token: MyClass,
+})
+
+Now `instance` is an instance of `MyClass` with mock dependencies injected.
+
 ### Best Practices
 
 - One Assertion in One Test Method. That means, one unit test should test one use-case and no more.

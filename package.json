@@ -33,9 +33,12 @@
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "@ngx-unit-test/inject-mocks": "^1.1.0",
+    "autoprefixer": "^10.4.18",
     "ionicons": "^7.2.1",
     "jest-mock-extended": "^3.0.5",
+    "postcss": "^8.4.36",
     "rxjs": "~7.8.0",
+    "tailwindcss": "^3.4.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
   },

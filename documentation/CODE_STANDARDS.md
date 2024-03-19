@@ -135,7 +135,7 @@ if (isCar && redColor) {
 
 > Reason: It is a brand-new way to organize application structure that make possible for us to drop a lot of boilerplate (modules).
 
-- If your component has required input property - use `{ required: true }` options object as an arguments of input decorator.
+- If your component has required input property - use `required` options object.
 
 - Use self-closing tags for you components. (use `<my-component/>` instead of `<my-component></my-component>`).
 
