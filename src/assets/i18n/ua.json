@@ -1,0 +1,12 @@
+{
+  "register.header": "Реєстрація",
+  "register.username_label": "Ім'я користувача",
+  "register.username_placeholder": "Введіть ім'я користувача",
+  "register.email_label": "Електронна пошта",
+  "register.email_placeholder": "Введіть вашу електронну пошту",
+  "register.password_label": "Пароль",
+  "register.password_placeholder": "Введіть пароль",
+  "register.confirm_password_label": "Підтвердження паролю",
+  "register.confirm_password_placeholder": "Підтвердіть пароль",
+  "register.submit": "Зареєструватись"
+}

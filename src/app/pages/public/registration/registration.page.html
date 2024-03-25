@@ -1,0 +1,49 @@
+<div class="ion-page">
+  <ion-header> {{'register.header' | translate}}</ion-header>
+  <ion-content>
+    <form class="tw-my-auto" [formGroup]="registrationForm" (ngSubmit)="onRegistrationFormSubmit()">
+      <ion-list>
+        <ion-item>
+          <ion-input
+            formControlName="username"
+            labelPlacement="stacked"
+            [label]="'register.username_label' | translate"
+            [placeholder]="'register.username_placeholder' | translate" />
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            formControlName="email"
+            type="email"
+            labelPlacement="stacked"
+            [label]="'register.email_label' | translate"
+            [placeholder]="'register.email_placeholder' | translate" />
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            formControlName="password"
+            type="password"
+            labelPlacement="stacked"
+            [label]="'register.password_label' | translate"
+            [placeholder]="'register.password_placeholder' | translate" />
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            formControlName="confirmPassword"
+            type="password"
+            labelPlacement="stacked"
+            [label]="'register.confirm_password_label' | translate"
+            [placeholder]="'register.confirm_password_placeholder' | translate" />
+        </ion-item>
+      </ion-list>
+
+      <ion-button
+        type="submit"
+        class="tw-block tw-w-fit tw-mx-auto"
+        [disabled]="!registrationForm.valid"
+        translate="register.submit" />
+    </form>
+  </ion-content>
+</div>
