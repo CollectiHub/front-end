@@ -1,10 +1,8 @@
 import { Routes } from '@angular/router';
 
-import { AppComponent } from './app.component';
-
-export const routes: Routes = [
+export default [
   {
     path: '',
-    component: AppComponent,
+    loadChildren: () => import('./pages/public/public.routes'),
   },
-];
+] satisfies Routes;

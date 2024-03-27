@@ -1,0 +1,17 @@
+{
+  "register.header": "Registration",
+  "register.username_label": "Username",
+  "register.username_helper": "Enter username",
+  "register.email_label": "Email",
+  "register.email_helper": "Enter a valid email",
+  "register.password_label": "Password",
+  "register.password_helper": "Enter password",
+  "register.confirm_password_label": "Password confirmation",
+  "register.confirm_password_helper": "Confirm password",
+  "register.submit": "Register",
+  "register.have_account": "Have an Account?",
+  "register.login_link_text": "Login here",
+  "validation.required": "This field is required",
+  "validation.invalid_email": "Enter valid email",
+  "validation.passwords_not_match": "Passwords do not match"
+}

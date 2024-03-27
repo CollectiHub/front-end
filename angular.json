@@ -25,9 +25,7 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "./src/styles/"
-              ]
+              "includePaths": ["./src/styles/"]
             },
             "assets": [
               {
@@ -36,7 +34,19 @@
                 "output": "assets"
               }
             ],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss",
+              { "input": "node_modules/@ionic/angular/css/core.css" },
+              { "input": "node_modules/@ionic/angular/css/normalize.css" },
+              { "input": "node_modules/@ionic/angular/css/structure.css" },
+              { "input": "node_modules/@ionic/angular/css/typography.css" },
+              { "input": "node_modules/@ionic/angular/css/display.css" },
+              { "input": "node_modules/@ionic/angular/css/padding.css" },
+              { "input": "node_modules/@ionic/angular/css/float-elements.css" },
+              { "input": "node_modules/@ionic/angular/css/text-alignment.css" },
+              { "input": "node_modules/@ionic/angular/css/text-transformation.css" },
+              { "input": "node_modules/@ionic/angular/css/flex-utils.css" }
+            ],
             "scripts": []
           },
           "configurations": {
@@ -93,7 +103,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "local": {  
+            "local": {
               "buildTarget": "app:build:local"
             },
             "production": {
@@ -148,12 +158,24 @@
     }
   },
   "cli": {
-    "schematicCollections": [
-      "@ionic/angular-toolkit"
-    ],
+    "schematicCollections": ["@ionic/angular-toolkit"],
     "analytics": "895b6bc8-ef51-499c-ab74-acff552a9bfa"
   },
   "schematics": {
+    "@schematics/angular:component": {
+      "standalone": true,
+      "changeDetection": "OnPush",
+      "style": "scss"
+    },
+    "@schematics/angular:directive": {
+      "standalone": true
+    },
+    "@schematics/angular:pipe": {
+      "standalone": true
+    },
+    "@schematics/angular:interceptor": {
+      "functional": true
+    },
     "@ionic/angular-toolkit:component": {
       "styleext": "scss"
     },

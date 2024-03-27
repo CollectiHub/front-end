@@ -56,6 +56,9 @@ dependencies:
   '@ionic/angular':
     specifier: ^7.5.0
     version: 7.8.0(@angular/core@17.3.0)(@angular/forms@17.3.0)(@angular/router@17.3.0)(rxjs@7.8.1)(zone.js@0.14.4)
+  '@ngrx/component':
+    specifier: ^17.1.1
+    version: 17.1.1(@angular/common@17.3.0)(@angular/core@17.3.0)(rxjs@7.8.1)
   '@ngx-translate/core':
     specifier: ^15.0.0
     version: 15.0.0(@angular/common@17.3.0)(@angular/core@17.3.0)(rxjs@7.8.1)
@@ -69,8 +72,8 @@ dependencies:
     specifier: ^10.4.18
     version: 10.4.18(postcss@8.4.36)
   ionicons:
-    specifier: ^7.2.1
-    version: 7.2.2
+    specifier: ^7.3.0
+    version: 7.3.0
   jest-mock-extended:
     specifier: ^3.0.5
     version: 3.0.5(jest@29.7.0)(typescript@5.2.2)
@@ -2543,7 +2546,7 @@ packages:
       '@angular/forms': 17.3.0(@angular/common@17.3.0)(@angular/core@17.3.0)(@angular/platform-browser@17.3.0)(rxjs@7.8.1)
       '@angular/router': 17.3.0(@angular/common@17.3.0)(@angular/core@17.3.0)(@angular/platform-browser@17.3.0)(rxjs@7.8.1)
       '@ionic/core': 7.8.0
-      ionicons: 7.2.2
+      ionicons: 7.3.0
       jsonc-parser: 3.2.1
       rxjs: 7.8.1
       tslib: 2.6.2
@@ -2565,7 +2568,7 @@ packages:
     resolution: {integrity: sha512-rogQw6lWH367E5XQnovbAIB4pT1YmuTz7OvyQm0cp4pO2/64faKyTGteSxc99stG01CoARW+pjJN1K09hfKFPw==}
     dependencies:
       '@stencil/core': 4.12.6
-      ionicons: 7.2.2
+      ionicons: 7.3.0
       tslib: 2.6.2
     dev: false
 
@@ -2949,6 +2952,19 @@ packages:
     dependencies:
       call-bind: 1.0.7
     dev: true
+
+  /@ngrx/component@17.1.1(@angular/common@17.3.0)(@angular/core@17.3.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-Zu9jEjvZ7H2YNCVLMvwXOlD0ecuyTXvWi6CBUz8vHz01G9AjxI0I6noo1y32nUv/2QFZgOmgpAcbqw5D8Zta4w==}
+    peerDependencies:
+      '@angular/common': ^17.0.0
+      '@angular/core': ^17.0.0
+      rxjs: ^6.5.3 || ^7.5.0
+    dependencies:
+      '@angular/common': 17.3.0(@angular/core@17.3.0)(rxjs@7.8.1)
+      '@angular/core': 17.3.0(rxjs@7.8.1)(zone.js@0.14.4)
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
 
   /@ngrx/eslint-plugin@17.1.1(eslint@7.32.0)(typescript@5.2.2):
     resolution: {integrity: sha512-Lxfd8jDTn5+OxQY5Sav5tQWBrg7YcLiSgEuUTwBQwAldqBW7G2I3HNBU6qPglwJOJ6JKgHPXCGxIkQLs1Q2wfw==}
@@ -6842,8 +6858,8 @@ packages:
       side-channel: 1.0.6
     dev: true
 
-  /ionicons@7.2.2:
-    resolution: {integrity: sha512-I3iYIfc9Q9FRifWyFSwTAvbEABWlWY32i0sAVDDPGYnaIZVugkLCZFbEcrphW6ixVPg8tt1oLwalo/JJwbEqnA==}
+  /ionicons@7.3.0:
+    resolution: {integrity: sha512-l9quySYi+o4T6mFzhKRyU/1nKc2Zs0zxs7jWcq9iVRhRPQondV11jYqLTed0lVVXHfGrBCfnedKl9D6BCnA1UQ==}
     dependencies:
       '@stencil/core': 4.12.6
     dev: false
