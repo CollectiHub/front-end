@@ -1,0 +1,66 @@
+<div class="ion-page">
+  <ion-header>
+    <ion-toolbar class="tw-text-center !tw-py-2">
+      <ion-text class="tw-font-bold tw-text-2xl">{{'login.header' | translate}}</ion-text>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <form
+      class="tw-flex tw-justify-center tw-flex-col tw-h-full tw-px-12"
+      [formGroup]="loginForm"
+      (ngSubmit)="onLoginFormSubmit()">
+      <ion-list>
+        <ion-item lines="none">
+          <ion-input
+            type="email"
+            class="tw-text-sm"
+            formControlName="email"
+            labelPlacement="floating"
+            [label]="'email_label' | translate"
+            [errorText]="getEmailError(emailControl.errors) | translate "
+            [helperText]="'email_helper' | translate" />
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-input
+            [type]="isPasswordRevealed() ? 'text' : 'password'"
+            class="tw-text-sm"
+            formControlName="password"
+            labelPlacement="floating"
+            [label]="'password_label' | translate"
+            [helperText]="'password_helper' | translate"
+            [errorText]="'validation.required' | translate" />
+
+          <ion-icon
+            class="tw-absolute tw-self-center tw-w-6 tw-h-6 tw-top-1/2 tw-right-0 -tw-translate-x-1/2 -tw-translate-y-1/2 tw-z-10"
+            [name]="isPasswordRevealed() ? 'eye-outline' : 'eye-off-outline'"
+            (click)="togglePasswordReveal()" />
+        </ion-item>
+      </ion-list>
+
+      <ion-button
+        class="tw-m-0 tw-mt-6 tw-h-fit tw-text-xs"
+        fill="clear"
+        size="small"
+        translate="login.forgot_password"
+        [routerLink]="['/forgot-password']" />
+
+      <ion-button
+        type="submit"
+        class="tw-block tw-rounded-full tw-mb-0 tw-mx-0 tw-font-bold"
+        [disabled]="!loginForm.valid"
+        translate="login.submit" />
+
+      <div class="tw-flex tw-items-center tw-justify-center">
+        <ion-text class="tw-text-xs tw-text-gray-400"> {{'login.no_account' | translate}} </ion-text>
+        <ion-button
+          class="tw-m-0 tw-ml-1 tw-h-fit tw-text-xs"
+          fill="clear"
+          size="small"
+          translate="login.register_link"
+          [routerLink]="['/registration']" />
+      </div>
+    </form>
+  </ion-content>
+</div>
