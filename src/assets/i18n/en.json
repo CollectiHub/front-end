@@ -16,6 +16,10 @@
   "register.submit": "Register",
   "register.have_account": "Have an Account?",
   "register.login_link": "Login here",
+  "reset_password.header": "Reset password",
+  "reset_password.details": "Enter your e-mail address and we will send you a one-time login password",
+  "reset_password.confirm": "Send",
+  "reset_password.back_to_login": "Back to login",
   "validation.required": "This field is required",
   "validation.invalid_email": "Enter valid email",
   "validation.passwords_not_match": "Passwords do not match"

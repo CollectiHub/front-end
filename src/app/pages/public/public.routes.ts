@@ -9,4 +9,8 @@ export default [
     path: 'login',
     loadComponent: () => import('./login/login.page'),
   },
+  {
+    path: 'reset-password',
+    loadComponent: () => import('./reset-password/reset-password.page'),
+  },
 ] satisfies Routes;
