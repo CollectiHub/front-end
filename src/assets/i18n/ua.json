@@ -16,6 +16,10 @@
   "register.submit": "Зареєструватись",
   "register.have_account": "Маєте акаунт?",
   "register.login_link": "Ввійдіть тут",
+  "reset_password.header": "Відновлення паролю",
+  "reset_password.details": "Введіть свою електронну пошту і ми надішлемо Вам одноразовий пароль для входу",
+  "reset_password.confirm": "Надіслати",
+  "reset_password.back_to_login": "Назад, до сторінки входу",
   "validation.required": "Це поле є обов'язковим",
   "validation.invalid_email": "Введіть корректну електронну пошту",
   "validation.passwords_not_match": "Паролі не співпадають"
