@@ -1,13 +1,13 @@
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 
-import { PublicHeaderComponent } from './public-header.component';
+import { SelectLanguageComponent } from './select-language.component';
 
-describe('PublicHeaderComponent', () => {
-  let component: PublicHeaderComponent;
+describe('SelectLanguageComponent', () => {
+  let component: SelectLanguageComponent;
 
   beforeEach(() => {
     component = classWithProviders({
-      token: PublicHeaderComponent,
+      token: SelectLanguageComponent,
       providers: [],
     });
   });
