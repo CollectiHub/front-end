@@ -5,14 +5,16 @@ export namespace LanguageConstants {
     {
       code: 'en',
       displayValue: 'English',
-      flagIconCode: 'US',
+      flagIconCode: 'us',
     },
     {
       code: 'ua',
       displayValue: 'Українська',
-      flagIconCode: 'UA',
+      flagIconCode: 'ua',
     },
   ];
 
   export const defaultLanguageCode = 'ua';
+
+  export const preferenceKey = 'language';
 }

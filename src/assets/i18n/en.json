@@ -22,5 +22,6 @@
   "reset_password.back_to_login": "Back to login",
   "validation.required": "This field is required",
   "validation.invalid_email": "Enter valid email",
-  "validation.passwords_not_match": "Passwords do not match"
+  "validation.passwords_not_match": "Passwords do not match",
+  "button.cancel": "Cancel"
 }

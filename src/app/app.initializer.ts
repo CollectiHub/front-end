@@ -8,9 +8,8 @@ import { LanguageData } from './models/languages.models';
 
 export function initializeApp(translateService: TranslateService) {
   return () => {
-    const languagePreferenceKey = 'language';
     const deviceLanguage$: Observable<GetLanguageCodeResult> = from(Device.getLanguageCode());
-    const preSelectedLanguage$: Observable<GetResult> = from(Preferences.get({ key: languagePreferenceKey }));
+    const preSelectedLanguage$: Observable<GetResult> = from(Preferences.get({ key: LanguageConstants.preferenceKey }));
 
     return combineLatest([deviceLanguage$, preSelectedLanguage$]).pipe(
       switchMap(([deviceLanguage, preSelectedLanguage]: [GetLanguageCodeResult, GetResult]) => {
@@ -23,7 +22,7 @@ export function initializeApp(translateService: TranslateService) {
           ? deviceLanguage.value
           : LanguageConstants.defaultLanguageCode;
 
-        return from(Preferences.set({ key: languagePreferenceKey, value: languageToUse })).pipe(
+        return from(Preferences.set({ key: LanguageConstants.preferenceKey, value: languageToUse })).pipe(
           map(() => languageToUse),
         );
       }),
