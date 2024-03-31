@@ -38,6 +38,9 @@ dependencies:
   '@capacitor/core':
     specifier: 5.7.3
     version: 5.7.3
+  '@capacitor/device':
+    specifier: ^5.0.7
+    version: 5.0.7(@capacitor/core@5.7.3)
   '@capacitor/filesystem':
     specifier: ^5.2.1
     version: 5.2.1(@capacitor/core@5.7.3)
@@ -71,6 +74,9 @@ dependencies:
   autoprefixer:
     specifier: ^10.4.18
     version: 10.4.18(postcss@8.4.36)
+  flag-icons:
+    specifier: ^7.2.1
+    version: 7.2.1
   ionicons:
     specifier: ^7.3.0
     version: 7.3.0
@@ -2008,6 +2014,14 @@ packages:
     resolution: {integrity: sha512-xEuQmP+h0tugl2N+qRcdrUavZydvTnnmtvqu/OtCBb/bKZo2PDRFft7MxuQRE2GxXs6kLy3cvwzhDAHB3a+9mw==}
     dependencies:
       tslib: 2.6.2
+    dev: false
+
+  /@capacitor/device@5.0.7(@capacitor/core@5.7.3):
+    resolution: {integrity: sha512-sTYzGktRVK6giQCsoFtw+IGkEPGmFvIwi0pfFej5TRND1UHidkNZSpgMFBbjCYPbwsqXTcR3boYPcmxvl5iuJg==}
+    peerDependencies:
+      '@capacitor/core': ^5.0.0
+    dependencies:
+      '@capacitor/core': 5.7.3
     dev: false
 
   /@capacitor/filesystem@5.2.1(@capacitor/core@5.7.3):
@@ -6259,6 +6273,10 @@ packages:
       locate-path: 7.2.0
       path-exists: 5.0.0
     dev: true
+
+  /flag-icons@7.2.1:
+    resolution: {integrity: sha512-EaU4XZmFt1BOilz9nMmJKjma5pOaNjzL7somOhadrrilollh4xj6aaXI2M1sd00VUfVWN0E25Q6xaW3SNt0k/Q==}
+    dev: false
 
   /flat-cache@3.2.0:
     resolution: {integrity: sha512-CYcENa+FtcUKLmhhqyctpclsq7QF38pKjZHsGNiSQF5r4FtoKDWabFDl3hzaEQMvT1LHEysw5twgLvpYYb4vbw==}

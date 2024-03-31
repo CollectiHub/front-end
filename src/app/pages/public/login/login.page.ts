@@ -5,13 +5,14 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { eyeOffOutline, eyeOutline } from 'ionicons/icons';
-import { EMAIL_REGEXP } from 'src/app/constants/regular-expressions';
+import { PublicHeaderComponent } from 'src/app/components/public-header/public-header.component';
+import { RegularExpressions } from 'src/app/constants/regular-expressions';
 
 import { LoginForm } from './login.page.models';
 
 @Component({
   standalone: true,
-  imports: [IonicModule, ReactiveFormsModule, TranslateModule, RouterLink],
+  imports: [IonicModule, ReactiveFormsModule, TranslateModule, RouterLink, PublicHeaderComponent],
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
@@ -19,7 +20,7 @@ export default class LoginPage {
   readonly formBuilder = inject(NonNullableFormBuilder);
 
   loginForm = this.formBuilder.group<LoginForm>({
-    email: this.formBuilder.control(undefined, [Validators.required, Validators.pattern(EMAIL_REGEXP)]),
+    email: this.formBuilder.control(undefined, [Validators.required, Validators.pattern(RegularExpressions.email)]),
     password: this.formBuilder.control(undefined, [Validators.required]),
   });
   isPasswordRevealed = signal(false);

@@ -1,0 +1,8 @@
+ion-select::part(icon) {
+  display: none !important;
+ }
+
+
+ ion-select::part(label) {
+  margin: 0;
+ }

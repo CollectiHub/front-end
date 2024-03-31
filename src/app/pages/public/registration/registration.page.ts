@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { eyeOffOutline, eyeOutline } from 'ionicons/icons';
-import { EMAIL_REGEXP } from 'src/app/constants/regular-expressions';
+import { RegularExpressions } from 'src/app/constants/regular-expressions';
 
 import { RegistrationForm } from './registration.page.models';
 import { RegistrationValidators } from './registration.page.validators';
@@ -27,7 +27,7 @@ export default class RegistrationPageComponent {
   registrationForm = this.formBuilder.group<RegistrationForm>(
     {
       username: this.formBuilder.control(undefined, [Validators.required]),
-      email: this.formBuilder.control(undefined, [Validators.required, Validators.pattern(EMAIL_REGEXP)]),
+      email: this.formBuilder.control(undefined, [Validators.required, Validators.pattern(RegularExpressions.email)]),
       password: this.formBuilder.control(undefined, [Validators.required]),
       confirmPassword: this.formBuilder.control(undefined, [Validators.required]),
     },

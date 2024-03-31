@@ -3,7 +3,7 @@ import { FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '
 import { RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { EMAIL_REGEXP } from 'src/app/constants/regular-expressions';
+import { RegularExpressions } from 'src/app/constants/regular-expressions';
 
 @Component({
   standalone: true,
@@ -15,7 +15,7 @@ import { EMAIL_REGEXP } from 'src/app/constants/regular-expressions';
 export default class ResetPasswordComponent {
   resetPasswordFormControl = new FormControl<string>('', {
     nonNullable: true,
-    validators: [Validators.required, Validators.pattern(EMAIL_REGEXP)],
+    validators: [Validators.required, Validators.pattern(RegularExpressions.email)],
   });
 
   getControlError(errors: ValidationErrors | null): string {

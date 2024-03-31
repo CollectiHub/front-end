@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar class="tw-text-center !tw-py-2">
+    <ion-text class="tw-font-bold tw-text-2xl">{{ title() | translate }}</ion-text>
+
+    <ion-select class="tw-w-fit" expandedIcon="remove">
+      <span class="fi fi-ua" slot="label"></span>
+      @for (language of supporedLanguages; track language) {
+        <ion-select-option [value]="language.code">{{language.displayValue}}</ion-select-option>
+      }
+    </ion-select>
+  </ion-toolbar>
+</ion-header>
