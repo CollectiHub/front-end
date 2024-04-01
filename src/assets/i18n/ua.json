@@ -23,5 +23,6 @@
   "validation.required": "Це поле є обов'язковим",
   "validation.invalid_email": "Введіть корректну електронну пошту",
   "validation.passwords_not_match": "Паролі не співпадають",
-  "button.cancel": "Відмінити"
+  "button.cancel": "Відмінити",
+  "logo_alt": "Логотип"
 }

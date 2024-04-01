@@ -23,5 +23,6 @@
   "validation.required": "This field is required",
   "validation.invalid_email": "Enter valid email",
   "validation.passwords_not_match": "Passwords do not match",
-  "button.cancel": "Cancel"
+  "button.cancel": "Cancel",
+  "logo_alt": "Logo"
 }

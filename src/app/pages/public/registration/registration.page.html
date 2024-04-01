@@ -1,9 +1,5 @@
 <div class="ion-page">
-  <ion-header>
-    <ion-toolbar class="tw-text-center !tw-py-2">
-      <ion-text class="tw-font-bold tw-text-2xl">{{'register.header' | translate}}</ion-text>
-    </ion-toolbar>
-  </ion-header>
+  <app-public-header title="register.header" />
 
   <ion-content>
     <form
@@ -74,7 +70,7 @@
       <div class="tw-flex tw-items-center tw-justify-center">
         <ion-text class="tw-text-xs tw-text-gray-400"> {{'register.have_account' | translate}} </ion-text>
         <ion-button
-          class="tw-m-0 tw-ml-1 tw-h-fit tw-text-xs"
+          class="tw-m-0 tw-ml-1 tw-h-fit tw-text-xs tw-normal-case"
           fill="clear"
           size="small"
           translate="register.login_link"
