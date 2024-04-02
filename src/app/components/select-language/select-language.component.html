@@ -1,0 +1,13 @@
+<ion-select
+  *ngrxLet="currentLanguageData$ as currentLanguageData"
+  class="tw-w-fit"
+  interface="action-sheet"
+  [value]="currentLanguageData.code"
+  [cancelText]="'button.cancel' | translate"
+  (ionChange)="handleLanguageChange($event)">
+  <span class="fi fi-{{ currentLanguageData.flagIconCode }}" slot="label"></span>
+
+  @for (language of supporedLanguages; track language) {
+    <ion-select-option [value]="language.code">{{ language.displayValue }}</ion-select-option>
+  }
+</ion-select>

@@ -138,7 +138,7 @@
                 "output": "assets"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "styles": ["src/styles/ionic.scss", "src/theme/variables.scss"],
             "scripts": []
           },
           "configurations": {

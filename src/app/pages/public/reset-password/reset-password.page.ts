@@ -3,11 +3,12 @@ import { FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '
 import { RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { EMAIL_REGEXP } from 'src/app/constants/regular-expressions';
+import { PublicHeaderComponent } from 'src/app/components/public-header/public-header.component';
+import { RegularExpressions } from 'src/app/constants/regular-expressions';
 
 @Component({
   standalone: true,
-  imports: [IonicModule, ReactiveFormsModule, TranslateModule, RouterLink],
+  imports: [IonicModule, ReactiveFormsModule, TranslateModule, RouterLink, PublicHeaderComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './reset-password.page.html',
   styleUrls: ['./reset-password.page.scss'],
@@ -15,7 +16,7 @@ import { EMAIL_REGEXP } from 'src/app/constants/regular-expressions';
 export default class ResetPasswordComponent {
   resetPasswordFormControl = new FormControl<string>('', {
     nonNullable: true,
-    validators: [Validators.required, Validators.pattern(EMAIL_REGEXP)],
+    validators: [Validators.required, Validators.pattern(RegularExpressions.email)],
   });
 
   getControlError(errors: ValidationErrors | null): string {

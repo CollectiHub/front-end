@@ -1,0 +1,12 @@
+ion-select::part(icon) {
+  display: none ;
+ }
+
+ ion-select::part(container) {
+  display: none ;
+ }
+
+
+ ion-select::part(label) {
+  margin: 0;
+ }
