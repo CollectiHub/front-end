@@ -4,13 +4,13 @@ import { Observable, delay } from 'rxjs';
 import { EndpointMock, HttpMethod, MockCallback } from './mock-interceptor-registry.models';
 
 export class MockInterceptorRegistryService {
+  private registry: Record<string, EndpointMock> = {};
+
   get = this.register(HttpMethod.Get);
   post = this.register(HttpMethod.Post);
   put = this.register(HttpMethod.Put);
   patch = this.register(HttpMethod.Patch);
   delete = this.register(HttpMethod.Delete);
-
-  private registry: Record<string, EndpointMock> = {};
 
   register(method: HttpMethod) {
     return (url: string, callback: MockCallback): void => {

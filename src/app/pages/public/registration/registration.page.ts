@@ -9,7 +9,7 @@ import { take } from 'rxjs';
 import { PublicHeaderComponent } from 'src/app/components/public-header/public-header.component';
 import { RegularExpressions } from 'src/app/constants/regular-expressions';
 import { RegistrationBody } from 'src/app/features/auth/auth.models';
-import { AuthService } from 'src/app/features/auth/services/auth.service';
+import { AuthApiService } from 'src/app/features/auth/services/auth-api.service';
 
 import { RegistrationForm } from './registration.page.models';
 import { RegistrationValidators } from './registration.page.validators';
@@ -23,7 +23,7 @@ import { RegistrationValidators } from './registration.page.validators';
 })
 export default class RegistrationPageComponent {
   private readonly formBuilder = inject(NonNullableFormBuilder);
-  private readonly authService = inject(AuthService);
+  private readonly authApiService = inject(AuthApiService);
 
   isPasswordRevealed = signal(false);
   isConfirmPasswordRevealed = signal(false);
@@ -78,7 +78,7 @@ export default class RegistrationPageComponent {
   onRegistrationFormSubmit(): void {
     if (!this.registrationForm.valid) return;
 
-    this.authService
+    this.authApiService
       .register$(<RegistrationBody>this.registrationForm.value)
       .pipe(take(1))
       .subscribe(console.log);

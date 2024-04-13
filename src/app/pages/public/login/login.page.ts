@@ -10,7 +10,7 @@ import { PublicHeaderComponent } from 'src/app/components/public-header/public-h
 import { AppConstants } from 'src/app/constants/app.constants';
 import { RegularExpressions } from 'src/app/constants/regular-expressions';
 import { LoginBody } from 'src/app/features/auth/auth.models';
-import { AuthService } from 'src/app/features/auth/services/auth.service';
+import { AuthApiService } from 'src/app/features/auth/services/auth-api.service';
 import { StorageService } from 'src/app/services/storage.service';
 
 import { LoginForm } from './login.page.models';
@@ -23,7 +23,7 @@ import { LoginForm } from './login.page.models';
 })
 export default class LoginPage {
   private readonly formBuilder = inject(NonNullableFormBuilder);
-  private readonly authService = inject(AuthService);
+  private readonly authApiService = inject(AuthApiService);
   private readonly storageService = inject(StorageService);
 
   loginForm = this.formBuilder.group<LoginForm>({
@@ -51,7 +51,7 @@ export default class LoginPage {
   onLoginFormSubmit(): void {
     if (!this.loginForm.valid) return;
 
-    this.authService
+    this.authApiService
       .login$(<LoginBody>this.loginForm.value)
       .pipe(take(1))
       .subscribe((token: string) => this.storageService.set(AppConstants.tokenStorageKey, token));

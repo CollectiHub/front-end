@@ -8,7 +8,7 @@ import { LoginBody, LoginResponseDto, RegisterResponseDto, RegistrationBody } fr
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthApiService {
   private readonly httpClient = inject(HttpClient);
 
   login$(body: LoginBody): Observable<string> {
