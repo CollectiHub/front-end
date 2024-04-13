@@ -5,8 +5,11 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { eyeOffOutline, eyeOutline } from 'ionicons/icons';
+import { take } from 'rxjs';
 import { PublicHeaderComponent } from 'src/app/components/public-header/public-header.component';
 import { RegularExpressions } from 'src/app/constants/regular-expressions';
+import { RegistrationBody } from 'src/app/features/auth/auth.models';
+import { AuthApiService } from 'src/app/features/auth/services/auth-api.service';
 
 import { RegistrationForm } from './registration.page.models';
 import { RegistrationValidators } from './registration.page.validators';
@@ -19,7 +22,8 @@ import { RegistrationValidators } from './registration.page.validators';
   styleUrls: ['./registration.page.scss'],
 })
 export default class RegistrationPageComponent {
-  readonly formBuilder = inject(NonNullableFormBuilder);
+  private readonly formBuilder = inject(NonNullableFormBuilder);
+  private readonly authApiService = inject(AuthApiService);
 
   isPasswordRevealed = signal(false);
   isConfirmPasswordRevealed = signal(false);
@@ -72,6 +76,11 @@ export default class RegistrationPageComponent {
   }
 
   onRegistrationFormSubmit(): void {
-    console.log('submit');
+    if (!this.registrationForm.valid) return;
+
+    this.authApiService
+      .register$(<RegistrationBody>this.registrationForm.value)
+      .pipe(take(1))
+      .subscribe(console.log);
   }
 }
