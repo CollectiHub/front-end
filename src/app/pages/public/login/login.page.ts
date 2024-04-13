@@ -5,8 +5,13 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { eyeOffOutline, eyeOutline } from 'ionicons/icons';
+import { take } from 'rxjs';
 import { PublicHeaderComponent } from 'src/app/components/public-header/public-header.component';
+import { AppConstants } from 'src/app/constants/app.constants';
 import { RegularExpressions } from 'src/app/constants/regular-expressions';
+import { LoginBody } from 'src/app/features/auth/auth.models';
+import { AuthService } from 'src/app/features/auth/services/auth.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 import { LoginForm } from './login.page.models';
 
@@ -17,7 +22,9 @@ import { LoginForm } from './login.page.models';
   styleUrls: ['./login.page.scss'],
 })
 export default class LoginPage {
-  readonly formBuilder = inject(NonNullableFormBuilder);
+  private readonly formBuilder = inject(NonNullableFormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly storageService = inject(StorageService);
 
   loginForm = this.formBuilder.group<LoginForm>({
     email: this.formBuilder.control(undefined, [Validators.required, Validators.pattern(RegularExpressions.email)]),
@@ -42,6 +49,11 @@ export default class LoginPage {
   }
 
   onLoginFormSubmit(): void {
-    console.log(this.loginForm.value);
+    if (!this.loginForm.valid) return;
+
+    this.authService
+      .login$(<LoginBody>this.loginForm.value)
+      .pipe(take(1))
+      .subscribe((token: string) => this.storageService.set(AppConstants.tokenStorageKey, token));
   }
 }

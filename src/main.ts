@@ -3,6 +3,7 @@ import { APP_INITIALIZER, enableProdMode, importProvidersFrom } from '@angular/c
 import { bootstrapApplication } from '@angular/platform-browser';
 import { RouteReuseStrategy, provideRouter } from '@angular/router';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
+import { IonicStorageModule } from '@ionic/storage-angular';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -23,6 +24,7 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes),
     provideHttpClient(withInterceptors([...MockInterceptorRegistry.getMockInterceptors()])),
     importProvidersFrom(
+      IonicStorageModule.forRoot(),
       TranslateModule.forRoot({
         defaultLanguage: LanguageConstants.defaultLanguageCode,
         loader: {

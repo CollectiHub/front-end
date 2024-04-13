@@ -59,6 +59,9 @@ dependencies:
   '@ionic/angular':
     specifier: ^7.5.0
     version: 7.8.0(@angular/core@17.3.0)(@angular/forms@17.3.0)(@angular/router@17.3.0)(rxjs@7.8.1)(zone.js@0.14.4)
+  '@ionic/storage-angular':
+    specifier: ^4.0.0
+    version: 4.0.0(@angular/core@17.3.0)(rxjs@7.8.1)
   '@ngrx/component':
     specifier: ^17.1.1
     version: 17.1.1(@angular/common@17.3.0)(@angular/core@17.3.0)(rxjs@7.8.1)
@@ -2584,6 +2587,24 @@ packages:
       '@stencil/core': 4.12.6
       ionicons: 7.3.0
       tslib: 2.6.2
+    dev: false
+
+  /@ionic/storage-angular@4.0.0(@angular/core@17.3.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-FeSmCMCm1bMRfu5TFSqLtjdfEo/dLLUhLIrPmbhSYomVZdV/dNn4mBZv9SabyxSqn4bF31hw40y+4buhG+durQ==}
+    peerDependencies:
+      '@angular/core': '*'
+      rxjs: '*'
+    dependencies:
+      '@angular/core': 17.3.0(rxjs@7.8.1)(zone.js@0.14.4)
+      '@ionic/storage': 4.0.0
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
+
+  /@ionic/storage@4.0.0:
+    resolution: {integrity: sha512-3N21P19Xk6cICLnSXZ3ilRqbSXAGSFeIF3HNqz+1kARcm0UFT/vwmZreaXtFyq437vvEWOfJ2enlj3JHLKS0FA==}
+    dependencies:
+      localforage: 1.10.0
     dev: false
 
   /@ionic/utils-array@2.1.6:
@@ -6799,6 +6820,10 @@ packages:
     dev: true
     optional: true
 
+  /immediate@3.0.6:
+    resolution: {integrity: sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==}
+    dev: false
+
   /immutable@4.3.5:
     resolution: {integrity: sha512-8eabxkth9gZatlwl5TBuJnCsoTADlL6ftEr7A4qgdaTsPyreilDSnUk57SO+jfKcNtxPa22U5KK6DSeAYhpBJw==}
     dev: true
@@ -7861,6 +7886,12 @@ packages:
       webpack-sources: 3.2.3
     dev: true
 
+  /lie@3.1.1:
+    resolution: {integrity: sha512-RiNhHysUjhrDQntfYSfY4MU24coXXdEOgw9WGcKHNeEwffDYbF//u87M1EWaMGzuFoSbqW0C9C6lEEhDOAswfw==}
+    dependencies:
+      immediate: 3.0.6
+    dev: false
+
   /lilconfig@2.1.0:
     resolution: {integrity: sha512-utWOt/GHzuUxnLKxB6dk81RoOeoNeHgbrXiuGk4yyF5qlRz+iIVWu56E2fqGHFrXz0QNUhLB/8nKqvRH66JKGQ==}
     engines: {node: '>=10'}
@@ -7895,6 +7926,12 @@ packages:
     resolution: {integrity: sha512-ZvFw1KWS3GVyYBYb7qkmRM/WwL2TQQBxgCK62rlvm4WpVQ23Nb4tYjApUlfjrEGvOs7KHEsmyUn75OHZrJMWPw==}
     engines: {node: '>= 12.13.0'}
     dev: true
+
+  /localforage@1.10.0:
+    resolution: {integrity: sha512-14/H1aX7hzBBmmh7sGPd+AOMkkIrHM3Z1PAyGgZigA1H1p5O5ANnMyWzvpAETtG68/dC4pC0ncy3+PPGzXZHPg==}
+    dependencies:
+      lie: 3.1.1
+    dev: false
 
   /locate-path@5.0.0:
     resolution: {integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==}
