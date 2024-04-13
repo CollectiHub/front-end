@@ -2,8 +2,18 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+const apiUrl = 'http://some-api.com/';
+
 export const environment = {
   production: false,
+  endpoints: {
+    auth: {
+      login: `${apiUrl}auth/login`,
+      logout: `${apiUrl}auth/logout`,
+      refreshToken: `${apiUrl}auth/refresh-token`,
+      register: `${apiUrl}auth/register`,
+    },
+  },
 };
 
 /*

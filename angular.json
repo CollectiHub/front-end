@@ -92,7 +92,13 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/mocks/mock-interceptor-registry/mock-interceptor-registry.constants.ts",
+                  "with": "src/mocks/mock-interceptor-registry/mock-interceptor-registry.local.constants.ts"
+                }
+              ]
             },
             "ci": {
               "progress": false
