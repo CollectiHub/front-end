@@ -2,7 +2,6 @@ const apiUrl = 'http://some-api.com/';
 
 export const environment = {
   production: true,
-
   endpoints: {
     auth: {
       login: `${apiUrl}auth/login`,
