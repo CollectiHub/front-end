@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { PublicHeaderComponent } from '@components/public-header/public-header.component';
+import { RegularExpressions } from '@constants/regular-expressions';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { PublicHeaderComponent } from 'src/app/components/public-header/public-header.component';
-import { RegularExpressions } from 'src/app/constants/regular-expressions';
 
 @Component({
   standalone: true,

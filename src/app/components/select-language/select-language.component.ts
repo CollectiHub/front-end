@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
+import { LanguageConstants } from '@constants/languages';
 import { IonicModule, SelectCustomEvent } from '@ionic/angular';
+import { LanguageData } from '@models/languages.models';
 import { LetDirective } from '@ngrx/component';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Observable, from, map, startWith, take } from 'rxjs';
-import { LanguageConstants } from 'src/app/constants/languages';
-import { LanguageData } from 'src/app/models/languages.models';
 
 @Component({
   selector: 'app-select-language',

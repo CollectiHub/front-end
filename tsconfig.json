@@ -22,6 +22,14 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2023", "dom"],
     "types": ["jest"],
+    "paths": {
+      "@constants/*": ["src/app/constants/*"],
+      "@components/*": ["src/app/components/*"],
+      "@features/*": ["src/app/features/*"],
+      "@services/*": ["src/app/services/*"],
+      "@environments/*": ["src/environments/*"],
+      "@models/*": ["src/app/models/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": true,

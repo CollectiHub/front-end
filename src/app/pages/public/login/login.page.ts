@@ -1,17 +1,17 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { PublicHeaderComponent } from '@components/public-header/public-header.component';
+import { AppConstants } from '@constants/app.constants';
+import { RegularExpressions } from '@constants/regular-expressions';
+import { LoginBody } from '@features/auth/auth.models';
+import { AuthApiService } from '@features/auth/services/auth-api.service';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { StorageService } from '@services/storage.service';
 import { addIcons } from 'ionicons';
 import { eyeOffOutline, eyeOutline } from 'ionicons/icons';
 import { take } from 'rxjs';
-import { PublicHeaderComponent } from 'src/app/components/public-header/public-header.component';
-import { AppConstants } from 'src/app/constants/app.constants';
-import { RegularExpressions } from 'src/app/constants/regular-expressions';
-import { LoginBody } from 'src/app/features/auth/auth.models';
-import { AuthApiService } from 'src/app/features/auth/services/auth-api.service';
-import { StorageService } from 'src/app/services/storage.service';
 
 import { LoginForm } from './login.page.models';
 
