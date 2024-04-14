@@ -1,10 +1,10 @@
 import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
+import { StorageService } from '@services/storage-service/storage.service';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of } from 'rxjs';
 import { AppConstants } from 'src/app/constants/app.constants';
 import { AuthApiService } from 'src/app/features/auth/services/auth-api.service';
-import { StorageService } from 'src/app/services/storage.service';
 
 import LoginPage from './login.page';
 
