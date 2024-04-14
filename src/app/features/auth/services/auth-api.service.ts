@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { environment } from '@environments/environment';
 import { Observable, map } from 'rxjs';
-import { environment } from 'src/environments/environment';
 
 import { LoginBody, LoginResponseDto, RegisterResponseDto, RegistrationBody } from '../auth.models';
 

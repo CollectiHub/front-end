@@ -1,4 +1,4 @@
-import { LanguageData } from '../models/languages.models';
+import { LanguageData } from '@models/languages.models';
 
 export namespace LanguageConstants {
   export const supportedLanuages: LanguageData[] = [

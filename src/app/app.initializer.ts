@@ -1,10 +1,9 @@
 import { Device, GetLanguageCodeResult } from '@capacitor/device';
 import { GetResult, Preferences } from '@capacitor/preferences';
+import { LanguageConstants } from '@constants/languages';
+import { LanguageData } from '@models/languages.models';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, combineLatest, from, map, of, switchMap, tap } from 'rxjs';
-
-import { LanguageConstants } from './constants/languages';
-import { LanguageData } from './models/languages.models';
 
 export function initializeApp(translateService: TranslateService) {
   return () => {
