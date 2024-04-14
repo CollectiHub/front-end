@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
+import { AuthSchemas } from '@features/auth.schemas';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
+import { ValidationService } from '@services/validation-service/validation.service';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -11,10 +13,14 @@ import { AuthApiService } from './auth-api.service';
 describe('AuthService', () => {
   let service: AuthApiService;
   let httpClientMock: MockProxy<HttpClient>;
+  let validationServiceMock: MockProxy<ValidationService>;
 
   beforeEach(() => {
     httpClientMock = mock<HttpClient>();
     httpClientMock.post.mockReturnValue(of({}));
+
+    validationServiceMock = mock<ValidationService>();
+    validationServiceMock.validate.mockReturnValue({});
 
     service = classWithProviders({
       token: AuthApiService,
@@ -22,6 +28,10 @@ describe('AuthService', () => {
         {
           provide: HttpClient,
           useValue: httpClientMock,
+        },
+        {
+          provide: ValidationService,
+          useValue: validationServiceMock,
         },
       ],
     });
@@ -34,13 +44,21 @@ describe('AuthService', () => {
       expect(httpClientMock.post).toHaveBeenCalledWith(environment.endpoints.auth.login, {});
     });
 
-    it('should trigger "accessToken" property of responses', () => {
+    it('should emit "accessToken" property of responses', () => {
       const spy = jest.fn();
-      httpClientMock.post.mockReturnValueOnce(of({ data: { accessToken: 'token' } }));
+      const responseMock = { data: { accessToken: 'token' } };
+      httpClientMock.post.mockReturnValueOnce(of(responseMock));
+      validationServiceMock.validate.mockReturnValue(responseMock);
 
       service.login$({} as LoginBody).subscribe(spy);
 
       expect(spy).toHaveBeenCalledWith('token');
+    });
+
+    it('should validate response', () => {
+      service.login$({} as LoginBody).subscribe();
+
+      expect(validationServiceMock.validate).toHaveBeenCalledWith(AuthSchemas.loginResponseDto, {});
     });
   });
 
@@ -58,6 +76,12 @@ describe('AuthService', () => {
       service.register$({} as RegistrationBody).subscribe(spy);
 
       expect(spy).toHaveBeenCalledWith({});
+    });
+
+    it('should validate response', () => {
+      service.register$({} as RegistrationBody).subscribe();
+
+      expect(validationServiceMock.validate).toHaveBeenCalledWith(AuthSchemas.registerResponseDto, {});
     });
   });
 

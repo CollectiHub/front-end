@@ -8,7 +8,7 @@ import { LoginBody } from '@features/auth/auth.models';
 import { AuthApiService } from '@features/auth/services/auth-api.service';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '@services/storage-service/storage.service';
 import { addIcons } from 'ionicons';
 import { eyeOffOutline, eyeOutline } from 'ionicons/icons';
 import { take } from 'rxjs';

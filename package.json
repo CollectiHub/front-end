@@ -36,6 +36,7 @@
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "@ngx-unit-test/inject-mocks": "^1.1.0",
+    "ajv": "^8.12.0",
     "autoprefixer": "^10.4.18",
     "flag-icons": "^7.2.1",
     "ionicons": "^7.3.0",
