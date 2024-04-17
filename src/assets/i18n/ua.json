@@ -3,6 +3,7 @@
   "email_helper": "Введіть пошту",
   "password_label": "Пароль",
   "password_helper": "Введіть пароль",
+  "password_patter_helper": "Мінімум 8 символів, 1 велика літера, 1 маленька, число, спеціальний символ",
   "login.header": "Вхід",
   "login.submit": "Ввійти",
   "login.no_account": "Не маєте акаунту?",
@@ -21,7 +22,8 @@
   "reset_password.confirm": "Надіслати",
   "reset_password.back_to_login": "Назад, до сторінки входу",
   "validation.required": "Це поле є обов'язковим",
-  "validation.invalid_email": "Введіть корректну електронну пошту",
+  "validation.invalid_email": "Будь ласка, введіть корректну електронну пошту",
+  "validation.passwords_pattern": "Будь ласка, введіть коректний пароль",
   "validation.passwords_not_match": "Паролі не співпадають",
   "button.cancel": "Відмінити",
   "logo_alt": "Логотип"

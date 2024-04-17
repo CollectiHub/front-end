@@ -1,6 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { PasswordComponent } from '@components/password/password.component';
 import { PublicHeaderComponent } from '@components/public-header/public-header.component';
 import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
@@ -9,15 +10,13 @@ import { AuthApiService } from '@features/auth/services/auth-api.service';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { StorageService } from '@services/storage-service/storage.service';
-import { addIcons } from 'ionicons';
-import { eyeOffOutline, eyeOutline } from 'ionicons/icons';
 import { take } from 'rxjs';
 
 import { LoginForm } from './login.page.models';
 
 @Component({
   standalone: true,
-  imports: [IonicModule, ReactiveFormsModule, TranslateModule, RouterLink, PublicHeaderComponent],
+  imports: [IonicModule, ReactiveFormsModule, TranslateModule, RouterLink, PublicHeaderComponent, PasswordComponent],
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
@@ -30,18 +29,9 @@ export default class LoginPage {
     email: this.formBuilder.control(undefined, [Validators.required, Validators.pattern(RegularExpressions.email)]),
     password: this.formBuilder.control(undefined, [Validators.required]),
   });
-  isPasswordRevealed = signal(false);
 
   get emailControl(): FormControl<string | undefined> {
     return <FormControl<string | undefined>>this.loginForm.get('email');
-  }
-
-  constructor() {
-    addIcons({ eyeOutline, eyeOffOutline });
-  }
-
-  togglePasswordReveal(): void {
-    this.isPasswordRevealed.set(!this.isPasswordRevealed());
   }
 
   getEmailError(errors: ValidationErrors | null): string {

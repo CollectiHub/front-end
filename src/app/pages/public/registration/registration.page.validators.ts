@@ -7,6 +7,12 @@ export namespace RegistrationValidators {
 
     if (!password?.value || !confirmPassword?.value) return null;
 
-    return password?.value === confirmPassword?.value ? null : { notMatchedPassword: true };
+    if (password?.value !== confirmPassword?.value) {
+      confirmPassword.setErrors({ notMatchedPassword: true });
+      return { notMatchedPassword: true };
+    } else {
+      confirmPassword.setErrors(null);
+      return null;
+    }
   };
 }

@@ -41,26 +41,6 @@ describe('RegistrationComponent', () => {
     });
   });
 
-  describe('togglePasswordReveal', () => {
-    it('should trigger "set" method of signal with oposite value', () => {
-      const spy = jest.spyOn(component.isPasswordRevealed, 'set');
-
-      component.togglePasswordReveal();
-
-      expect(spy).toHaveBeenCalledWith(true);
-    });
-  });
-
-  describe('toggleConfirmPasswordReveal', () => {
-    it('should trigger "set" method of signal with oposite value', () => {
-      const spy = jest.spyOn(component.isConfirmPasswordRevealed, 'set');
-
-      component.toggleConfirmPasswordReveal();
-
-      expect(spy).toHaveBeenCalledWith(true);
-    });
-  });
-
   describe('getEmailError', () => {
     it('should return "validation.required" text if such error in form control', () => {
       const result = component.getEmailError({ required: true });
@@ -75,9 +55,23 @@ describe('RegistrationComponent', () => {
     });
   });
 
+  describe('getPasswordError', () => {
+    it('should return "validation.passwords_pattern" error if incorrect password entered', () => {
+      const result = component.getPasswordError({ pattern: true });
+
+      expect(result).toBe('validation.passwords_pattern');
+    });
+
+    it('should return "validation.required" error if password control has no value', () => {
+      const result = component.getPasswordError({ required: true });
+
+      expect(result).toBe('validation.required');
+    });
+  });
+
   describe('getConfirmPasswordError', () => {
     it('should return "validation.passwords_not_match" error if password does not match', () => {
-      const result = component.getConfirmPasswordError({ notMatchedPassword: true }, {});
+      const result = component.getConfirmPasswordError({ notMatchedPassword: true });
 
       expect(result).toBe('validation.passwords_not_match');
     });
