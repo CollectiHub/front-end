@@ -29,35 +29,19 @@
         </ion-item>
 
         <ion-item lines="none">
-          <ion-input
-            [type]="isPasswordRevealed() ? 'text' : 'password'"
-            class="tw-text-sm"
+          <app-password
             formControlName="password"
-            labelPlacement="floating"
             [label]="'password_label' | translate"
-            [helperText]="'password_helper' | translate"
-            [errorText]="getPasswordError(passwordControl.errors)" />
-
-          <ion-icon
-            class="tw-absolute tw-self-center tw-w-6 tw-h-6 tw-top-1/2 tw-right-0 -tw-translate-x-1/2 -tw-translate-y-1/2 tw-z-10"
-            [name]="isPasswordRevealed() ? 'eye-outline' : 'eye-off-outline'"
-            (click)="togglePasswordReveal()" />
+            [helperText]="'password_patter_helper' | translate"
+            [error]="getPasswordError(passwordControl.errors) | translate" />
         </ion-item>
 
         <ion-item lines="none">
-          <ion-input
-            [type]="isPasswordRevealed() ? 'text' : 'password'"
-            class="tw-text-sm"
+          <app-password
             formControlName="confirmPassword"
-            labelPlacement="floating"
             [label]="'register.confirm_password_label' | translate"
             [helperText]="'register.confirm_password_helper' | translate"
-            [errorText]="getConfirmPasswordError(registrationForm.errors, confirmPasswordControl.errors)" />
-
-          <ion-icon
-            class="tw-absolute tw-self-center tw-w-6 tw-h-6 tw-top-1/2 tw-right-0 -tw-translate-x-1/2 -tw-translate-y-1/2 tw-z-10"
-            [name]="isConfirmPasswordRevealed() ? 'eye-outline' : 'eye-off-outline'"
-            (click)="toggleConfirmPasswordReveal()" />
+            [error]="getConfirmPasswordError(registrationForm.errors) | translate" />
         </ion-item>
       </ion-list>
 

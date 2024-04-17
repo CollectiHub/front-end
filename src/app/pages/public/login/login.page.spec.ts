@@ -47,16 +47,6 @@ describe('RegistrationComponent', () => {
     });
   });
 
-  describe('togglePasswordReveal', () => {
-    it('should trigger "set" method of signal with oposite value', () => {
-      const spy = jest.spyOn(component.isPasswordRevealed, 'set');
-
-      component.togglePasswordReveal();
-
-      expect(spy).toHaveBeenCalledWith(true);
-    });
-  });
-
   describe('getEmailError', () => {
     it('should return "validation.required" text if such error in form control', () => {
       const result = component.getEmailError({ required: true });

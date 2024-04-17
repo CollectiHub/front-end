@@ -19,19 +19,11 @@
         </ion-item>
 
         <ion-item lines="none">
-          <ion-input
-            [type]="isPasswordRevealed() ? 'text' : 'password'"
-            class="tw-text-sm"
+          <app-password
             formControlName="password"
-            labelPlacement="floating"
             [label]="'password_label' | translate"
             [helperText]="'password_helper' | translate"
-            [errorText]="'validation.required' | translate" />
-
-          <ion-icon
-            class="tw-absolute tw-self-center tw-w-6 tw-h-6 tw-top-1/2 tw-right-0 -tw-translate-x-1/2 -tw-translate-y-1/2 tw-z-10"
-            [name]="isPasswordRevealed() ? 'eye-outline' : 'eye-off-outline'"
-            (click)="togglePasswordReveal()" />
+            [error]="'validation.required' | translate" />
         </ion-item>
       </ion-list>
 

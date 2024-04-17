@@ -3,6 +3,7 @@
   "email_helper": "Enter email",
   "password_label": "Password",
   "password_helper": "Enter password",
+  "password_patter_helper": "Min 8 characters, 1 uppercase, 1 lowercase, number, special character",
   "login.header": "Login",
   "login.submit": "Login",
   "login.no_account": "Don't have an account?",
@@ -21,7 +22,8 @@
   "reset_password.confirm": "Send",
   "reset_password.back_to_login": "Back to login",
   "validation.required": "This field is required",
-  "validation.invalid_email": "Enter valid email",
+  "validation.invalid_email": "Please, enter valid email",
+  "validation.passwords_pattern": "Please, enter correct password",
   "validation.passwords_not_match": "Passwords do not match",
   "button.cancel": "Cancel",
   "logo_alt": "Logo"
