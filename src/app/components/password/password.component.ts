@@ -18,9 +18,9 @@ import { NoopCustomFormControlDirective } from 'src/app/directives/noop-custom-f
 export class PasswordComponent {
   private readonly ngControl = inject(NgControl);
 
-  label = input.required();
-  helperText = input.required();
-  error = input();
+  label = input.required<string>();
+  helperText = input.required<string>();
+  error = input.required<string>();
 
   isRevealed = signal(false);
 
