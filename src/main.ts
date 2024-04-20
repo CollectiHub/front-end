@@ -6,13 +6,13 @@ import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalo
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MockInterceptorRegistry } from '@tools/interceptors-registry/interceptor-registry.constants';
 
 import { AppComponent } from './app/app.component';
 import { initializeApp } from './app/app.initializer';
 import routes from './app/app.routes';
 import { LanguageConstants } from './app/constants/languages';
 import { environment } from './environments/environment';
-import { MockInterceptorRegistry } from './mocks/mock-interceptor-registry/mock-interceptor-registry.constants';
 
 export const httpLoaderFactory = (http: HttpClient): TranslateLoader =>
   new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -22,7 +22,7 @@ bootstrapApplication(AppComponent, {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([...MockInterceptorRegistry.getMockInterceptors()])),
+    provideHttpClient(withInterceptors([...MockInterceptorRegistry.getInterceptors()])),
     importProvidersFrom(
       IonicStorageModule.forRoot(),
       TranslateModule.forRoot({

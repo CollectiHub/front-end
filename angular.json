@@ -95,8 +95,8 @@
               "namedChunks": true,
               "fileReplacements": [
                 {
-                  "replace": "src/mocks/mock-interceptor-registry/mock-interceptor-registry.constants.ts",
-                  "with": "src/mocks/mock-interceptor-registry/mock-interceptor-registry.local.constants.ts"
+                  "replace": "src/app/tools/interceptors-registry/interceptor-registry.constants.ts",
+                  "with": "src/app/tools/interceptors-registry/interceptor-registry.local.constants.ts"
                 }
               ]
             },

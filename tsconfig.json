@@ -28,7 +28,9 @@
       "@features/*": ["src/app/features/*"],
       "@services/*": ["src/app/services/*"],
       "@environments/*": ["src/environments/*"],
-      "@models/*": ["src/app/models/*"]
+      "@models/*": ["src/app/models/*"],
+      "@mocks/*": ["src/mocks/*"],
+      "@tools/*": ["src/app/tools/*"]
     }
   },
   "angularCompilerOptions": {
