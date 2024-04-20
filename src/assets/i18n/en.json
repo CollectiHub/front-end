@@ -26,5 +26,7 @@
   "validation.passwords_pattern": "Please, enter correct password",
   "validation.passwords_not_match": "Passwords do not match",
   "button.cancel": "Cancel",
-  "logo_alt": "Logo"
+  "logo_alt": "Logo",
+  "not_found.title": "Not found",
+  "not_found.button": "Go to main page"
 }

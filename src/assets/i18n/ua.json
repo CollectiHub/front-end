@@ -26,5 +26,7 @@
   "validation.passwords_pattern": "Будь ласка, введіть коректний пароль",
   "validation.passwords_not_match": "Паролі не співпадають",
   "button.cancel": "Відмінити",
-  "logo_alt": "Логотип"
+  "logo_alt": "Логотип",
+  "not_found.title": "Не знайдено",
+  "not_found.button": "Повернутись на головну сторінку"
 }
