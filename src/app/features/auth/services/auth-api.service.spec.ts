@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { AuthSchemas } from '@features/auth.schemas';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { ValidationService } from '@services/validation-service/validation.service';
@@ -6,6 +6,7 @@ import { MockProxy, mock } from 'jest-mock-extended';
 import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
+import { AuthConstants } from '../auth.constants';
 import { LoginBody, RegistrationBody } from '../auth.models';
 
 import { AuthApiService } from './auth-api.service';
@@ -39,9 +40,11 @@ describe('AuthService', () => {
 
   describe('login$', () => {
     it('should trigger "post" method with correct params', () => {
+      const contextMock = new HttpContext().set(AuthConstants.skipAuthContextToken, true);
+
       service.login$({} as LoginBody).subscribe();
 
-      expect(httpClientMock.post).toHaveBeenCalledWith(environment.endpoints.auth.login, {});
+      expect(httpClientMock.post).toHaveBeenCalledWith(environment.endpoints.auth.login, {}, { context: contextMock });
     });
 
     it('should emit "accessToken" property of responses', () => {
@@ -64,9 +67,15 @@ describe('AuthService', () => {
 
   describe('register$', () => {
     it('should trigger "post" method with correct params', () => {
+      const contextMock = new HttpContext().set(AuthConstants.skipAuthContextToken, true);
+
       service.register$({} as RegistrationBody).subscribe();
 
-      expect(httpClientMock.post).toHaveBeenCalledWith(environment.endpoints.auth.register, {});
+      expect(httpClientMock.post).toHaveBeenCalledWith(
+        environment.endpoints.auth.register,
+        {},
+        { context: contextMock },
+      );
     });
 
     it('should emit response received from API', () => {
