@@ -2,12 +2,17 @@ import { Routes } from '@angular/router';
 
 export default [
   {
-    path: 'registration',
-    loadComponent: () => import('./registration/registration.page'),
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',
   },
   {
     path: 'login',
     loadComponent: () => import('./login/login.page'),
+  },
+  {
+    path: 'registration',
+    loadComponent: () => import('./registration/registration.page'),
   },
   {
     path: 'reset-password',
