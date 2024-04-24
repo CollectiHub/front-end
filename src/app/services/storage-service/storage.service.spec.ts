@@ -1,6 +1,7 @@
 import { Storage } from '@ionic/storage-angular';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { MockProxy, mock } from 'jest-mock-extended';
+import { take } from 'rxjs';
 
 import { StorageService } from './storage.service';
 
@@ -25,7 +26,7 @@ describe('StorageService', () => {
     });
   });
 
-  describe('init', () => {
+  describe('contructor', () => {
     it('should trigger "create" method of storage when contructor called', async () => {
       expect(storageMock.create).toHaveBeenCalledTimes(1);
     });
@@ -40,8 +41,16 @@ describe('StorageService', () => {
   });
 
   describe('get$', () => {
-    it('should trigger "get$" method of storage', () => {
-      service.get$('key').subscribe();
+    it('should trigger "get$" method of storage if storage was created', () => {
+      service.get$('key').pipe(take(1)).subscribe();
+
+      expect(storageMock.get).toHaveBeenCalledWith('key');
+    });
+
+    it('should not trigger "get$" method of storage if storage was not created', () => {
+      storageMock.create.mockRejectedValueOnce(new Error('Error'));
+
+      service.get$('key').pipe(take(1)).subscribe();
 
       expect(storageMock.get).toHaveBeenCalledWith('key');
     });
