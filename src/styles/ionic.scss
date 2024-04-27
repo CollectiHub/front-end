@@ -26,3 +26,7 @@ ion-item {
   --padding-top: 0;
   --padding-bottom: 0;
 }
+
+.app-toast::part(container) {
+  text-align: center;
+}

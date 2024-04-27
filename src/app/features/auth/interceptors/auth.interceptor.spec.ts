@@ -1,7 +1,7 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { Provider } from '@angular/core';
 import { runFnInContext } from '@ngx-unit-test/inject-mocks';
-import { StorageService } from '@services/storage-service/storage.service';
+import { StorageService } from '@services/storage/storage.service';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of, take } from 'rxjs';
 

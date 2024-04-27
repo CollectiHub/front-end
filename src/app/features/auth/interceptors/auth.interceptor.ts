@@ -1,7 +1,7 @@
 import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AppConstants } from '@constants/app.constants';
-import { StorageService } from '@services/storage-service/storage.service';
+import { StorageService } from '@services/storage/storage.service';
 import { Observable, switchMap, take } from 'rxjs';
 
 import { AuthConstants } from '../auth.constants';

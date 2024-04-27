@@ -1,7 +1,7 @@
 import { Provider } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
 import { runFnInContext } from '@ngx-unit-test/inject-mocks';
-import { StorageService } from '@services/storage-service/storage.service';
+import { StorageService } from '@services/storage/storage.service';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { Observable, of, take } from 'rxjs';
 

@@ -1,6 +1,6 @@
 import { JSONSchemaType } from 'ajv';
 
-import { LoginResponseDto, RegisterResponseDto } from './auth/auth.models';
+import { LoginResponseDto, RegisterResponseDto } from './auth.models';
 
 export namespace AuthSchemas {
   export const loginResponseDto: JSONSchemaType<LoginResponseDto> = {

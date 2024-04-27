@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
-import { AuthSchemas } from '@features/auth.schemas';
+import { AuthSchemas } from '@features/auth/auth.schemas';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
-import { ValidationService } from '@services/validation-service/validation.service';
+import { ValidationService } from '@services/validation/validation.service';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';

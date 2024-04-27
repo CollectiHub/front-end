@@ -9,7 +9,7 @@ import { LoginBody } from '@features/auth/auth.models';
 import { AuthApiService } from '@features/auth/services/auth-api.service';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { StorageService } from '@services/storage-service/storage.service';
+import { StorageService } from '@services/storage/storage.service';
 import { take } from 'rxjs';
 
 import { LoginForm } from './login.page.models';

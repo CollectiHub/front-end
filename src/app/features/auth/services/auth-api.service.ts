@@ -1,8 +1,8 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '@environments/environment';
-import { AuthSchemas } from '@features/auth.schemas';
-import { ValidationService } from '@services/validation-service/validation.service';
+import { AuthSchemas } from '@features/auth/auth.schemas';
+import { ValidationService } from '@services/validation/validation.service';
 import { Observable, map } from 'rxjs';
 
 import { AuthConstants } from '../auth.constants';
