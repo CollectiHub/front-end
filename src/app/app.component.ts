@@ -20,7 +20,7 @@ export class AppComponent {
 
         const pathArray = event.url.split(domain);
 
-        const appPath = pathArray.at(-1) ?? '/not-found';
+        const appPath = pathArray.at(-1) || '/not-found';
 
         this.router.navigateByUrl(appPath);
       });
