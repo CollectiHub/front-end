@@ -12,7 +12,11 @@ export default [
     loadChildren: () => import('./pages/private/private.routes'),
   },
   {
-    path: '**',
+    path: 'not-found',
     loadComponent: () => import('./pages/not-found/not-found.component'),
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found',
   },
 ] satisfies Routes;
