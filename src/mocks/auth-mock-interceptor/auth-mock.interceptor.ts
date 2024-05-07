@@ -3,7 +3,6 @@ import { of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 import { MockInterceptorRegistryService } from '../mock-interceptor-registry/mock-interceptor-registry.service';
-
 export const authMockIntrceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
   const registry = new MockInterceptorRegistryService();
 
@@ -34,7 +33,7 @@ export const authMockIntrceptor = (req: HttpRequest<unknown>, next: HttpHandlerF
         status: 200,
         body: {
           data: {
-            accessToken: 'accessToken',
+            access_token: 'accessToken',
           },
           message: 'Success!',
         },
@@ -80,7 +79,9 @@ export const authMockIntrceptor = (req: HttpRequest<unknown>, next: HttpHandlerF
       new HttpResponse({
         status: 200,
         body: {
-          data: 'string',
+          data: {
+            access_token: 'new token',
+          },
           message: 'Success!',
         },
       }),

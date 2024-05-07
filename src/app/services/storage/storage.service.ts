@@ -32,4 +32,8 @@ export class StorageService {
       switchMap(() => this._storage!.get(key)),
     );
   }
+
+  remove$(key: string): Observable<void> {
+    return from(this._storage!.remove(key));
+  }
 }

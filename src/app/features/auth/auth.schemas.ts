@@ -1,9 +1,9 @@
 import { JSONSchemaType } from 'ajv';
 
-import { LoginResponseDto, RegisterResponseDto } from './auth.models';
+import { LogoutResponseDto, RegisterResponseDto, ResponseWithTokenDto } from './auth.models';
 
 export namespace AuthSchemas {
-  export const loginResponseDto: JSONSchemaType<LoginResponseDto> = {
+  export const responseWithTokenDto: JSONSchemaType<ResponseWithTokenDto> = {
     $id: 'LoginResponseDto',
     type: 'object',
     required: ['data', 'message'],
@@ -11,9 +11,9 @@ export namespace AuthSchemas {
       data: {
         type: 'object',
         properties: {
-          accessToken: { type: 'string' },
+          access_token: { type: 'string' },
         },
-        required: ['accessToken'],
+        required: ['access_token'],
       },
       message: { type: 'string' },
     },
@@ -34,6 +34,18 @@ export namespace AuthSchemas {
           username: { type: 'string' },
           verified: { type: 'boolean' },
         },
+      },
+      message: { type: 'string' },
+    },
+  };
+
+  export const logoutResponseDto: JSONSchemaType<LogoutResponseDto> = {
+    $id: 'LogoutResponseDto',
+    type: 'object',
+    required: ['data', 'message'],
+    properties: {
+      data: {
+        type: 'string',
       },
       message: { type: 'string' },
     },

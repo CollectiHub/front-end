@@ -18,10 +18,8 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     httpClientMock = mock<HttpClient>();
-    httpClientMock.post.mockReturnValue(of({}));
 
     validationServiceMock = mock<ValidationService>();
-    validationServiceMock.validate.mockReturnValue({});
 
     service = classWithProviders({
       token: AuthApiService,
@@ -39,6 +37,13 @@ describe('AuthService', () => {
   });
 
   describe('login$', () => {
+    const responseMock = { data: { access_token: 'token' } };
+
+    beforeEach(() => {
+      httpClientMock.post.mockReturnValueOnce(of(responseMock));
+      validationServiceMock.validate.mockReturnValue(responseMock);
+    });
+
     it('should trigger "post" method with correct params', () => {
       const contextMock = new HttpContext().set(AuthConstants.skipAuthContextToken, true);
 
@@ -49,9 +54,6 @@ describe('AuthService', () => {
 
     it('should emit "accessToken" property of responses', () => {
       const spy = jest.fn();
-      const responseMock = { data: { accessToken: 'token' } };
-      httpClientMock.post.mockReturnValueOnce(of(responseMock));
-      validationServiceMock.validate.mockReturnValue(responseMock);
 
       service.login$({} as LoginBody).subscribe(spy);
 
@@ -61,11 +63,16 @@ describe('AuthService', () => {
     it('should validate response', () => {
       service.login$({} as LoginBody).subscribe();
 
-      expect(validationServiceMock.validate).toHaveBeenCalledWith(AuthSchemas.loginResponseDto, {});
+      expect(validationServiceMock.validate).toHaveBeenCalledWith(AuthSchemas.responseWithTokenDto, responseMock);
     });
   });
 
   describe('register$', () => {
+    beforeEach(() => {
+      httpClientMock.post.mockReturnValueOnce(of({}));
+      validationServiceMock.validate.mockReturnValue({});
+    });
+
     it('should trigger "post" method with correct params', () => {
       const contextMock = new HttpContext().set(AuthConstants.skipAuthContextToken, true);
 
@@ -80,7 +87,6 @@ describe('AuthService', () => {
 
     it('should emit response received from API', () => {
       const spy = jest.fn();
-      httpClientMock.post.mockReturnValueOnce(of({}));
 
       service.register$({} as RegistrationBody).subscribe(spy);
 
@@ -95,36 +101,62 @@ describe('AuthService', () => {
   });
 
   describe('refreshToken$', () => {
+    const responseMock = { data: { access_token: 'token' } };
+
+    beforeEach(() => {
+      httpClientMock.post.mockReturnValueOnce(of(responseMock));
+      validationServiceMock.validate.mockReturnValue(responseMock);
+    });
+
     it('should trigger "post" method with correct params', () => {
       service.refreshToken$().subscribe();
 
       expect(httpClientMock.post).toHaveBeenCalledWith(environment.endpoints.auth.refreshToken, {});
     });
 
-    it('should emit undefined', () => {
+    it('should emit "access_token" property', () => {
       const spy = jest.fn();
-      httpClientMock.post.mockReturnValueOnce(of(undefined));
 
       service.refreshToken$().subscribe(spy);
 
-      expect(spy).toHaveBeenCalledWith(undefined);
+      expect(spy).toHaveBeenCalledWith('token');
+    });
+
+    it('should validate response', () => {
+      service.refreshToken$().subscribe();
+
+      expect(validationServiceMock.validate).toHaveBeenCalledWith(AuthSchemas.responseWithTokenDto, responseMock);
     });
   });
 
   describe('logout$', () => {
+    const responseMock = { data: '', message: '' };
+
+    beforeEach(() => {
+      httpClientMock.post.mockReturnValueOnce(of(responseMock));
+      validationServiceMock.validate.mockReturnValue(responseMock);
+    });
+
     it('should trigger "post" method with correct params', () => {
       service.logout$().subscribe();
 
       expect(httpClientMock.post).toHaveBeenCalledWith(environment.endpoints.auth.logout, {});
     });
 
-    it('should emit undefined', () => {
+    it('should emit response dto', () => {
       const spy = jest.fn();
-      httpClientMock.post.mockReturnValueOnce(of(undefined));
+
+      httpClientMock.post.mockReturnValueOnce(of(responseMock));
 
       service.logout$().subscribe(spy);
 
-      expect(spy).toHaveBeenCalledWith(undefined);
+      expect(spy).toHaveBeenCalledWith(responseMock);
+    });
+
+    it('should validate response', () => {
+      service.logout$().subscribe();
+
+      expect(validationServiceMock.validate).toHaveBeenCalledWith(AuthSchemas.logoutResponseDto, responseMock);
     });
   });
 });

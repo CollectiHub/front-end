@@ -1,6 +1,6 @@
-export interface LoginResponseDto {
+export interface ResponseWithTokenDto {
   data: {
-    accessToken: string;
+    access_token: string;
   };
   message: string;
 }
@@ -26,4 +26,16 @@ export interface RegistrationBody {
   email: string;
   password: string;
   confirmPassword: string;
+}
+
+export interface RefreshTokenDto {
+  data: {
+    access_token: string;
+  };
+  message: string;
+}
+
+export interface LogoutResponseDto {
+  data: string;
+  message: string;
 }
