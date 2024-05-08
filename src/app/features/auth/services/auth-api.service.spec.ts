@@ -11,7 +11,7 @@ import { LoginBody, RegistrationBody } from '../auth.models';
 
 import { AuthApiService } from './auth-api.service';
 
-describe('AuthService', () => {
+describe('AuthApiService', () => {
   let service: AuthApiService;
   let httpClientMock: MockProxy<HttpClient>;
   let validationServiceMock: MockProxy<ValidationService>;

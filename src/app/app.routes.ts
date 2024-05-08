@@ -12,6 +12,10 @@ export default [
     loadChildren: () => import('./pages/private/private.routes'),
   },
   {
+    path: 'verify-email/:code',
+    loadComponent: () => import('./pages/verify-email/verify-email.page'),
+  },
+  {
     path: 'not-found',
     loadComponent: () => import('./pages/not-found/not-found.component'),
   },

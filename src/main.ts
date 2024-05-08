@@ -1,12 +1,12 @@
 import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { APP_INITIALIZER, enableProdMode, importProvidersFrom } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { RouteReuseStrategy, provideRouter } from '@angular/router';
+import { RouteReuseStrategy, provideRouter, withComponentInputBinding } from '@angular/router';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { MockInterceptorRegistry } from '@tools/interceptors-registry/interceptor-registry.constants';
+import { InterceptorsRegistry } from '@tools/interceptors-registry/interceptor-registry.constants';
 
 import { AppComponent } from './app/app.component';
 import { initializeApp } from './app/app.initializer';
@@ -21,8 +21,8 @@ bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
-    provideRouter(routes),
-    provideHttpClient(withInterceptors([...MockInterceptorRegistry.getInterceptors()])),
+    provideRouter(routes, withComponentInputBinding()),
+    provideHttpClient(withInterceptors([...InterceptorsRegistry.getInterceptors()])),
     importProvidersFrom(
       IonicStorageModule.forRoot(),
       TranslateModule.forRoot({
