@@ -55,4 +55,12 @@ describe('StorageService', () => {
       expect(storageMock.get).toHaveBeenCalledWith('key');
     });
   });
+
+  describe('remove$', () => {
+    it('should trigger "remove" method of storage', () => {
+      service.remove$('key').pipe(take(1)).subscribe();
+
+      expect(storageMock.remove).toHaveBeenCalledWith('key');
+    });
+  });
 });

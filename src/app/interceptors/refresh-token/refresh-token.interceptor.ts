@@ -12,7 +12,6 @@ import { AppConstants } from '@constants/app.constants';
 import { environment } from '@environments/environment';
 import { AuthApiService } from '@features/auth/services/auth-api.service';
 import { StorageService } from '@services/storage/storage.service';
-import { switchWith } from '@tools/rxjs/switch-with.operator';
 import { Observable, catchError, switchMap, tap, throwError } from 'rxjs';
 
 export const refreshTokenInterceptor: HttpInterceptorFn = (
@@ -25,7 +24,6 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-    
       if (req.url.includes(environment.endpoints.auth.refreshToken)) {
         return authApiService.logout$().pipe(
           switchMap(() => storageService.remove$(AppConstants.tokenStorageKey)),
@@ -35,15 +33,13 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (
 
       if (error.status === HttpStatusCode.Unauthorized) {
         return authApiService.refreshToken$().pipe(
-          switchWith((refreshedToken: string) =>
+          tap((refreshedToken: string) => storageService.set(AppConstants.tokenStorageKey, refreshedToken)),
+          switchMap((refreshedToken: string) =>
             next(
               req.clone({
                 headers: req.headers.set('Authorization', `Bearer ${refreshedToken}`),
               }),
             ),
-          ),
-          tap(([refreshedToken]: [string, unknown]) =>
-            storageService.set(AppConstants.tokenStorageKey, refreshedToken),
           ),
         );
       }

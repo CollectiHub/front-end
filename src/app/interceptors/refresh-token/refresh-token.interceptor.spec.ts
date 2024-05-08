@@ -16,9 +16,6 @@ describe('refreshTokenInterceptor', () => {
   let storageServiceMock: MockProxy<StorageService>;
   let authApiServiceMock: MockProxy<AuthApiService>;
   let routerMock: MockProxy<Router>;
-  const setFunctionMock = jest.fn();
-  const cloneFnMock = jest.fn();
-  const nextMock = jest.fn();
   let providers: Provider[];
 
   beforeEach(() => {
@@ -48,13 +45,15 @@ describe('refreshTokenInterceptor', () => {
   });
 
   describe('Refresh token error', () => {
+    const nextMock = jest.fn();
+    let reqMock: HttpRequest<unknown>;
+
     beforeEach(() => {
-      nextMock.mockImplementation(() => throwError(() => new Error('error')));
+      reqMock = { url: environment.endpoints.auth.refreshToken } as any;
+      nextMock.mockReturnValue(throwError(() => new Error('error')));
     });
 
     it('should trigger "logout$" method of api service if error received for refresh token', () => {
-      const reqMock = { url: environment.endpoints.auth.refreshToken } as any;
-
       const interceptor$ = runFnInContext(providers, () => refreshTokenInterceptor(reqMock, nextMock));
       interceptor$.pipe(take(1)).subscribe();
 
@@ -62,8 +61,6 @@ describe('refreshTokenInterceptor', () => {
     });
 
     it('should trigger "logout$" method of api service if error received for refresh token', () => {
-      const reqMock = { url: environment.endpoints.auth.refreshToken } as any;
-
       const interceptor$ = runFnInContext(providers, () => refreshTokenInterceptor(reqMock, nextMock));
       interceptor$.pipe(take(1)).subscribe();
 
@@ -71,8 +68,6 @@ describe('refreshTokenInterceptor', () => {
     });
 
     it('should navigate to root router', () => {
-      const reqMock = { url: environment.endpoints.auth.refreshToken } as any;
-
       const interceptor$ = runFnInContext(providers, () => refreshTokenInterceptor(reqMock, nextMock));
       interceptor$.pipe(take(1)).subscribe();
 
@@ -81,23 +76,17 @@ describe('refreshTokenInterceptor', () => {
   });
 
   describe('Unathorized error', () => {
+    const setFunctionMock = jest.fn();
+    const cloneFnMock = jest.fn();
+    const nextMock = jest.fn();
+    let reqMock: HttpRequest<unknown>;
+
     beforeEach(() => {
       nextMock.mockImplementation(() =>
         throwError(() => new HttpErrorResponse({ status: HttpStatusCode.Unauthorized })),
       );
-    });
 
-    it('should trigger "refreshToken$" method of api service if unathorized error received', () => {
-      const interceptor$ = runFnInContext(providers, () =>
-        refreshTokenInterceptor({ url: '' } as HttpRequest<unknown>, nextMock),
-      );
-      interceptor$.pipe(take(1)).subscribe();
-
-      expect(authApiServiceMock.refreshToken$).toHaveBeenCalledTimes(1);
-    });
-
-    it('should attach auth header to new request after token refreshing', () => {
-      const reqMock = {
+      reqMock = {
         url: '',
         clone: cloneFnMock.mockImplementation(function () {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -112,25 +101,59 @@ describe('refreshTokenInterceptor', () => {
           }),
         },
       } as any;
+    });
 
+    it('should trigger "refreshToken$" method of api service if unathorized error received', () => {
+      const interceptor$ = runFnInContext(providers, () =>
+        refreshTokenInterceptor({ url: '' } as HttpRequest<unknown>, nextMock),
+      );
+      interceptor$.pipe(take(1)).subscribe();
+
+      expect(authApiServiceMock.refreshToken$).toHaveBeenCalledTimes(1);
+    });
+
+    it('should attach auth header to new request after token refreshing', () => {
       const interceptor$ = runFnInContext(providers, () => refreshTokenInterceptor(reqMock, nextMock));
       interceptor$.pipe(take(1)).subscribe();
 
       expect(setFunctionMock).toHaveBeenCalledWith('Authorization', 'Bearer newToken');
     });
 
-    it('should save new token to storage', () => {
-      nextMock.mockImplementationOnce(() =>
-        throwError(() => new HttpErrorResponse({ status: HttpStatusCode.Unauthorized })),
-      );
-      nextMock.mockImplementationOnce(() => of({}));
+    it('should close request after token refreshing', () => {
+      const expectedClonePayload = {
+        headers: {
+          set: setFunctionMock,
+        },
+      };
 
+      const interceptor$ = runFnInContext(providers, () => refreshTokenInterceptor(reqMock, nextMock));
+      interceptor$.pipe(take(1)).subscribe();
+
+      expect(cloneFnMock).toHaveBeenCalledWith(expectedClonePayload);
+    });
+
+    it('should save new token to storage', () => {
       const interceptor$ = runFnInContext(providers, () =>
         refreshTokenInterceptor({ url: '' } as HttpRequest<unknown>, nextMock),
       );
       interceptor$.pipe(take(1)).subscribe();
 
       expect(storageServiceMock.set).toHaveBeenCalledWith(AppConstants.tokenStorageKey, 'newToken');
+    });
+  });
+
+  describe('Any other error', () => {
+    it('should throw error, if that is not kind of error that should be handled', () => {
+      const errorMock = new HttpErrorResponse({ status: HttpStatusCode.BadRequest });
+      const nextMock = () => throwError(() => errorMock);
+      const spy = jest.fn();
+
+      const interceptor$ = runFnInContext(providers, () =>
+        refreshTokenInterceptor({ url: '' } as HttpRequest<unknown>, nextMock),
+      );
+      interceptor$.pipe(take(1)).subscribe({ error: spy });
+
+      expect(spy).toHaveBeenCalledWith(errorMock);
     });
   });
 });

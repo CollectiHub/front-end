@@ -34,6 +34,9 @@ export class StorageService {
   }
 
   remove$(key: string): Observable<void> {
-    return from(this._storage!.remove(key));
+    return this.storageCreated$.pipe(
+      filter(Boolean),
+      switchMap(() => this._storage!.remove(key)),
+    );
   }
 }
