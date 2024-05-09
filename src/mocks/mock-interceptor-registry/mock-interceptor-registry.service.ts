@@ -44,7 +44,7 @@ export class MockInterceptorRegistryService {
 
   private isUrlMatch(url: string, pattern: string): boolean {
     const regex = new RegExp(`^${pattern.replace(/:\w+/g, '\\w+')}(\\?.*)?$`);
-    return regex.test(url);``
+    return regex.test(url);
   }
 
   private extractQueryParams(url: string) {
