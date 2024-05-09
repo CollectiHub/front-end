@@ -3,7 +3,7 @@ import { GetResult, Preferences } from '@capacitor/preferences';
 import { LanguageConstants } from '@constants/languages';
 import { LanguageData } from '@models/languages.models';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, combineLatest, from, map, of, switchMap, tap } from 'rxjs';
+import { Observable, combineLatest, from, map, of, switchMap } from 'rxjs';
 
 export function initializeApp(translateService: TranslateService) {
   return () => {
@@ -25,7 +25,7 @@ export function initializeApp(translateService: TranslateService) {
           map(() => languageToUse),
         );
       }),
-      tap((languageToUse: string) => translateService.use(languageToUse)),
+      switchMap((languageToUse: string) => translateService.use(languageToUse)),
     );
   };
 }

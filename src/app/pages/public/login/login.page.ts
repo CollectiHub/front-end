@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { PasswordComponent } from '@components/password/password.component';
 import { PublicHeaderComponent } from '@components/public-header/public-header.component';
 import { AppConstants } from '@constants/app.constants';
@@ -10,7 +10,7 @@ import { AuthApiService } from '@features/auth/services/auth-api.service';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { StorageService } from '@services/storage/storage.service';
-import { take } from 'rxjs';
+import { switchMap, take } from 'rxjs';
 
 import { LoginForm } from './login.page.models';
 
@@ -24,6 +24,7 @@ export default class LoginPage {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly authApiService = inject(AuthApiService);
   private readonly storageService = inject(StorageService);
+  private readonly router = inject(Router);
 
   loginForm = this.formBuilder.group<LoginForm>({
     email: this.formBuilder.control(undefined, [Validators.required, Validators.pattern(RegularExpressions.email)]),
@@ -43,7 +44,10 @@ export default class LoginPage {
 
     this.authApiService
       .login$(<LoginBody>this.loginForm.value)
-      .pipe(take(1))
-      .subscribe((token: string) => this.storageService.set(AppConstants.tokenStorageKey, token));
+      .pipe(
+        take(1),
+        switchMap(token => this.storageService.set$(AppConstants.tokenStorageKey, token)),
+      )
+      .subscribe(() => this.router.navigate(['/home']));
   }
 }

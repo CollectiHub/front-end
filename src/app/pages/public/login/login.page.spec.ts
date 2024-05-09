@@ -1,4 +1,5 @@
 import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { StorageService } from '@services/storage/storage.service';
 import { MockProxy, mock } from 'jest-mock-extended';
@@ -13,9 +14,11 @@ describe('RegistrationComponent', () => {
   let formBuilderMock: MockProxy<NonNullableFormBuilder>;
   let authApiServiceMock: MockProxy<AuthApiService>;
   let storageServiceMock: MockProxy<StorageService>;
+  let routerMock: MockProxy<Router>;
 
   beforeEach(() => {
     storageServiceMock = mock<StorageService>();
+    storageServiceMock.set$.mockReturnValue(of(undefined));
 
     authApiServiceMock = mock<AuthApiService>();
     authApiServiceMock.login$.mockReturnValue(of('token'));
@@ -27,6 +30,8 @@ describe('RegistrationComponent', () => {
         password: new FormControl('', { nonNullable: true }),
       }) as FormGroup,
     );
+
+    routerMock = mock<Router>();
 
     component = classWithProviders({
       token: LoginPage,
@@ -42,6 +47,10 @@ describe('RegistrationComponent', () => {
         {
           provide: StorageService,
           useValue: storageServiceMock,
+        },
+        {
+          provide: Router,
+          useValue: routerMock,
         },
       ],
     });
@@ -85,7 +94,16 @@ describe('RegistrationComponent', () => {
 
       component.onLoginFormSubmit();
 
-      expect(storageServiceMock.set).toHaveBeenCalledWith(AppConstants.tokenStorageKey, 'token');
+      expect(storageServiceMock.set$).toHaveBeenCalledWith(AppConstants.tokenStorageKey, 'token');
+    });
+
+    it('should navigate to "home" page after login', () => {
+      const formValue = { email: 'test@g.g', password: '1234abcD@@' };
+      component.loginForm.setValue(formValue);
+
+      component.onLoginFormSubmit();
+
+      expect(routerMock.navigate).toHaveBeenCalledWith(['/home']);
     });
   });
 });

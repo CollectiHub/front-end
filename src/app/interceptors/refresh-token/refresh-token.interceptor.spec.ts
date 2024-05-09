@@ -21,6 +21,7 @@ describe('refreshTokenInterceptor', () => {
   beforeEach(() => {
     storageServiceMock = mock<StorageService>();
     storageServiceMock.remove$.mockReturnValue(of(undefined));
+    storageServiceMock.set$.mockReturnValue(of(undefined));
 
     authApiServiceMock = mock<AuthApiService>();
     authApiServiceMock.logout$.mockReturnValue(of({} as LogoutResponseDto));
@@ -138,7 +139,7 @@ describe('refreshTokenInterceptor', () => {
       );
       interceptor$.pipe(take(1)).subscribe();
 
-      expect(storageServiceMock.set).toHaveBeenCalledWith(AppConstants.tokenStorageKey, 'newToken');
+      expect(storageServiceMock.set$).toHaveBeenCalledWith(AppConstants.tokenStorageKey, 'newToken');
     });
   });
 

@@ -34,7 +34,7 @@ describe('StorageService', () => {
 
   describe('set', () => {
     it('should trigger "set" method of storage', () => {
-      service.set('key', 'value');
+      service.set$('key', 'value').subscribe();
 
       expect(storageMock.set).toHaveBeenCalledWith('key', 'value');
     });

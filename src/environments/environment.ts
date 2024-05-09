@@ -7,7 +7,6 @@ const apiUrl = 'http://some-api.com/';
 export const environment = {
   production: false,
   endpoints: {
-    apiUrl,
     auth: {
       login: `${apiUrl}auth/login`,
       logout: `${apiUrl}auth/logout`,

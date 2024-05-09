@@ -28,5 +28,9 @@
   "button.cancel": "Cancel",
   "logo_alt": "Logo",
   "not_found.title": "Not found",
-  "not_found.button": "Go to main page"
+  "not_found.button": "Go to main page",
+  "verify_email.loading": "Verifying your email...",
+  "verify_email.success": "Email successfuly verified",
+  "verify_email.error": "Error received during email verification. Try again or contact <a href='mailto:{{supportEmail}}'>developers team</a>",
+  "verify_email.button": "Back to main page"
 }

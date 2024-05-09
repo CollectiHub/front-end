@@ -1,8 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, input, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { IonicModule } from '@ionic/angular';
 import { LetDirective } from '@ngrx/component';
+import { TranslateModule } from '@ngx-translate/core';
+import { addIcons } from 'ionicons';
+import { checkmarkCircleOutline, closeCircleOutline, mailOutline } from 'ionicons/icons';
 import { take } from 'rxjs';
 
 @Component({
@@ -10,7 +14,8 @@ import { take } from 'rxjs';
   templateUrl: './verify-email.page.html',
   styleUrls: ['./verify-email.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, LetDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IonicModule, CommonModule, LetDirective, TranslateModule, RouterLink],
 })
 export default class VerifyEmailPage implements OnInit {
   private readonly usersApiService = inject(UsersApiService);
@@ -18,6 +23,10 @@ export default class VerifyEmailPage implements OnInit {
   code = input.required<string>();
 
   isVerified = signal<boolean | undefined>(undefined);
+
+  constructor() {
+    addIcons({ mailOutline, checkmarkCircleOutline, closeCircleOutline });
+  }
 
   ngOnInit(): void {
     this.usersApiService
