@@ -1,5 +1,6 @@
 import { HttpRequest } from '@angular/common/http';
 import { Provider } from '@angular/core';
+import { AppConstants } from '@constants/app.constants';
 import { runFnInContext } from '@ngx-unit-test/inject-mocks';
 import { ToastService } from '@services/toast/toast.service';
 import { MockProxy, mock } from 'jest-mock-extended';
@@ -30,7 +31,7 @@ describe('httpErrorInterceptor', () => {
   it('should trigger "open$" method of toastService when error received', () => {
     const nextMock = jest.fn(() => throwError(() => errorMock));
     const expectedConfig = {
-      duration: 3000,
+      duration: AppConstants.toastDuration,
       cssClass: 'app-toast',
       message: 'error',
       position: 'bottom',
