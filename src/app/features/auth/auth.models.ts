@@ -34,8 +34,3 @@ export interface RefreshTokenDto {
   };
   message: string;
 }
-
-export interface LogoutResponseDto {
-  data: string;
-  message: string;
-}

@@ -1,6 +1,8 @@
+import { GenericApiResponse } from '@models/api.models';
+import { ApiSchemas } from '@schemas/api.schemas';
 import { JSONSchemaType } from 'ajv';
 
-import { LogoutResponseDto, RegisterResponseDto, ResponseWithTokenDto } from './auth.models';
+import { RegisterResponseDto, ResponseWithTokenDto } from './auth.models';
 
 export namespace AuthSchemas {
   export const responseWithTokenDto: JSONSchemaType<ResponseWithTokenDto> = {
@@ -39,15 +41,8 @@ export namespace AuthSchemas {
     },
   };
 
-  export const logoutResponseDto: JSONSchemaType<LogoutResponseDto> = {
+  export const logoutResponseDto: JSONSchemaType<GenericApiResponse> = {
     $id: 'LogoutResponseDto',
-    type: 'object',
-    required: ['data', 'message'],
-    properties: {
-      data: {
-        type: 'string',
-      },
-      message: { type: 'string' },
-    },
+    ...ApiSchemas.genericApiResponse,
   };
 }

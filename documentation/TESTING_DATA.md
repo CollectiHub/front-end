@@ -8,3 +8,4 @@ Auth:
 
 Users:
 - useralreadyverified123123123 - will throw 400 error (user already verified) for email verification
+- requestPasswordError@gg.gg - will throw 400 error during password reset

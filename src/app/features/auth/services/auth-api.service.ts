@@ -2,17 +2,12 @@ import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '@environments/environment';
 import { AuthSchemas } from '@features/auth/auth.schemas';
+import { GenericApiResponse } from '@models/api.models';
 import { ValidationService } from '@services/validation/validation.service';
 import { Observable, map } from 'rxjs';
 
 import { AuthConstants } from '../auth.constants';
-import {
-  LoginBody,
-  LogoutResponseDto,
-  RegisterResponseDto,
-  RegistrationBody,
-  ResponseWithTokenDto,
-} from '../auth.models';
+import { LoginBody, RegisterResponseDto, RegistrationBody, ResponseWithTokenDto } from '../auth.models';
 
 @Injectable({
   providedIn: 'root',
@@ -45,9 +40,9 @@ export class AuthApiService {
     );
   }
 
-  logout$(): Observable<LogoutResponseDto> {
+  logout$(): Observable<GenericApiResponse> {
     return this.httpClient
-      .post<LogoutResponseDto>(environment.endpoints.auth.logout, {})
-      .pipe(map((res: LogoutResponseDto) => this.validationService.validate(AuthSchemas.logoutResponseDto, res)));
+      .post<GenericApiResponse>(environment.endpoints.auth.logout, {})
+      .pipe(map((res: GenericApiResponse) => this.validationService.validate(AuthSchemas.logoutResponseDto, res)));
   }
 }

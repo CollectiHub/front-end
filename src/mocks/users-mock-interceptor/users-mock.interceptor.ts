@@ -39,5 +39,38 @@ export const usersMockInterceptor = (req: HttpRequest<unknown>, next: HttpHandle
     );
   });
 
+  registry.post(environment.endpoints.users.requestPasswordReset, req => {
+    const email = (req.body as Record<string, string>)['email'];
+
+    if (email === 'requestPasswordError@gg.gg') {
+      return throwError(
+        () =>
+          new HttpErrorResponse({
+            status: 400,
+            error: {
+              error: 'Request reset password error',
+              errors: [
+                {
+                  detail: 'Request reset password error',
+                  field: 'Reset password',
+                },
+              ],
+              message: 'Unexpected database error',
+            },
+          }),
+      );
+    }
+
+    return of(
+      new HttpResponse({
+        status: 200,
+        body: {
+          data: 'data',
+          message: 'Success!',
+        },
+      }),
+    );
+  });
+
   return registry.processRequest$(req, next);
 };

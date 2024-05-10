@@ -1,6 +1,6 @@
 import { signal } from '@angular/core';
 import { UsersApiService } from '@features/users/services/users-api.service';
-import { VerifyEmailResponseDto } from '@features/users/users.models';
+import { GenericApiResponse } from '@models/api.models';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of, throwError } from 'rxjs';
@@ -13,7 +13,7 @@ describe(VerifyEmailPage.name, () => {
 
   beforeEach(() => {
     usersApiService = mock<UsersApiService>();
-    usersApiService.verifyEmail$.mockReturnValue(of({} as VerifyEmailResponseDto));
+    usersApiService.verifyEmail$.mockReturnValue(of({} as GenericApiResponse));
 
     component = classWithProviders({
       token: VerifyEmailPage,

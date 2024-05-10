@@ -3,8 +3,8 @@ import { Provider } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConstants } from '@constants/app.constants';
 import { environment } from '@environments/environment';
-import { LogoutResponseDto } from '@features/auth/auth.models';
 import { AuthApiService } from '@features/auth/services/auth-api.service';
+import { GenericApiResponse } from '@models/api.models';
 import { runFnInContext } from '@ngx-unit-test/inject-mocks';
 import { StorageService } from '@services/storage/storage.service';
 import { MockProxy, mock } from 'jest-mock-extended';
@@ -24,7 +24,7 @@ describe('refreshTokenInterceptor', () => {
     storageServiceMock.set$.mockReturnValue(of(undefined));
 
     authApiServiceMock = mock<AuthApiService>();
-    authApiServiceMock.logout$.mockReturnValue(of({} as LogoutResponseDto));
+    authApiServiceMock.logout$.mockReturnValue(of({} as GenericApiResponse));
     authApiServiceMock.refreshToken$.mockReturnValue(of('newToken'));
 
     routerMock = mock<Router>();

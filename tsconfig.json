@@ -30,7 +30,8 @@
       "@environments/*": ["src/environments/*"],
       "@models/*": ["src/app/models/*"],
       "@mocks/*": ["src/mocks/*"],
-      "@tools/*": ["src/app/tools/*"]
+      "@tools/*": ["src/app/tools/*"],
+      "@schemas/*": ["src/app/schemas/*"]
     }
   },
   "angularCompilerOptions": {
