@@ -38,13 +38,13 @@ describe('AuthGuard', () => {
     expect(spy).toHaveBeenCalledWith(true);
   });
 
-  it('should return trigger "parseUrl" with "/login" if token not exists', () => {
+  it('should return false if token does not exits', () => {
     const spy = jest.fn();
     storageSerivceMock.get$.mockReturnValueOnce(of(false));
 
     const guard$ = runFnInContext(providers, () => authGuard({}, []));
     (<Observable<boolean | UrlTree>>guard$).pipe(take(1)).subscribe(spy);
 
-    expect(routerMock.parseUrl).toHaveBeenCalledWith('/login');
+    expect(spy).toHaveBeenCalledWith(false);
   });
 });

@@ -4,12 +4,12 @@ import { authGuard } from '@features/auth/guards/auth.guard';
 export default [
   {
     path: '',
-    loadChildren: () => import('./pages/public/public.routes'),
+    canMatch: [authGuard],
+    loadChildren: () => import('./pages/private/private.routes'),
   },
   {
     path: '',
-    canMatch: [authGuard],
-    loadChildren: () => import('./pages/private/private.routes'),
+    loadChildren: () => import('./pages/public/public.routes'),
   },
   {
     path: 'verify-email/:code',
