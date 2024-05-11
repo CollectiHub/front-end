@@ -72,5 +72,38 @@ export const usersMockInterceptor = (req: HttpRequest<unknown>, next: HttpHandle
     );
   });
 
+  registry.post(environment.endpoints.users.verifyPasswordReset, req => {
+    const code = (req.body as Record<string, string>)['code'];
+
+    if (code === 'verifyPasswordCode123123123') {
+      return throwError(
+        () =>
+          new HttpErrorResponse({
+            status: 400,
+            error: {
+              error: 'Verify reset password error',
+              errors: [
+                {
+                  detail: 'Verify reset password error',
+                  field: 'Verify password',
+                },
+              ],
+              message: 'Unexpected database error',
+            },
+          }),
+      );
+    }
+
+    return of(
+      new HttpResponse({
+        status: 200,
+        body: {
+          data: 'data',
+          message: 'Success!',
+        },
+      }),
+    );
+  });
+
   return registry.processRequest$(req, next);
 };

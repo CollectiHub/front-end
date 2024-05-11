@@ -5,6 +5,7 @@ import { GenericApiResponse } from '@models/api.models';
 import { ValidationService } from '@services/validation/validation.service';
 import { Observable, map } from 'rxjs';
 
+import { VerifyPasswordResetBody } from '../users.models';
 import { UsersSchemas } from '../users.schemas';
 
 @Injectable({
@@ -28,6 +29,16 @@ export class UsersApiService {
       .pipe(
         map((res: GenericApiResponse) =>
           this.validationService.validate(UsersSchemas.requestPasswordResetResponseDto, res),
+        ),
+      );
+  }
+
+  verifyPasswordReset$(body: VerifyPasswordResetBody): Observable<GenericApiResponse> {
+    return this.httpClient
+      .post<GenericApiResponse>(environment.endpoints.users.verifyPasswordReset, body)
+      .pipe(
+        map((res: GenericApiResponse) =>
+          this.validationService.validate(UsersSchemas.verifyPasswordResetResponseDto, res),
         ),
       );
   }

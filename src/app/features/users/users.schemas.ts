@@ -12,4 +12,9 @@ export namespace UsersSchemas {
     $id: 'RequestPasswordresetResponseDto',
     ...ApiSchemas.genericApiResponse,
   };
+
+  export const verifyPasswordResetResponseDto: JSONSchemaType<GenericApiResponse> = {
+    $id: 'VerifyPasswordresetResponseDto',
+    ...ApiSchemas.genericApiResponse,
+  };
 }
