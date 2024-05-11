@@ -15,6 +15,7 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown
         duration: AppConstants.toastDuration,
         cssClass: 'app-toast',
         position: 'bottom',
+        buttons: [{ icon: 'close-outline', role: 'cancel' }],
       };
 
       return toastService.open$(toastOptions).pipe(switchMap(() => throwError(() => error)));

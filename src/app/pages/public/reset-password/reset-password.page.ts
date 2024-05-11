@@ -80,6 +80,7 @@ export default class ResetPasswordPage {
       duration: AppConstants.toastDuration,
       cssClass: 'app-toast',
       position: 'bottom',
+      buttons: [{ icon: 'close-outline', role: 'cancel' }],
     };
 
     return this.toastService.openWithListener$(toastOptions);

@@ -2,6 +2,8 @@ import { Component, NgZone, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { IonApp } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { closeOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +16,8 @@ export class AppComponent {
   private readonly router = inject(Router);
 
   constructor() {
+    addIcons({ closeOutline });
+
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       this.zone.run(() => {
         const domain = 'collectihub.com';

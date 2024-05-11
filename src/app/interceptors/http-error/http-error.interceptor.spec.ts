@@ -35,6 +35,7 @@ describe('httpErrorInterceptor', () => {
       cssClass: 'app-toast',
       message: 'error',
       position: 'bottom',
+      buttons: [{ icon: 'close-outline', role: 'cancel' }],
     };
 
     const interceptor$ = runFnInContext(providers, () => httpErrorInterceptor({} as HttpRequest<unknown>, nextMock));
