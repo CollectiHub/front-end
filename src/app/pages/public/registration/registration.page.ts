@@ -9,9 +9,9 @@ import { AuthApiService } from '@features/auth/services/auth-api.service';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { take } from 'rxjs';
+import { AppValidators } from 'src/app/validators/app.validators';
 
 import { RegistrationForm } from './registration.page.models';
-import { RegistrationValidators } from './registration.page.validators';
 
 @Component({
   standalone: true,
@@ -34,7 +34,7 @@ export default class RegistrationPageComponent {
       ]),
       confirmPassword: this.formBuilder.control(undefined, [Validators.required]),
     },
-    { validators: RegistrationValidators.passwordsMatch },
+    { validators: AppValidators.passwordsMatch },
   );
 
   get emailControl(): FormControl<string | undefined> {

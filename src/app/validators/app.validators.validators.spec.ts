@@ -1,8 +1,8 @@
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { RegistrationValidators } from './registration.page.validators';
+import { AppValidators } from './app.validators';
 
-describe('RegistrationValidators', () => {
+describe('AppValidators', () => {
   let formGroupMock: FormGroup<{ password: FormControl<string>; confirmPassword: FormControl<string> }>;
 
   beforeEach(() => {
@@ -17,7 +17,7 @@ describe('RegistrationValidators', () => {
       it('should return null if password control has no value', () => {
         formGroupMock.controls['confirmPassword'].setValue('123');
 
-        const result = RegistrationValidators.passwordsMatch(formGroupMock);
+        const result = AppValidators.passwordsMatch(formGroupMock);
 
         expect(result).toBeNull();
       });
@@ -25,7 +25,7 @@ describe('RegistrationValidators', () => {
       it('should return null if confirmPassword control has no value', () => {
         formGroupMock.controls['password'].setValue('123');
 
-        const result = RegistrationValidators.passwordsMatch(formGroupMock);
+        const result = AppValidators.passwordsMatch(formGroupMock);
 
         expect(result).toBeNull();
       });
@@ -34,7 +34,7 @@ describe('RegistrationValidators', () => {
         formGroupMock.controls['password'].setValue('123');
         formGroupMock.controls['confirmPassword'].setValue('123');
 
-        const result = RegistrationValidators.passwordsMatch(formGroupMock);
+        const result = AppValidators.passwordsMatch(formGroupMock);
 
         expect(result).toBeNull();
       });
@@ -43,7 +43,7 @@ describe('RegistrationValidators', () => {
         formGroupMock.controls['password'].setValue('123');
         formGroupMock.controls['confirmPassword'].setValue('123');
 
-        RegistrationValidators.passwordsMatch(formGroupMock);
+        AppValidators.passwordsMatch(formGroupMock);
 
         expect(formGroupMock.controls['confirmPassword'].errors).toBeNull();
       });
@@ -54,7 +54,7 @@ describe('RegistrationValidators', () => {
         formGroupMock.controls['password'].setValue('123');
         formGroupMock.controls['confirmPassword'].setValue('1234');
 
-        RegistrationValidators.passwordsMatch(formGroupMock);
+        AppValidators.passwordsMatch(formGroupMock);
 
         expect(formGroupMock.controls['confirmPassword'].errors).toStrictEqual({ notMatchedPassword: true });
       });
@@ -63,7 +63,7 @@ describe('RegistrationValidators', () => {
         formGroupMock.controls['password'].setValue('123');
         formGroupMock.controls['confirmPassword'].setValue('1234');
 
-        const result = RegistrationValidators.passwordsMatch(formGroupMock);
+        const result = AppValidators.passwordsMatch(formGroupMock);
 
         expect(result).toStrictEqual({ notMatchedPassword: true });
       });

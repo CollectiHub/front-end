@@ -31,16 +31,16 @@
         <ion-item lines="none">
           <app-password
             formControlName="password"
-            [label]="'password_label' | translate"
-            [helperText]="'password_patter_helper' | translate"
+            [label]="'password.label' | translate"
+            [helperText]="'password.pattern_helper' | translate"
             [error]="getPasswordError(passwordControl.errors) | translate" />
         </ion-item>
 
         <ion-item lines="none">
           <app-password
             formControlName="confirmPassword"
-            [label]="'register.confirm_password_label' | translate"
-            [helperText]="'register.confirm_password_helper' | translate"
+            [label]="'confirm_password.label' | translate"
+            [helperText]="'confirm_password.helper' | translate"
             [error]="getConfirmPasswordError(registrationForm.errors) | translate" />
         </ion-item>
       </ion-list>

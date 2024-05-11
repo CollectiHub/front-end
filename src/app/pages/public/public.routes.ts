@@ -18,4 +18,8 @@ export default [
     path: 'forgot-password',
     loadComponent: () => import('./forgot-password/forgot-password.page'),
   },
+  {
+    path: 'reset-password/:code',
+    loadComponent: () => import('./reset-password/reset-password.page'),
+  },
 ] satisfies Routes;

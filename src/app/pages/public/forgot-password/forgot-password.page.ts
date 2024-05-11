@@ -33,7 +33,7 @@ export default class ForgotPasswordComponent {
     return errors?.['required'] ? 'validation.required' : 'validation.invalid_email';
   }
 
-  submitResetPassword(): void {
+  submitForgotPassword(): void {
     if (!this.forgotPasswordControl.valid) return;
 
     const email = this.forgotPasswordControl.value;
@@ -41,7 +41,7 @@ export default class ForgotPasswordComponent {
     this.usersApiService
       .requestPasswordReset$(email)
       .pipe(
-        switchMap(() => this.translateService.get('reset_password.toast', { email })),
+        switchMap(() => this.translateService.get('forgot_password.toast', { email })),
         switchMap((message: string) => this.openToast$(message)),
         take(1),
       )

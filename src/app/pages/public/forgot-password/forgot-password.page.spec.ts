@@ -58,26 +58,26 @@ describe('ResetPasswordComponent', () => {
     });
   });
 
-  describe('submitResetPassword', () => {
+  describe('submitForgotPassword', () => {
     it('should trigger "requestPasswordReset$" api method, if field is valid', () => {
       component.forgotPasswordControl.setValue('email@gg.gg');
-      component.submitResetPassword();
+      component.submitForgotPassword();
 
       expect(usersApiServiceMock.requestPasswordReset$).toHaveBeenCalledWith('email@gg.gg');
     });
 
     it('should not trigger "requestPasswordReset$" api method, if field is not valid', () => {
       component.forgotPasswordControl.setValue('123');
-      component.submitResetPassword();
+      component.submitForgotPassword();
 
       expect(usersApiServiceMock.requestPasswordReset$).not.toHaveBeenCalled();
     });
 
     it('should trigger translate toast message in case of success request', () => {
       component.forgotPasswordControl.setValue('email@gg.gg');
-      component.submitResetPassword();
+      component.submitForgotPassword();
 
-      expect(translateServiceMock.get).toHaveBeenCalledWith('reset_password.toast', { email: 'email@gg.gg' });
+      expect(translateServiceMock.get).toHaveBeenCalledWith('forgot_password.toast', { email: 'email@gg.gg' });
     });
 
     it('should open toast in case of success request', () => {
@@ -89,7 +89,7 @@ describe('ResetPasswordComponent', () => {
       };
 
       component.forgotPasswordControl.setValue('email@gg.gg');
-      component.submitResetPassword();
+      component.submitForgotPassword();
 
       expect(toastServiceMock.openWithListener$).toHaveBeenCalledWith(expectedToastConfig);
     });
