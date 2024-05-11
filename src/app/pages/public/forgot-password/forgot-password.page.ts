@@ -54,6 +54,7 @@ export default class ForgotPasswordComponent {
       duration: AppConstants.toastDuration,
       cssClass: 'app-toast',
       position: 'bottom',
+      color: 'success',
       buttons: [{ icon: 'close-outline', role: 'cancel' }],
     };
 

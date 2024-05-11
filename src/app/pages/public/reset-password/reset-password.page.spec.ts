@@ -123,6 +123,7 @@ describe(ResetPasswordPage.name, () => {
           duration: AppConstants.toastDuration,
           cssClass: 'app-toast',
           position: 'bottom',
+          color: 'success',
           buttons: [{ icon: 'close-outline', role: 'cancel' }],
         };
 

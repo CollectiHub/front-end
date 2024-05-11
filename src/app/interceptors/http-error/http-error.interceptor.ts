@@ -15,6 +15,7 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown
         duration: AppConstants.toastDuration,
         cssClass: 'app-toast',
         position: 'bottom',
+        color: 'danger',
         buttons: [{ icon: 'close-outline', role: 'cancel' }],
       };
 

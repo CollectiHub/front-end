@@ -35,6 +35,7 @@ describe('httpErrorInterceptor', () => {
       cssClass: 'app-toast',
       message: 'error',
       position: 'bottom',
+      color: 'danger',
       buttons: [{ icon: 'close-outline', role: 'cancel' }],
     };
 
