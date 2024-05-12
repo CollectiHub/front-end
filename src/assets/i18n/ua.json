@@ -17,6 +17,7 @@
   "register.submit": "Зареєструватись",
   "register.have_account": "Маєте акаунт?",
   "register.login_link": "Ввійдіть тут",
+  "register.loading": "Ви автоматично ввійдете в систему після успішної реєстрації",
   "forgot_password.header": "Скидання паролю",
   "forgot_password.details": "Введіть свою електронну адресу, щоб отримати підтвердження скидання пароля на свою поштову скриньку",
   "forgot_password.confirm": "Підтвердити",

@@ -114,11 +114,7 @@ export const authMockIntrceptor = (req: HttpRequest<unknown>, next: HttpHandlerF
         status: 201,
         body: {
           data: {
-            email: 'realhokage@gmail.com',
-            id: '3c1e3b82-3a29-4cc0-a4b2-4e7c4ac58052',
-            role: 'regular',
-            username: 'realhokage',
-            verified: true,
+            access_token: 'token',
           },
           message: 'Success!',
         },

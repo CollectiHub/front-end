@@ -1,14 +1,17 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { PasswordComponent } from '@components/password/password.component';
 import { PublicHeaderComponent } from '@components/public-header/public-header.component';
+import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { RegistrationBody } from '@features/auth/auth.models';
 import { AuthApiService } from '@features/auth/services/auth-api.service';
 import { IonicModule } from '@ionic/angular';
-import { TranslateModule } from '@ngx-translate/core';
-import { take } from 'rxjs';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LoaderService } from '@services/loader/loader.service';
+import { StorageService } from '@services/storage/storage.service';
+import { switchMap, take } from 'rxjs';
 import { AppValidators } from 'src/app/validators/app.validators';
 
 import { RegistrationForm } from './registration.page.models';
@@ -23,6 +26,10 @@ import { RegistrationForm } from './registration.page.models';
 export default class RegistrationPageComponent {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly authApiService = inject(AuthApiService);
+  private readonly translateService = inject(TranslateService);
+  private readonly loaderService = inject(LoaderService);
+  private readonly storageService = inject(StorageService);
+  private readonly router = inject(Router);
 
   registrationForm = this.formBuilder.group<RegistrationForm>(
     {
@@ -39,6 +46,10 @@ export default class RegistrationPageComponent {
 
   get emailControl(): FormControl<string | undefined> {
     return <FormControl<string | undefined>>this.registrationForm.get('email');
+  }
+
+  get usernameControl(): FormControl<string | undefined> {
+    return <FormControl<string | undefined>>this.registrationForm.get('username');
   }
 
   get passwordControl(): FormControl<string | undefined> {
@@ -64,9 +75,20 @@ export default class RegistrationPageComponent {
   onRegistrationFormSubmit(): void {
     if (!this.registrationForm.valid) return;
 
-    this.authApiService
-      .register$(<RegistrationBody>this.registrationForm.value)
-      .pipe(take(1))
-      .subscribe(console.log);
+    const body: RegistrationBody = {
+      email: <string>this.emailControl.value,
+      password: <string>this.confirmPasswordControl.value,
+      username: <string>this.usernameControl.value,
+    };
+    const loadingMessage = this.translateService.instant('register.loading');
+    const request$ = this.authApiService.register$(body);
+
+    this.loaderService
+      .showUntilCompleted$(request$, loadingMessage)
+      .pipe(
+        switchMap((token: string) => this.storageService.set$(AppConstants.tokenStorageKey, token)),
+        take(1),
+      )
+      .subscribe(() => this.router.navigate(['/home']));
   }
 }

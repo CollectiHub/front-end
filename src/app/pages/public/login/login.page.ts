@@ -45,8 +45,8 @@ export default class LoginPage {
     this.authApiService
       .login$(<LoginBody>this.loginForm.value)
       .pipe(
+        switchMap((token: string) => this.storageService.set$(AppConstants.tokenStorageKey, token)),
         take(1),
-        switchMap(token => this.storageService.set$(AppConstants.tokenStorageKey, token)),
       )
       .subscribe(() => this.router.navigate(['/home']));
   }

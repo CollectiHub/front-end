@@ -17,6 +17,7 @@
   "register.submit": "Register",
   "register.have_account": "Have an Account?",
   "register.login_link": "Login here",
+  "register.loading": "You will be automatically logged in after successful registration",
   "forgot_password.header": "Reset password",
   "forgot_password.details": "Enter your email to get reset password confirmation on your mailbox",
   "forgot_password.confirm": "Submit",

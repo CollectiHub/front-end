@@ -2,11 +2,10 @@ import { GenericApiResponse } from '@models/api.models';
 import { ApiSchemas } from '@schemas/api.schemas';
 import { JSONSchemaType } from 'ajv';
 
-import { RegisterResponseDto, ResponseWithTokenDto } from './auth.models';
+import { ResponseWithTokenDto } from './auth.models';
 
 export namespace AuthSchemas {
-  export const responseWithTokenDto: JSONSchemaType<ResponseWithTokenDto> = {
-    $id: 'LoginResponseDto',
+  const responseWithTokenSchema: JSONSchemaType<ResponseWithTokenDto> = {
     type: 'object',
     required: ['data', 'message'],
     properties: {
@@ -21,24 +20,19 @@ export namespace AuthSchemas {
     },
   };
 
-  export const registerResponseDto: JSONSchemaType<RegisterResponseDto> = {
+  export const loginResponseDto: JSONSchemaType<ResponseWithTokenDto> = {
+    $id: 'LoginResponseDto',
+    ...responseWithTokenSchema,
+  };
+
+  export const registerResponseDto: JSONSchemaType<ResponseWithTokenDto> = {
     $id: 'RegisterResponseDto',
-    type: 'object',
-    required: ['data', 'message'],
-    properties: {
-      data: {
-        type: 'object',
-        required: ['email', 'id', 'role', 'username', 'verified'],
-        properties: {
-          email: { type: 'string' },
-          id: { type: 'string' },
-          role: { type: 'string' },
-          username: { type: 'string' },
-          verified: { type: 'boolean' },
-        },
-      },
-      message: { type: 'string' },
-    },
+    ...responseWithTokenSchema,
+  };
+
+  export const refreshTokenResponseDto: JSONSchemaType<ResponseWithTokenDto> = {
+    $id: 'RefreshTokenResponseDto',
+    ...responseWithTokenSchema,
   };
 
   export const logoutResponseDto: JSONSchemaType<GenericApiResponse> = {

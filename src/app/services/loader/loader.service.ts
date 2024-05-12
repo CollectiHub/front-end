@@ -9,10 +9,11 @@ import { Observable, exhaustMap, finalize, from } from 'rxjs';
 export class LoaderService {
   private readonly loadingController = inject(LoadingController);
 
-  showUntilCompleted$<T>(obs$: Observable<T>): Observable<T> {
+  showUntilCompleted$<T>(obs$: Observable<T>, message?: string): Observable<T> {
     const loadingCtrl$ = from(
       this.loadingController.create({
         spinner: 'bubbles',
+        message,
       }),
     );
 

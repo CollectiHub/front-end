@@ -43,12 +43,13 @@ describe('LoaderService', () => {
   });
 
   it('should create loader when triggered', fakeAsync(() => {
-    service.showUntilCompleted$(of(undefined)).pipe(take(1)).subscribe();
+    service.showUntilCompleted$(of(undefined), 'message').pipe(take(1)).subscribe();
 
     tick();
 
     expect(crateFunctionSpy).toHaveBeenCalledWith({
       spinner: 'bubbles',
+      message: 'message',
     });
   }));
 

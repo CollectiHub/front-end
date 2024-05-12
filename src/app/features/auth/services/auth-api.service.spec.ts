@@ -63,18 +63,22 @@ describe('AuthApiService', () => {
     it('should validate response', () => {
       service.login$({} as LoginBody).subscribe();
 
-      expect(validationServiceMock.validate).toHaveBeenCalledWith(AuthSchemas.responseWithTokenDto, responseMock);
+      expect(validationServiceMock.validate).toHaveBeenCalledWith(AuthSchemas.loginResponseDto, responseMock);
     });
   });
 
   describe('register$', () => {
+    const responseMock = { data: { access_token: 'token' } };
+
     beforeEach(() => {
-      httpClientMock.post.mockReturnValueOnce(of({}));
-      validationServiceMock.validate.mockReturnValue({});
+      httpClientMock.post.mockReturnValueOnce(of(responseMock));
+      validationServiceMock.validate.mockReturnValue(responseMock);
     });
 
     it('should trigger "post" method with correct params', () => {
-      const contextMock = new HttpContext().set(AuthConstants.skipAuthContextToken, true);
+      const contextMock = new HttpContext()
+        .set(AuthConstants.skipAuthContextToken, true)
+        .set(AuthConstants.skipLoadingToken, true);
 
       service.register$({} as RegistrationBody).subscribe();
 
@@ -85,18 +89,18 @@ describe('AuthApiService', () => {
       );
     });
 
-    it('should emit response received from API', () => {
+    it('should emit token from response', () => {
       const spy = jest.fn();
 
       service.register$({} as RegistrationBody).subscribe(spy);
 
-      expect(spy).toHaveBeenCalledWith({});
+      expect(spy).toHaveBeenCalledWith('token');
     });
 
     it('should validate response', () => {
       service.register$({} as RegistrationBody).subscribe();
 
-      expect(validationServiceMock.validate).toHaveBeenCalledWith(AuthSchemas.registerResponseDto, {});
+      expect(validationServiceMock.validate).toHaveBeenCalledWith(AuthSchemas.registerResponseDto, responseMock);
     });
   });
 
@@ -125,7 +129,7 @@ describe('AuthApiService', () => {
     it('should validate response', () => {
       service.refreshToken$().subscribe();
 
-      expect(validationServiceMock.validate).toHaveBeenCalledWith(AuthSchemas.responseWithTokenDto, responseMock);
+      expect(validationServiceMock.validate).toHaveBeenCalledWith(AuthSchemas.refreshTokenResponseDto, responseMock);
     });
   });
 

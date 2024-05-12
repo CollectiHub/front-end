@@ -1,8 +1,12 @@
 import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AppConstants } from '@constants/app.constants';
+import { TranslateService } from '@ngx-translate/core';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
+import { LoaderService } from '@services/loader/loader.service';
+import { StorageService } from '@services/storage/storage.service';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of } from 'rxjs';
-import { RegisterResponseDto } from 'src/app/features/auth/auth.models';
 import { AuthApiService } from 'src/app/features/auth/services/auth-api.service';
 
 import RegistrationPageComponent from './registration.page';
@@ -11,11 +15,12 @@ describe('RegistrationComponent', () => {
   let component: RegistrationPageComponent;
   let formBuilderMock: MockProxy<NonNullableFormBuilder>;
   let authApiServiceMock: MockProxy<AuthApiService>;
+  let translateServiceMock: MockProxy<TranslateService>;
+  let loaderServiceMock: MockProxy<LoaderService>;
+  let storageServiceMock: MockProxy<StorageService>;
+  let routerMock: MockProxy<Router>;
 
   beforeEach(() => {
-    authApiServiceMock = mock<AuthApiService>();
-    authApiServiceMock.register$.mockReturnValue(of({} as RegisterResponseDto));
-
     formBuilderMock = mock<NonNullableFormBuilder>();
     formBuilderMock.group.mockReturnValue(
       new FormGroup({
@@ -25,6 +30,20 @@ describe('RegistrationComponent', () => {
         confirmPassword: new FormControl('', { nonNullable: true }),
       }) as FormGroup,
     );
+
+    authApiServiceMock = mock<AuthApiService>();
+    authApiServiceMock.register$.mockReturnValue(of('token'));
+
+    translateServiceMock = mock<TranslateService>();
+    translateServiceMock.instant.mockReturnValue('message');
+
+    loaderServiceMock = mock<LoaderService>();
+    loaderServiceMock.showUntilCompleted$.mockImplementation(obs$ => obs$);
+
+    storageServiceMock = mock<StorageService>();
+    storageServiceMock.set$.mockReturnValue(of(undefined));
+
+    routerMock = mock<Router>();
 
     component = classWithProviders({
       token: RegistrationPageComponent,
@@ -36,6 +55,22 @@ describe('RegistrationComponent', () => {
         {
           provide: AuthApiService,
           useValue: authApiServiceMock,
+        },
+        {
+          provide: TranslateService,
+          useValue: translateServiceMock,
+        },
+        {
+          provide: LoaderService,
+          useValue: loaderServiceMock,
+        },
+        {
+          provide: StorageService,
+          useValue: storageServiceMock,
+        },
+        {
+          provide: Router,
+          useValue: routerMock,
         },
       ],
     });
@@ -78,21 +113,62 @@ describe('RegistrationComponent', () => {
   });
 
   describe('onRegistrationFormSubmit', () => {
-    it('should not trigger "register$" method if form is invalid', () => {
-      component.registrationForm.setErrors({ rquired: true });
+    describe('form not valid', () => {
+      it('should not trigger "register$" method if form is invalid', () => {
+        component.registrationForm.setErrors({ rquired: true });
 
-      component.onRegistrationFormSubmit();
+        component.onRegistrationFormSubmit();
 
-      expect(authApiServiceMock.register$).not.toHaveBeenCalled();
+        expect(authApiServiceMock.register$).not.toHaveBeenCalled();
+      });
     });
 
-    it('should trigger "register$" method if form is valid', () => {
-      const formValue = { email: 'test@g.g', username: '123', confirmPassword: '1234abcD@@', password: '1234abcD@@' };
-      component.registrationForm.setValue(formValue);
+    describe('form valid', () => {
+      beforeEach(() => {
+        component.registrationForm.setValue({
+          email: 'test@g.g',
+          username: '123',
+          confirmPassword: '1234abcD@@',
+          password: '1234abcD@@',
+        });
+      });
 
-      component.onRegistrationFormSubmit();
+      it('should trigger "register$" method if form is valid', () => {
+        component.onRegistrationFormSubmit();
 
-      expect(authApiServiceMock.register$).toHaveBeenCalledWith(formValue);
+        expect(authApiServiceMock.register$).toHaveBeenCalledWith({
+          email: 'test@g.g',
+          username: '123',
+          password: '1234abcD@@',
+        });
+      });
+
+      it('sould trigger "showUntilCompleted$" to display loader for api request with message', () => {
+        component.onRegistrationFormSubmit();
+
+        expect(loaderServiceMock.showUntilCompleted$).toHaveBeenCalledWith(
+          authApiServiceMock.register$({} as any),
+          'message',
+        );
+      });
+
+      it('sould trigger "instant" method of translate service, to get loading message', () => {
+        component.onRegistrationFormSubmit();
+
+        expect(translateServiceMock.instant).toHaveBeenCalledWith('register.loading');
+      });
+
+      it('sould trigger "set$" method of storage service, to save token from response', () => {
+        component.onRegistrationFormSubmit();
+
+        expect(storageServiceMock.set$).toHaveBeenCalledWith(AppConstants.tokenStorageKey, 'token');
+      });
+
+      it('sould navigate to "home" page after successful API request', () => {
+        component.onRegistrationFormSubmit();
+
+        expect(routerMock.navigate).toHaveBeenCalledWith(['/home']);
+      });
     });
   });
 });

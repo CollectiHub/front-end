@@ -10,10 +10,18 @@ import { loadingInterceptor } from './loading.interceptor';
 describe('LoadingInteceptor', () => {
   let providers: Provider[];
   let loaderServiceMock: MockProxy<LoaderService>;
+  let reqMock: HttpRequest<unknown>;
+  const getContextMockFn = jest.fn();
 
   beforeEach(() => {
     loaderServiceMock = mock<LoaderService>();
     loaderServiceMock.showUntilCompleted$.mockImplementation(obs$ => obs$);
+
+    reqMock = {
+      context: {
+        get: getContextMockFn,
+      },
+    } as any;
 
     providers = [
       {
@@ -23,13 +31,25 @@ describe('LoadingInteceptor', () => {
     ];
   });
 
-  it('should wrap request in "showUntilCompleted$" observable if it is api request', () => {
+  it('should wrap request in "showUntilCompleted$" observable if skipLoading is false', () => {
     const httpEventMock$ = of(mock<HttpEvent<unknown>>());
     const nextMock = () => httpEventMock$;
+    getContextMockFn.mockReturnValue(false);
 
-    const interceptor$ = runFnInContext(providers, () => loadingInterceptor({} as HttpRequest<unknown>, nextMock));
+    const interceptor$ = runFnInContext(providers, () => loadingInterceptor(reqMock as HttpRequest<unknown>, nextMock));
     interceptor$.pipe(take(1)).subscribe();
 
     expect(loaderServiceMock.showUntilCompleted$).toHaveBeenCalledWith(httpEventMock$);
+  });
+
+  it('should not wrap request in "showUntilCompleted$" observable if skipLoading is true', () => {
+    const httpEventMock$ = of(mock<HttpEvent<unknown>>());
+    const nextMock = () => httpEventMock$;
+    getContextMockFn.mockReturnValue(true);
+
+    const interceptor$ = runFnInContext(providers, () => loadingInterceptor(reqMock, nextMock));
+    interceptor$.pipe(take(1)).subscribe();
+
+    expect(loaderServiceMock.showUntilCompleted$).not.toHaveBeenCalled();
   });
 });
