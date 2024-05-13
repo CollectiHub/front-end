@@ -2,6 +2,8 @@ import { GenericApiResponse } from '@models/api.models';
 import { ApiSchemas } from '@schemas/api.schemas';
 import { JSONSchemaType } from 'ajv';
 
+import { UserDataResponseDto, UserRole } from './users.models';
+
 export namespace UsersSchemas {
   export const verifyEmailResponseDto: JSONSchemaType<GenericApiResponse> = {
     $id: 'VerifyEmailResponseDto',
@@ -16,5 +18,25 @@ export namespace UsersSchemas {
   export const verifyPasswordResetResponseDto: JSONSchemaType<GenericApiResponse> = {
     $id: 'VerifyPasswordresetResponseDto',
     ...ApiSchemas.genericApiResponse,
+  };
+
+  export const userDataResponseSchema: JSONSchemaType<UserDataResponseDto> = {
+    $id: 'UserDataResponseDto',
+    type: 'object',
+    required: ['data', 'message'],
+    properties: {
+      data: {
+        type: 'object',
+        required: ['email', 'id', 'role', 'username', 'verified'],
+        properties: {
+          email: { type: 'string' },
+          id: { type: 'string' },
+          role: { type: 'string', enum: Object.values(UserRole) },
+          username: { type: 'string' },
+          verified: { type: 'boolean' },
+        },
+      },
+      message: { type: 'string' },
+    },
   };
 }

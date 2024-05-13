@@ -6,6 +6,24 @@ import { MockInterceptorRegistryService } from '../mock-interceptor-registry/moc
 export const usersMockInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
   const registry = new MockInterceptorRegistryService();
 
+  registry.get(environment.endpoints.users.getUserData, () => {
+    return of(
+      new HttpResponse({
+        status: 200,
+        body: {
+          data: {
+            email: 'realhokage@gmail.com',
+            id: '3c1e3b82-3a29-4cc0-a4b2-4e7c4ac58052',
+            role: 'regular',
+            username: 'realhokage',
+            verified: true,
+          },
+          message: 'Success!',
+        },
+      }),
+    );
+  });
+
   registry.post(environment.endpoints.users.verifyEmail, req => {
     const code = (req.body as Record<string, string>)['code'];
 

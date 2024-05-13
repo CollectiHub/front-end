@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { ValidationService } from '@services/validation/validation.service';
 import { MockProxy, mock } from 'jest-mock-extended';
-import { of } from 'rxjs';
+import { of, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 import { UsersSchemas } from '../users.schemas';
@@ -14,14 +14,16 @@ describe('UsersApiService', () => {
   let httpClientMock: MockProxy<HttpClient>;
   let validationServiceMock: MockProxy<ValidationService>;
 
-  const responseMock = { data: 'data', message: 'message' };
+  const postResponseMock = { data: 'data', message: 'message' };
+  const getResponseMock = { data: {}, message: 'message' };
 
   beforeEach(() => {
     httpClientMock = mock<HttpClient>();
-    httpClientMock.post.mockReturnValueOnce(of(responseMock));
+    httpClientMock.post.mockReturnValue(of(postResponseMock));
+    httpClientMock.get.mockReturnValue(of(getResponseMock));
 
     validationServiceMock = mock<ValidationService>();
-    validationServiceMock.validate.mockReturnValue(responseMock);
+    validationServiceMock.validate.mockReturnValue(postResponseMock);
 
     service = classWithProviders({
       token: UsersApiService,
@@ -38,9 +40,35 @@ describe('UsersApiService', () => {
     });
   });
 
+  describe('getUserData$', () => {
+    beforeEach(() => {
+      validationServiceMock.validate.mockReturnValue(getResponseMock);
+    });
+
+    it('should trigger "get" method with correct params', () => {
+      service.getUserData$().pipe(take(1)).subscribe();
+
+      expect(httpClientMock.get).toHaveBeenCalledWith(environment.endpoints.users.getUserData);
+    });
+
+    it('should emit data of received response', () => {
+      const spy = jest.fn();
+
+      service.getUserData$().subscribe(spy);
+
+      expect(spy).toHaveBeenCalledWith({});
+    });
+
+    it('should validate response', () => {
+      service.getUserData$().pipe(take(1)).subscribe();
+
+      expect(validationServiceMock.validate).toHaveBeenCalledWith(UsersSchemas.userDataResponseSchema, getResponseMock);
+    });
+  });
+
   describe('verifyEmail$', () => {
     it('should trigger "post" method with correct params', () => {
-      service.verifyEmail$('code').subscribe();
+      service.verifyEmail$('code').pipe(take(1)).subscribe();
 
       expect(httpClientMock.post).toHaveBeenCalledWith(environment.endpoints.users.verifyEmail, { code: 'code' });
     });
@@ -48,21 +76,24 @@ describe('UsersApiService', () => {
     it('should emit received response', () => {
       const spy = jest.fn();
 
-      service.verifyEmail$('code').subscribe(spy);
+      service.verifyEmail$('code').pipe(take(1)).subscribe(spy);
 
-      expect(spy).toHaveBeenCalledWith(responseMock);
+      expect(spy).toHaveBeenCalledWith(postResponseMock);
     });
 
     it('should validate response', () => {
-      service.verifyEmail$('code').subscribe();
+      service.verifyEmail$('code').pipe(take(1)).subscribe();
 
-      expect(validationServiceMock.validate).toHaveBeenCalledWith(UsersSchemas.verifyEmailResponseDto, responseMock);
+      expect(validationServiceMock.validate).toHaveBeenCalledWith(
+        UsersSchemas.verifyEmailResponseDto,
+        postResponseMock,
+      );
     });
   });
 
   describe('requestPasswordReset$', () => {
     it('should trigger "post" method with correct params', () => {
-      service.requestPasswordReset$('email').subscribe();
+      service.requestPasswordReset$('email').pipe(take(1)).subscribe();
 
       expect(httpClientMock.post).toHaveBeenCalledWith(environment.endpoints.users.requestPasswordReset, {
         email: 'email',
@@ -72,17 +103,17 @@ describe('UsersApiService', () => {
     it('should emit received response', () => {
       const spy = jest.fn();
 
-      service.requestPasswordReset$('email').subscribe(spy);
+      service.requestPasswordReset$('email').pipe(take(1)).subscribe(spy);
 
-      expect(spy).toHaveBeenCalledWith(responseMock);
+      expect(spy).toHaveBeenCalledWith(postResponseMock);
     });
 
     it('should validate response', () => {
-      service.requestPasswordReset$('email').subscribe();
+      service.requestPasswordReset$('email').pipe(take(1)).subscribe();
 
       expect(validationServiceMock.validate).toHaveBeenCalledWith(
         UsersSchemas.requestPasswordResetResponseDto,
-        responseMock,
+        postResponseMock,
       );
     });
   });
@@ -91,7 +122,7 @@ describe('UsersApiService', () => {
     const bodyMock = { code: '1', new_password: '1' };
 
     it('should trigger "post" method with correct params', () => {
-      service.verifyPasswordReset$(bodyMock).subscribe();
+      service.verifyPasswordReset$(bodyMock).pipe(take(1)).subscribe();
 
       expect(httpClientMock.post).toHaveBeenCalledWith(environment.endpoints.users.verifyPasswordReset, bodyMock);
     });
@@ -99,17 +130,17 @@ describe('UsersApiService', () => {
     it('should emit received response', () => {
       const spy = jest.fn();
 
-      service.verifyPasswordReset$(bodyMock).subscribe(spy);
+      service.verifyPasswordReset$(bodyMock).pipe(take(1)).subscribe(spy);
 
-      expect(spy).toHaveBeenCalledWith(responseMock);
+      expect(spy).toHaveBeenCalledWith(postResponseMock);
     });
 
     it('should validate response', () => {
-      service.verifyPasswordReset$(bodyMock).subscribe();
+      service.verifyPasswordReset$(bodyMock).pipe(take(1)).subscribe();
 
       expect(validationServiceMock.validate).toHaveBeenCalledWith(
         UsersSchemas.verifyPasswordResetResponseDto,
-        responseMock,
+        postResponseMock,
       );
     });
   });

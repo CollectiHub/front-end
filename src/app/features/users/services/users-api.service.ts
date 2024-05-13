@@ -5,7 +5,7 @@ import { GenericApiResponse } from '@models/api.models';
 import { ValidationService } from '@services/validation/validation.service';
 import { Observable, map } from 'rxjs';
 
-import { VerifyPasswordResetBody } from '../users.models';
+import { UserDataDto, UserDataResponseDto, VerifyPasswordResetBody } from '../users.models';
 import { UsersSchemas } from '../users.schemas';
 
 @Injectable({
@@ -14,6 +14,13 @@ import { UsersSchemas } from '../users.schemas';
 export class UsersApiService {
   private readonly httpClient = inject(HttpClient);
   private readonly validationService = inject(ValidationService);
+
+  getUserData$(): Observable<UserDataDto> {
+    return this.httpClient.get<UserDataResponseDto>(environment.endpoints.users.getUserData).pipe(
+      map((res: UserDataResponseDto) => this.validationService.validate(UsersSchemas.userDataResponseSchema, res)),
+      map((res: UserDataResponseDto) => res.data),
+    );
+  }
 
   verifyEmail$(code: string): Observable<GenericApiResponse> {
     return this.httpClient
