@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { HeaderComponent } from '@components/header/header.component';
 import { PasswordComponent } from '@components/password/password.component';
-import { PublicHeaderComponent } from '@components/public-header/public-header.component';
 import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { RegistrationBody } from '@features/auth/auth.models';
@@ -19,7 +19,7 @@ import { RegistrationForm } from './registration.page.models';
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonicModule, ReactiveFormsModule, TranslateModule, RouterLink, PublicHeaderComponent, PasswordComponent],
+  imports: [IonicModule, ReactiveFormsModule, TranslateModule, RouterLink, HeaderComponent, PasswordComponent],
   templateUrl: './registration.page.html',
   styleUrls: ['./registration.page.scss'],
 })

@@ -18,6 +18,8 @@
 ion-item {
   --padding-end: 0;
   --padding-start: 0;
+  --inner-padding-end: 0;
+  --inner-padding-start: 0;
 }
 
  ion-button::part(native) {

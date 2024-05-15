@@ -7,13 +7,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SelectLanguageComponent } from '../select-language/select-language.component';
 
 @Component({
-  selector: 'app-public-header',
+  selector: 'app-header',
   standalone: true,
   imports: [IonicModule, TranslateModule, LetDirective, SelectLanguageComponent, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './public-header.component.html',
-  styleUrls: ['./public-header.component.scss'],
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
 })
-export class PublicHeaderComponent {
+export class HeaderComponent {
   title = input.required<string>();
 }

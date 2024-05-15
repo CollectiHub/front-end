@@ -39,5 +39,11 @@
   "verify_email.loading": "Verifying your email...",
   "verify_email.success": "Email successfuly verified",
   "verify_email.error": "Error received during email verification. Try again or contact <a href='mailto:{{supportEmail}}'>developers team</a>",
-  "verify_email.button": "Back to main page"
+  "verify_email.button": "Back to main page",
+  "profile.header": "Profile",
+  "profile.email_label": "Email",
+  "profile.username_label": "Username",
+  "profile.password_label": "Password",
+  "profile.change_password_label": "Change password",
+  "tab.profile": "Profile"
 }

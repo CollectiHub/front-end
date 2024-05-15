@@ -39,5 +39,11 @@
   "verify_email.loading": "Електронна пошта підтверджується...",
   "verify_email.success": "Електронну адресу успішно підтверджено",
   "verify_email.error": "Помилка під час підтвердження електронної пошти. Спробуйте ще раз або зв'яжіться з <a href='mailto:{{supportEmail}}'>командою розробників</a>",
-  "verify_email.button": "Повернутись на головну сторінку"
+  "verify_email.button": "Повернутись на головну сторінку",
+  "profile.header": "Профіль",
+  "profile.email_label": "Електронна пошта",
+  "profile.username_label": "Ім'я користувача",
+  "profile.password_label": "Пароль",
+  "profile.change_password_label": "Змінити пароль",
+  "tab.profile": "Профіль"
 }

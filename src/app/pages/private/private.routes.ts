@@ -19,6 +19,15 @@ export default [
           },
         ],
       },
+      {
+        path: 'profile',
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./profile/profile.page'),
+          },
+        ],
+      },
     ],
   },
 ] satisfies Routes;

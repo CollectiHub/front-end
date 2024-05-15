@@ -1,0 +1,36 @@
+<div class="ion-page">
+  <app-header title="profile.header" />
+
+  <ion-content>
+    <ion-list class="tw-p-4">
+      <ion-item> ID: <ion-text class="tw-font-bold"> 123123123 </ion-text> </ion-item>
+
+      <ion-item>
+        <ion-input
+          value="helloasdasdasd@asd.asd"
+          [disabled]="true"
+          labelPlacement="floating"
+          [label]="'profile.email_label' | translate">
+          <ion-icon slot="end" name="create-outline" aria-hidden="true" />
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          value="helloasdasdasd@asd.asd"
+          [disabled]="true"
+          labelPlacement="floating"
+          [label]="'profile.username_label' | translate">
+          <ion-icon slot="end" name="create-outline" aria-hidden="true" />
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <div class="tw-flex tw-justify-between tw-w-full">
+          <ion-text translate="profile.password_label" />&#58;
+          <ion-button translate="profile.change_password_label" />
+        </div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</div>
