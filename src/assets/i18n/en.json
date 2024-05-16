@@ -45,5 +45,7 @@
   "profile.username_label": "Username",
   "profile.password_label": "Password",
   "profile.edit_button": "Edit",
+  "profile.save_button": "Save",
+  "profile.cancel_button": "Cancel",
   "tab.profile": "Profile"
 }

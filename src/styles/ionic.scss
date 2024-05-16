@@ -22,13 +22,6 @@ ion-item {
   --inner-padding-start: 0;
 }
 
- ion-button::part(native) {
-  --padding-end: 0;
-  --padding-start: 0;
-  --padding-top: 0;
-  --padding-bottom: 0;
-}
-
 .app-toast::part(container) {
   text-align: center;
 }

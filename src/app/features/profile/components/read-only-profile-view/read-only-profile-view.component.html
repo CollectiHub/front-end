@@ -1,0 +1,30 @@
+<ion-list class="tw-p-4">
+  <ion-item class="tw-my-4">
+    <div>ID&#58; <ion-text class="tw-font-bold"> 123123123 </ion-text></div>
+  </ion-item>
+
+  <ion-item class="tw-my-4">
+    <div class="tw-flex tw-flex-col">
+      <div class="tw-text-xs tw-font-bold tw-mb-1">{{ 'profile.email_label' | translate }}</div>
+      <div class="tw-text-gray-400">helloasdasdasd.asdsad</div>
+    </div>
+  </ion-item>
+
+  <ion-item class="tw-my-4">
+    <div class="tw-flex tw-flex-col">
+      <div class="tw-text-xs tw-font-bold tw-mb-1">{{ 'profile.username_label' | translate }}</div>
+      <div class="tw-text-gray-400">realhokage</div>
+    </div>
+  </ion-item>
+
+  <ion-item class="tw-my-4">
+    <div class="tw-flex tw-flex-col">
+      <div class="tw-text-xs tw-font-bold tw-mb-1">{{ 'profile.password_label' | translate }}</div>
+      <div class="tw-text-gray-400">&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;</div>
+    </div>
+  </ion-item>
+
+  <div class="tw-flex tw-w-full tw-justify-center">
+    <ion-button color="primary" translate="profile.edit_button" (click)="startEditProfile.emit()" />
+  </div>
+</ion-list>

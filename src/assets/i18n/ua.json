@@ -45,5 +45,7 @@
   "profile.username_label": "Ім'я користувача",
   "profile.password_label": "Пароль",
   "profile.edit_button": "Редагувати",
+  "profile.save_button": "Зберегти",
+  "profile.cancel_button": "Відмінити",
   "tab.profile": "Профіль"
 }
