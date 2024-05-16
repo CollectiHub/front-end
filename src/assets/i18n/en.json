@@ -44,6 +44,6 @@
   "profile.email_label": "Email",
   "profile.username_label": "Username",
   "profile.password_label": "Password",
-  "profile.change_password_label": "Change password",
+  "profile.edit_button": "Edit",
   "tab.profile": "Profile"
 }

@@ -3,33 +3,39 @@
 
   <ion-content>
     <ion-list class="tw-p-4">
-      <ion-item> ID: <ion-text class="tw-font-bold"> 123123123 </ion-text> </ion-item>
-
       <ion-item>
-        <ion-input
-          value="helloasdasdasd@asd.asd"
-          [disabled]="true"
-          labelPlacement="floating"
-          [label]="'profile.email_label' | translate">
-          <ion-icon slot="end" name="create-outline" aria-hidden="true" />
-        </ion-input>
-      </ion-item>
+        <div class="tw-flex tw-w-full tw-justify-between tw-items-center">
+          <div>ID&#58; <ion-text class="tw-font-bold"> 123123123 </ion-text></div>
 
-      <ion-item>
-        <ion-input
-          value="helloasdasdasd@asd.asd"
-          [disabled]="true"
-          labelPlacement="floating"
-          [label]="'profile.username_label' | translate">
-          <ion-icon slot="end" name="create-outline" aria-hidden="true" />
-        </ion-input>
-      </ion-item>
-
-      <ion-item>
-        <div class="tw-flex tw-justify-between tw-w-full">
-          <ion-text translate="profile.password_label" />&#58;
-          <ion-button translate="profile.change_password_label" />
+          <ion-button fill="clear" class="tw-p-1" translate="profile.edit_button" />
         </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          value="helloasdasdasd@asd.asd"
+          class="!tw-opacity-100"
+          [disabled]="true"
+          labelPlacement="floating"
+          [label]="'profile.email_label' | translate" />
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          value="helloasdasdasd@asd.asd"
+          class="!tw-opacity-100"
+          [disabled]="true"
+          labelPlacement="floating"
+          [label]="'profile.username_label' | translate" />
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          value="&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;"
+          class="!tw-opacity-100"
+          [disabled]="true"
+          labelPlacement="floating"
+          [label]="'profile.password_label' | translate" />
       </ion-item>
     </ion-list>
   </ion-content>
