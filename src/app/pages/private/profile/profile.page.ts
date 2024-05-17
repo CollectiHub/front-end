@@ -14,5 +14,5 @@ import { IonicModule } from '@ionic/angular';
   imports: [HeaderComponent, IonicModule, CommonModule, ReadOnlyProfileViewComponent, EditProfileViewComponent],
 })
 export default class ProfilePage {
-  isEditMode = signal<boolean>(false);
+  isEditMode = signal<boolean>(true);
 }
