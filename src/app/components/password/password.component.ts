@@ -21,7 +21,6 @@ export class PasswordComponent {
   label = input.required<string>();
   helperText = input.required<string>();
   error = input.required<string>();
-
   isRevealed = signal(false);
 
   get control(): FormControl {

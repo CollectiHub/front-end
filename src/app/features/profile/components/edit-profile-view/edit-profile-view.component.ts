@@ -5,9 +5,8 @@ import { PasswordComponent } from '@components/password/password.component';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { AppValidators } from 'src/app/validators/app.validators';
 
-import { EditProfileForm } from './edit-profile-view.models';
+import { EditProfileViewValidators } from './edit-profile-view.validators';
 
 @Component({
   selector: 'app-edit-profile-view',
@@ -20,31 +19,49 @@ import { EditProfileForm } from './edit-profile-view.models';
 export default class EditProfileViewComponent {
   private readonly formBuilder = inject(NonNullableFormBuilder);
 
-  editProfileForm = this.formBuilder.group<EditProfileForm>(
+  formInitialValue = {
+    email: 'test@gg.gg',
+    username: 'realhokage',
+  };
+
+  editProfileForm = this.formBuilder.group(
     {
-      email: this.formBuilder.control('test@gg.gg', [
-        Validators.required,
-        Validators.pattern(RegularExpressions.email),
-      ]),
-      username: this.formBuilder.control('realhokage', [Validators.required]),
-      oldPassword: this.formBuilder.control('', [Validators.required]),
-      password: this.formBuilder.control('', [Validators.required, Validators.pattern(RegularExpressions.password)]),
-      confirmPassword: this.formBuilder.control('', [Validators.required]),
+      email: this.formBuilder.control('', [Validators.required, Validators.pattern(RegularExpressions.email)]),
+      username: this.formBuilder.control('', [Validators.required]),
+      // oldPassword: this.formBuilder.control('', [Validators.required]),
+      // password: this.formBuilder.control('', [Validators.required, Validators.pattern(RegularExpressions.password)]),
+      // confirmPassword: this.formBuilder.control('', [Validators.required]),
     },
-    { validators: AppValidators.passwordsMatch },
+    {
+      validators: [
+        EditProfileViewValidators.requiredControslValueChanged(['email', 'username'], this.formInitialValue),
+      ],
+    },
   );
-
-  get passwordControl(): FormControl<string | undefined> {
-    return <FormControl<string | undefined>>this.editProfileForm.get('password');
-  }
-
-  get confirmPasswordControl(): FormControl<string | undefined> {
-    return <FormControl<string | undefined>>this.editProfileForm.get('confirmPassword');
-  }
 
   get emailControl(): FormControl<string | undefined> {
     return <FormControl<string | undefined>>this.editProfileForm.get('email');
   }
+
+  get usernameControl(): FormControl<string | undefined> {
+    return <FormControl<string | undefined>>this.editProfileForm.get('username');
+  }
+
+  constructor() {
+    this.editProfileForm.setValue(this.formInitialValue);
+  }
+
+  // get oldPasswordControl(): FormControl<string | undefined> {
+  //   return <FormControl<string | undefined>>this.editProfileForm.get('password');
+  // }
+
+  // get passwordControl(): FormControl<string | undefined> {
+  //   return <FormControl<string | undefined>>this.editProfileForm.get('password');
+  // }
+
+  // get confirmPasswordControl(): FormControl<string | undefined> {
+  //   return <FormControl<string | undefined>>this.editProfileForm.get('confirmPassword');
+  // }
 
   getEmailError(errors: ValidationErrors | null): string {
     return errors?.['required'] ? 'validation.required' : 'validation.invalid_email';
