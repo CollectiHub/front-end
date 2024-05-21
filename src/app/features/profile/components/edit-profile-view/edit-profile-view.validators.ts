@@ -1,7 +1,7 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export namespace EditProfileViewValidators {
-  export const requiredControslValueChanged =
+  export const someControlValueChanged =
     (requiredControls: string[], initialValue: Record<string, string>): ValidatorFn =>
     (form: AbstractControl): ValidationErrors | null => {
       const isSomeControlChanged = requiredControls.some((controlName: string) => {

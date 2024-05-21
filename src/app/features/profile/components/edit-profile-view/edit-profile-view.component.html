@@ -24,32 +24,32 @@
         [helperText]="'edit_profile.username_helper' | translate" />
     </ion-item>
 
-    <!-- <ion-item lines="none" class="tw-my-4">
+    <ion-item lines="none" class="tw-my-4">
       <app-password
         formControlName="oldPassword"
         [label]="'edit_profile.old_password_label' | translate"
         [helperText]="'edit_profile.old_password_helper' | translate"
         [error]="'validation.required' | translate" />
-    </ion-item> -->
+    </ion-item>
 
-    <!-- <ion-item lines="none" class="tw-my-4">
+    <ion-item lines="none" class="tw-my-4">
       <app-password
         formControlName="password"
-        [disabled]="true"
         [label]="'edit_profile.password_label' | translate"
         [helperText]="'edit_profile.password_pattern_helper' | translate"
         [error]="getPasswordError(passwordControl.errors) | translate" />
-    </ion-item> -->
+    </ion-item>
 
-    <!-- <ion-item lines="none" class="tw-my-4">
+    <ion-item lines="none" class="tw-my-4">
       <app-password
         formControlName="confirmPassword"
         [label]="'edit_profile.confirm_password_label' | translate"
         [helperText]="'edit_profile.confirm_password_helper' | translate"
         [error]="getConfirmPasswordError(editProfileForm.errors) | translate" />
-    </ion-item> -->
+    </ion-item>
   </ion-list>
 </form>
+
 <div class="tw-w-full tw-flex tw-justify-center">
   <ion-button
     color="success"
