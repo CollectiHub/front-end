@@ -32,7 +32,7 @@
         [error]="'validation.required' | translate" />
     </ion-item>
 
-    <ion-item lines="none" class="tw-my-4">
+    <ion-item lines="none" class="tw-my-4"  [class.tw-animate-bounce]="animatePasswordControl()">
       <app-password
         formControlName="password"
         [label]="'edit_profile.password_label' | translate"
@@ -40,7 +40,7 @@
         [error]="getPasswordError(passwordControl.errors) | translate" />
     </ion-item>
 
-    <ion-item lines="none" class="tw-my-4">
+    <ion-item lines="none" class="tw-my-4"  [class.tw-animate-bounce]="animatePasswordControl()">
       <app-password
         formControlName="confirmPassword"
         [label]="'edit_profile.confirm_password_label' | translate"

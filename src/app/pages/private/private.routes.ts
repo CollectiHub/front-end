@@ -24,7 +24,7 @@ export default [
         children: [
           {
             path: '',
-            loadComponent: () => import('./profile/profile.page'),
+            loadChildren: () => import('./profile/profile.routes'),
           },
         ],
       },

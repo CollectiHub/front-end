@@ -2,10 +2,29 @@
   <app-header title="profile.header" />
 
   <ion-content>
-    @if (isEditMode()) {
-    <app-edit-profile-view />
-    } @else {
-    <app-read-only-profile-view (startEditProfile)="isEditMode.set(true)" />
-    }
+    <div class="tw-p-4">
+      <ion-list>
+        <ion-item class="tw-my-4 tw-text-gray-400">
+          ID&#58; <ion-text class="tw-font-bold"> 123123123 </ion-text>
+          <ion-icon color="primary" name="create-outline" slot="end" routerLink="/profile/edit-user-data" />
+        </ion-item>
+
+        <ion-item class="tw-my-4">
+          <div class="tw-flex tw-flex-col">
+            <div class="tw-text-xs tw-font-bold tw-mb-1">{{ 'profile.email_label' | translate }}</div>
+            <div class="tw-text-gray-400">helloasdasdasd.asdsad</div>
+          </div>
+        </ion-item>
+
+        <ion-item class="tw-my-4">
+          <div class="tw-flex tw-flex-col">
+            <div class="tw-text-xs tw-font-bold tw-mb-1">{{ 'profile.username_label' | translate }}</div>
+            <div class="tw-text-gray-400">realhokage</div>
+          </div>
+        </ion-item>
+      </ion-list>
+
+      <ion-button color="primary" translate="profile.change_password_button" />
+    </div>
   </ion-content>
 </div>

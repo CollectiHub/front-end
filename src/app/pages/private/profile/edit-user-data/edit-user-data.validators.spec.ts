@@ -1,8 +1,8 @@
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { EditProfileViewValidators } from './edit-profile-view.validators';
+import { EditUserDataValidators } from './edit-user-data.validators';
 
-describe('EditProfileViewValidators', () => {
+describe('EditUserDataValidators', () => {
   describe('someControlValueChanged', () => {
     describe('valid result', () => {
       it('should return null, if some control has changed value', () => {
@@ -11,7 +11,7 @@ describe('EditProfileViewValidators', () => {
           test2: new FormControl('234'),
         });
 
-        const validatorFn = EditProfileViewValidators.someControlValueChanged(['test', 'test2'], {
+        const validatorFn = EditUserDataValidators.someControlValueChanged(['test', 'test2'], {
           test: '123',
           test2: '2345677',
         });
@@ -26,7 +26,7 @@ describe('EditProfileViewValidators', () => {
           test2: new FormControl('234'),
         });
 
-        const validatorFn = EditProfileViewValidators.someControlValueChanged(['test1'], {
+        const validatorFn = EditUserDataValidators.someControlValueChanged(['test1'], {
           test: '123',
           test2: '234',
         });
@@ -43,7 +43,7 @@ describe('EditProfileViewValidators', () => {
           test2: new FormControl('234'),
         });
 
-        const validatorFn = EditProfileViewValidators.someControlValueChanged(['test', 'test2'], {
+        const validatorFn = EditUserDataValidators.someControlValueChanged(['test', 'test2'], {
           test: '123',
           test2: '234',
         });

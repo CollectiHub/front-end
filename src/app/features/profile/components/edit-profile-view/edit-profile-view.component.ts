@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { PasswordComponent } from '@components/password/password.component';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { map } from 'rxjs';
+import { filter, map, pairwise, startWith } from 'rxjs';
 import { AppValidators } from 'src/app/validators/app.validators';
 
-import { EditProfileViewValidators } from './edit-profile-view.validators';
+import { EditUserDataValidators } from '../../../../pages/private/profile/edit-user-data/edit-user-data.validators';
 
 @Component({
   selector: 'app-edit-profile-view',
@@ -32,6 +32,8 @@ export default class EditProfileViewComponent implements OnInit {
     oldPassword: '',
   };
 
+  animatePasswordControl = signal<boolean>(false);
+
   editProfileForm = this.formBuilder.group(
     {
       email: this.formBuilder.control('', [Validators.required, Validators.pattern(RegularExpressions.email)]),
@@ -42,7 +44,7 @@ export default class EditProfileViewComponent implements OnInit {
     },
     {
       validators: [
-        EditProfileViewValidators.someControlValueChanged(['email', 'username', 'oldPassword'], this.formInitialValue),
+        EditUserDataValidators.someControlValueChanged(['email', 'username', 'oldPassword'], this.formInitialValue),
       ],
     },
   );
@@ -104,6 +106,21 @@ export default class EditProfileViewComponent implements OnInit {
           this.confirmPasswordControl.updateValueAndValidity({ onlySelf: true });
           this.editProfileForm.updateValueAndValidity();
         }
+      });
+
+    this.oldPasswordControl.valueChanges
+      .pipe(
+        startWith(this.oldPasswordControl.value),
+        pairwise(),
+        filter(([prevValue, currentValue]: (string | undefined)[]) => !prevValue && !!currentValue),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => {
+        this.animatePasswordControl.set(true);
+
+        setTimeout(() => {
+          this.animatePasswordControl.set(false);
+        }, 1500);
       });
   }
 

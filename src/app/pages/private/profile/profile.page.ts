@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { HeaderComponent } from '@components/header/header.component';
-import EditProfileViewComponent from '@features/profile/components/edit-profile-view/edit-profile-view.component';
-import ReadOnlyProfileViewComponent from '@features/profile/components/read-only-profile-view/read-only-profile-view.component';
 import { IonicModule } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
+import { addIcons } from 'ionicons';
+import { createOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-profile',
@@ -11,8 +13,10 @@ import { IonicModule } from '@ionic/angular';
   styleUrls: ['./profile.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [HeaderComponent, IonicModule, CommonModule, ReadOnlyProfileViewComponent, EditProfileViewComponent],
+  imports: [HeaderComponent, IonicModule, CommonModule, TranslateModule, RouterLink],
 })
 export default class ProfilePage {
-  isEditMode = signal<boolean>(true);
+  constructor() {
+    addIcons({ createOutline });
+  }
 }
