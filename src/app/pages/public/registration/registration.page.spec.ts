@@ -110,6 +110,12 @@ describe('RegistrationComponent', () => {
 
       expect(result).toBe('validation.passwords_not_match');
     });
+
+    it('should return "required" error is not "passwordNotMatch', () => {
+      const result = component.getConfirmPasswordError({ required: true });
+
+      expect(result).toBe('validation.required');
+    });
   });
 
   describe('onRegistrationFormSubmit', () => {

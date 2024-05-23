@@ -9,7 +9,7 @@ import { closeOutline } from 'ionicons/icons';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  standalone: true, 
+  standalone: true,
   imports: [IonApp, RouterOutlet, HeaderComponent],
 })
 export class AppComponent {

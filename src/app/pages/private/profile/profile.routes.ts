@@ -9,4 +9,8 @@ export default [
     path: 'edit-user-data',
     loadComponent: () => import('./edit-user-data/edit-user-data.page'),
   },
+  {
+    path: 'change-password',
+    loadComponent: () => import('./change-password/change-password.page'),
+  },
 ] satisfies Routes;

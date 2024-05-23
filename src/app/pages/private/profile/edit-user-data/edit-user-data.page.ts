@@ -6,6 +6,7 @@ import { RegularExpressions } from '@constants/regular-expressions';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { EditUserDataForm } from './edit-user-data.models';
 import { EditUserDataValidators } from './edit-user-data.validators';
 
 @Component({
@@ -25,7 +26,7 @@ export default class EditUserDataPage {
     username: 'realhokage',
   };
 
-  editUserDataForm = this.formBuilder.group(
+  editUserDataForm = this.formBuilder.group<EditUserDataForm>(
     {
       email: this.formBuilder.control(this.formInitialValue.email, [
         Validators.required,
@@ -47,6 +48,6 @@ export default class EditUserDataPage {
   }
 
   goToProfile(): void {
-    this.navController.navigateBack(['/profile']);
+    this.navController.navigateBack('/profile');
   }
 }
