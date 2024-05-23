@@ -7,7 +7,7 @@ import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { LoginBody } from '@features/auth/auth.models';
 import { AuthApiService } from '@features/auth/services/auth-api.service';
-import { IonicModule } from '@ionic/angular';
+import { IonButton, IonContent, IonInput, IonItem, IonList, IonText } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 import { StorageService } from '@services/storage/storage.service';
 import { switchMap, take } from 'rxjs';
@@ -16,7 +16,19 @@ import { LoginForm } from './login.page.models';
 
 @Component({
   standalone: true,
-  imports: [IonicModule, ReactiveFormsModule, TranslateModule, RouterLink, HeaderComponent, PasswordComponent],
+  imports: [
+    IonContent,
+    IonList,
+    IonItem,
+    IonInput,
+    IonButton,
+    IonText,
+    ReactiveFormsModule,
+    TranslateModule,
+    RouterLink,
+    HeaderComponent,
+    PasswordComponent,
+  ],
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })

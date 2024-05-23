@@ -7,7 +7,7 @@ import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { RegistrationBody } from '@features/auth/auth.models';
 import { AuthApiService } from '@features/auth/services/auth-api.service';
-import { IonicModule } from '@ionic/angular';
+import { IonButton, IonContent, IonInput, IonItem, IonList, IonText } from '@ionic/angular/standalone';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LoaderService } from '@services/loader/loader.service';
 import { StorageService } from '@services/storage/storage.service';
@@ -19,7 +19,19 @@ import { RegistrationForm } from './registration.page.models';
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonicModule, ReactiveFormsModule, TranslateModule, RouterLink, HeaderComponent, PasswordComponent],
+  imports: [
+    IonContent,
+    IonList,
+    IonItem,
+    IonInput,
+    IonButton,
+    IonText,
+    ReactiveFormsModule,
+    TranslateModule,
+    RouterLink,
+    HeaderComponent,
+    PasswordComponent,
+  ],
   templateUrl: './registration.page.html',
   styleUrls: ['./registration.page.scss'],
 })

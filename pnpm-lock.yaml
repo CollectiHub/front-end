@@ -63,8 +63,8 @@ dependencies:
     specifier: 5.0.7
     version: 5.0.7(@capacitor/core@5.7.3)
   '@ionic/angular':
-    specifier: ^7.5.0
-    version: 7.8.0(@angular/core@17.3.0)(@angular/forms@17.3.0)(@angular/router@17.3.0)(rxjs@7.8.1)(zone.js@0.14.4)
+    specifier: ^8.2.0
+    version: 8.2.0(@angular/core@17.3.0)(@angular/forms@17.3.0)(@angular/router@17.3.0)(rxjs@7.8.1)(zone.js@0.14.4)
   '@ionic/storage-angular':
     specifier: ^4.0.0
     version: 4.0.0(@angular/core@17.3.0)(rxjs@7.8.1)
@@ -90,8 +90,8 @@ dependencies:
     specifier: ^7.2.1
     version: 7.2.1
   ionicons:
-    specifier: ^7.3.0
-    version: 7.3.0
+    specifier: ^7.4.0
+    version: 7.4.0
   jest-mock-extended:
     specifier: ^3.0.5
     version: 3.0.5(jest@29.7.0)(typescript@5.2.2)
@@ -146,8 +146,8 @@ devDependencies:
     specifier: 5.7.3
     version: 5.7.3
   '@ionic/angular-toolkit':
-    specifier: ^9.0.0
-    version: 9.0.0
+    specifier: ^11.0.1
+    version: 11.0.1
   '@ngrx/eslint-plugin':
     specifier: ^17.1.1
     version: 17.1.1(eslint@7.32.0)(typescript@5.2.2)
@@ -423,22 +423,6 @@ packages:
       - chokidar
     dev: true
 
-  /@angular-devkit/core@15.2.10:
-    resolution: {integrity: sha512-bFPm7wjvfBds9km2rCJxUhzkqe4h3h/199yJtzC1bNvwRr2LMHvtyoQAzftda+gs7Ulqac5wzUEZX/cVV3WrsA==}
-    engines: {node: ^14.20.0 || ^16.13.0 || >=18.10.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
-    peerDependencies:
-      chokidar: ^3.5.2
-    peerDependenciesMeta:
-      chokidar:
-        optional: true
-    dependencies:
-      ajv: 8.12.0
-      ajv-formats: 2.1.1(ajv@8.12.0)
-      jsonc-parser: 3.2.0
-      rxjs: 6.6.7
-      source-map: 0.7.4
-    dev: true
-
   /@angular-devkit/core@17.3.0:
     resolution: {integrity: sha512-ldErhMYq8rcFOhWQ0syQdLy6IYb/LL0erigj7gCMOf59oJgM7B13o/ZTOCvyJttUZ9IP0HB98Gi3epEuJ30VLg==}
     engines: {node: ^18.13.0 || >=20.9.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
@@ -454,19 +438,6 @@ packages:
       picomatch: 4.0.1
       rxjs: 7.8.1
       source-map: 0.7.4
-    dev: true
-
-  /@angular-devkit/schematics@15.2.10:
-    resolution: {integrity: sha512-EeoDs4oKFpLZNa21G/8dqBdclEc4U2piI9EeXCVTaN6z5DYXIZ0G1WtCXU8nhD+GckS47rmfZ4/3lMaXAvED+g==}
-    engines: {node: ^14.20.0 || ^16.13.0 || >=18.10.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
-    dependencies:
-      '@angular-devkit/core': 15.2.10
-      jsonc-parser: 3.2.0
-      magic-string: 0.29.0
-      ora: 5.4.1
-      rxjs: 6.6.7
-    transitivePeerDependencies:
-      - chokidar
     dev: true
 
   /@angular-devkit/schematics@17.3.0:
@@ -2565,30 +2536,30 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@ionic/angular-toolkit@9.0.0:
-    resolution: {integrity: sha512-Rh8z+XGQiyEzJ2nMKTAa3nmejgabxY6f/2q+9Jm/B/VnXjpyeSe8bgP008c0EZYBvrKs7MjP1ZrNi+4FM0W3fg==}
+  /@ionic/angular-toolkit@11.0.1:
+    resolution: {integrity: sha512-dxx2RDbxDYM2nWRPIirKMJySHtqJ1u02T25PGbNb99W2Wlcmu1cza3+2/PQ8ga18yMz/dQqaGyEmPDf3ZSVO0w==}
     dependencies:
-      '@angular-devkit/core': 15.2.10
-      '@angular-devkit/schematics': 15.2.10
-      '@schematics/angular': 15.2.10
+      '@angular-devkit/core': 17.3.0
+      '@angular-devkit/schematics': 17.3.0
+      '@schematics/angular': 17.3.0
     transitivePeerDependencies:
       - chokidar
     dev: true
 
-  /@ionic/angular@7.8.0(@angular/core@17.3.0)(@angular/forms@17.3.0)(@angular/router@17.3.0)(rxjs@7.8.1)(zone.js@0.14.4):
-    resolution: {integrity: sha512-O+CpJ92V9CZLa9FqkTkXirPvepxx+ocSlWH6Oqsp4IEPMD2o/WJXKNINW8gX+cBQfNIPLJtle1GH/LY68bUtMw==}
+  /@ionic/angular@8.2.0(@angular/core@17.3.0)(@angular/forms@17.3.0)(@angular/router@17.3.0)(rxjs@7.8.1)(zone.js@0.14.4):
+    resolution: {integrity: sha512-47y/J3yqLwzHqe+50QTTIr+9AYbjpu9IR+p33bRbxJhUEaUCl5VKzLwjL94bVi+eTVwr786eu2kK8TRTaPyEBw==}
     peerDependencies:
-      '@angular/core': '>=14.0.0'
-      '@angular/forms': '>=14.0.0'
-      '@angular/router': '>=14.0.0'
+      '@angular/core': '>=16.0.0'
+      '@angular/forms': '>=16.0.0'
+      '@angular/router': '>=16.0.0'
       rxjs: '>=7.5.0'
-      zone.js: '>=0.11.0'
+      zone.js: '>=0.13.0'
     dependencies:
       '@angular/core': 17.3.0(rxjs@7.8.1)(zone.js@0.14.4)
       '@angular/forms': 17.3.0(@angular/common@17.3.0)(@angular/core@17.3.0)(@angular/platform-browser@17.3.0)(rxjs@7.8.1)
       '@angular/router': 17.3.0(@angular/common@17.3.0)(@angular/core@17.3.0)(@angular/platform-browser@17.3.0)(rxjs@7.8.1)
-      '@ionic/core': 7.8.0
-      ionicons: 7.3.0
+      '@ionic/core': 8.2.0
+      ionicons: 7.4.0
       jsonc-parser: 3.2.1
       rxjs: 7.8.1
       tslib: 2.6.2
@@ -2606,11 +2577,11 @@ packages:
       - supports-color
     dev: true
 
-  /@ionic/core@7.8.0:
-    resolution: {integrity: sha512-rogQw6lWH367E5XQnovbAIB4pT1YmuTz7OvyQm0cp4pO2/64faKyTGteSxc99stG01CoARW+pjJN1K09hfKFPw==}
+  /@ionic/core@8.2.0:
+    resolution: {integrity: sha512-+TjHDFluiGYVNiQZOLsETCE+om5FKYbaOKkfmCQYvRGxlg4WtOwaX6YCrpP4MMuerGt36PA196oh/JTcVe9ByA==}
     dependencies:
-      '@stencil/core': 4.12.6
-      ionicons: 7.3.0
+      '@stencil/core': 4.18.2
+      ionicons: 7.4.0
       tslib: 2.6.2
     dev: false
 
@@ -3437,17 +3408,6 @@ packages:
     dev: true
     optional: true
 
-  /@schematics/angular@15.2.10:
-    resolution: {integrity: sha512-eLdyP+T1TueNQ8FCP7sP+tt8z+YQ1BINsJsyAyoJT/XZjcCV7LUxgDIU94/kuvIotmJ2xTuFWHFPfAY+CN3duQ==}
-    engines: {node: ^14.20.0 || ^16.13.0 || >=18.10.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
-    dependencies:
-      '@angular-devkit/core': 15.2.10
-      '@angular-devkit/schematics': 15.2.10
-      jsonc-parser: 3.2.0
-    transitivePeerDependencies:
-      - chokidar
-    dev: true
-
   /@schematics/angular@17.3.0:
     resolution: {integrity: sha512-QqugP4Uyxk966VaUb/Jk5LQ5rE1BV4v2TmniPZtN3GZ6MDkpvPnFvlysvoq6y+7uiRhCLiT1DsBIwc9vXz3vWA==}
     engines: {node: ^18.13.0 || >=20.9.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
@@ -3520,8 +3480,8 @@ packages:
     dependencies:
       '@sinonjs/commons': 3.0.1
 
-  /@stencil/core@4.12.6:
-    resolution: {integrity: sha512-15JO2TdaxGVKNdLZb/2TtDa+juj3XGD/V0y/disgdzYYSnajgSh06nwODfdHz9eTUh1Hisz+KIo857I1rCZrfg==}
+  /@stencil/core@4.18.2:
+    resolution: {integrity: sha512-GLYbzv3Bq/oUbQk3CH09zkjISANccyE5/A1C7+1JZhdnWUx1MRuWQR9/2uzSPR7kF0sdppwzXvArl7VqYCxLOQ==}
     engines: {node: '>=16.0.0', npm: '>=7.10.0'}
     hasBin: true
     dev: false
@@ -6924,10 +6884,10 @@ packages:
       side-channel: 1.0.6
     dev: true
 
-  /ionicons@7.3.0:
-    resolution: {integrity: sha512-l9quySYi+o4T6mFzhKRyU/1nKc2Zs0zxs7jWcq9iVRhRPQondV11jYqLTed0lVVXHfGrBCfnedKl9D6BCnA1UQ==}
+  /ionicons@7.4.0:
+    resolution: {integrity: sha512-ZK94MMqgzMCPPMhmk8Ouu6goyVHFIlw/ACP6oe3FrikcI0N7CX0xcwVaEbUc0G/v3W0shI93vo+9ve/KpvcNhQ==}
     dependencies:
-      '@stencil/core': 4.12.6
+      '@stencil/core': 4.18.2
     dev: false
 
   /ip-address@9.0.5:
@@ -8010,13 +7970,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
-
-  /magic-string@0.29.0:
-    resolution: {integrity: sha512-WcfidHrDjMY+eLjlU+8OvwREqHwpgCeKVBUpQ3OhYYuvfaYCUgcbuBzappNzZvg/v8onU3oQj+BYpkOJe9Iw4Q==}
-    engines: {node: '>=12'}
-    dependencies:
-      '@jridgewell/sourcemap-codec': 1.4.15
-    dev: true
 
   /magic-string@0.30.8:
     resolution: {integrity: sha512-ISQTe55T2ao7XtlAStud6qwYPZjE4GK1S/BeVPus4jrq6JuOnQ00YKQC581RWhR122W7msZV263KzVeLoqidyQ==}
@@ -9421,13 +9374,6 @@ packages:
       prompts: 2.4.2
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /rxjs@6.6.7:
-    resolution: {integrity: sha512-hTdwr+7yYNIT5n4AMYp85KA6yw2Va0FLa3Rguvbpa4W3I5xynaBZo41cM3XM+4Q6fRMj3sBYIR1VAmZMXYJvRQ==}
-    engines: {npm: '>=2.0.0'}
-    dependencies:
-      tslib: 1.14.1
     dev: true
 
   /rxjs@7.8.1:

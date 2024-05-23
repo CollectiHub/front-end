@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonIcon, IonTabBar, IonTabButton, IonTabs } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { library, personCircleOutline, radio, search } from 'ionicons/icons';
@@ -10,7 +10,7 @@ import { library, personCircleOutline, radio, search } from 'ionicons/icons';
   styleUrls: ['./private.page.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonicModule, TranslateModule],
+  imports: [IonTabs, IonTabBar, IonTabButton, IonIcon, TranslateModule],
 })
 export default class PrivatePage {
   constructor() {

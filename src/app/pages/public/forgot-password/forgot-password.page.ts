@@ -5,8 +5,7 @@ import { HeaderComponent } from '@components/header/header.component';
 import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { UsersApiService } from '@features/users/services/users-api.service';
-import { IonicModule } from '@ionic/angular';
-import { ToastOptions } from '@ionic/angular';
+import { IonButton, IonContent, IonInput, IonItem, IonList, ToastOptions } from '@ionic/angular/standalone';
 import { OverlayEventDetail } from '@models/ionic.models';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastService } from '@services/toast/toast.service';
@@ -14,7 +13,17 @@ import { Observable, switchMap, take } from 'rxjs';
 
 @Component({
   standalone: true,
-  imports: [IonicModule, ReactiveFormsModule, TranslateModule, RouterLink, HeaderComponent],
+  imports: [
+    IonContent,
+    IonList,
+    IonItem,
+    IonInput,
+    IonButton,
+    ReactiveFormsModule,
+    TranslateModule,
+    RouterLink,
+    HeaderComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './forgot-password.page.html',
   styleUrls: ['./forgot-password.page.scss'],

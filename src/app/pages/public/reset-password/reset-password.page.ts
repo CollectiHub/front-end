@@ -6,8 +6,7 @@ import { PasswordComponent } from '@components/password/password.component';
 import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { UsersApiService } from '@features/users/services/users-api.service';
-import { IonicModule } from '@ionic/angular';
-import { ToastOptions } from '@ionic/angular';
+import { IonButton, IonContent, IonItem, IonList, IonText, ToastOptions } from '@ionic/angular/standalone';
 import { OverlayEventDetail } from '@models/ionic.models';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastService } from '@services/toast/toast.service';
@@ -21,7 +20,18 @@ import { ResetPasswordForm } from './reset-password.models';
   templateUrl: './reset-password.page.html',
   styleUrls: ['./reset-password.page.scss'],
   standalone: true,
-  imports: [IonicModule, ReactiveFormsModule, RouterLink, TranslateModule, HeaderComponent, PasswordComponent],
+  imports: [
+    IonContent,
+    IonText,
+    IonList,
+    IonItem,
+    IonButton,
+    ReactiveFormsModule,
+    RouterLink,
+    TranslateModule,
+    HeaderComponent,
+    PasswordComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ResetPasswordPage {

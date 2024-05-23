@@ -1,5 +1,5 @@
 import { fakeAsync, tick } from '@angular/core/testing';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular/standalone';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { of, take } from 'rxjs';
 

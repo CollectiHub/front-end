@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular/standalone';
 import { switchWith } from '@tools/rxjs/switch-with.operator';
 import { Observable, exhaustMap, finalize, from } from 'rxjs';
 

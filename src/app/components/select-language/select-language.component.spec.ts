@@ -1,6 +1,6 @@
 import { fakeAsync, tick } from '@angular/core/testing';
 import * as PreferencesPackage from '@capacitor/preferences';
-import { SelectCustomEvent } from '@ionic/angular';
+import { SelectCustomEvent } from '@ionic/angular/standalone';
 import { TranslateService } from '@ngx-translate/core';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { MockProxy, mock } from 'jest-mock-extended';

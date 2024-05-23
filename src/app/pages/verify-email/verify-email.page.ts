@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UsersApiService } from '@features/users/services/users-api.service';
-import { IonicModule } from '@ionic/angular';
+import { IonButton, IonContent, IonIcon, IonText } from '@ionic/angular/standalone';
 import { LetDirective } from '@ngrx/component';
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
@@ -15,7 +15,7 @@ import { take } from 'rxjs';
   styleUrls: ['./verify-email.page.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonicModule, CommonModule, LetDirective, TranslateModule, RouterLink],
+  imports: [IonIcon, IonText, IonButton, IonContent, CommonModule, LetDirective, TranslateModule, RouterLink],
 })
 export default class VerifyEmailPage implements OnInit {
   private readonly usersApiService = inject(UsersApiService);

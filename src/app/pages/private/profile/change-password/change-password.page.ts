@@ -3,7 +3,7 @@ import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErr
 import { HeaderComponent } from '@components/header/header.component';
 import { PasswordComponent } from '@components/password/password.component';
 import { RegularExpressions } from '@constants/regular-expressions';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonButton, IonContent, IonItem, IonList, NavController } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppValidators } from 'src/app/validators/app.validators';
 
@@ -14,7 +14,16 @@ import { ChangePasswordForm } from './change-password.models';
   templateUrl: './change-password.page.html',
   styleUrls: ['./change-password.page.scss'],
   standalone: true,
-  imports: [IonicModule, PasswordComponent, ReactiveFormsModule, TranslateModule, HeaderComponent],
+  imports: [
+    IonContent,
+    IonList,
+    IonItem,
+    IonButton,
+    PasswordComponent,
+    ReactiveFormsModule,
+    TranslateModule,
+    HeaderComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ChangePasswordPage {

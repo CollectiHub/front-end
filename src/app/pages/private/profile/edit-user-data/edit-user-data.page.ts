@@ -3,7 +3,7 @@ import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErr
 import { RouterLink } from '@angular/router';
 import { HeaderComponent } from '@components/header/header.component';
 import { RegularExpressions } from '@constants/regular-expressions';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonButton, IonContent, IonInput, IonItem, IonList, NavController } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { EditUserDataForm } from './edit-user-data.models';
@@ -14,7 +14,17 @@ import { EditUserDataValidators } from './edit-user-data.validators';
   templateUrl: './edit-user-data.page.html',
   styleUrls: ['./edit-user-data.page.scss'],
   standalone: true,
-  imports: [IonicModule, TranslateModule, ReactiveFormsModule, RouterLink, HeaderComponent],
+  imports: [
+    IonContent,
+    IonList,
+    IonItem,
+    IonButton,
+    IonInput,
+    TranslateModule,
+    ReactiveFormsModule,
+    RouterLink,
+    HeaderComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class EditUserDataPage {

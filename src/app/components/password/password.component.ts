@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
 import { FormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonInput, IonIcon } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { eyeOffOutline, eyeOutline } from 'ionicons/icons';
@@ -10,7 +10,7 @@ import { NoopCustomFormControlDirective } from 'src/app/directives/noop-custom-f
   selector: 'app-password',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonicModule, TranslateModule, ReactiveFormsModule],
+  imports: [IonInput, IonIcon, TranslateModule, ReactiveFormsModule],
   templateUrl: './password.component.html',
   styleUrls: ['./password.component.scss'],
   hostDirectives: [NoopCustomFormControlDirective],

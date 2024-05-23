@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AppConstants } from '@constants/app.constants';
-import { ToastOptions } from '@ionic/angular';
+import { ToastOptions } from '@ionic/angular/standalone';
 import { ToastService } from '@services/toast/toast.service';
 import { catchError, switchMap, throwError } from 'rxjs';
 
