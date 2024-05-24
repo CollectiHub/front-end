@@ -14,6 +14,7 @@ export const environment = {
       verifyEmail: `${apiUrl}users/verify-email`,
       requestPasswordReset: `${apiUrl}users/request-password-reset`,
       verifyPasswordReset: `${apiUrl}users/verify-password-reset`,
+      resendVerificationEmail: `${apiUrl}users/resend-veririfcation-email`,
     },
   },
 };

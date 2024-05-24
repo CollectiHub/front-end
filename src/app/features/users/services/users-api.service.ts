@@ -49,4 +49,14 @@ export class UsersApiService {
         ),
       );
   }
+
+  resendVerificationEmail$(): Observable<GenericApiResponse> {
+    return this.httpClient
+      .post<GenericApiResponse>(environment.endpoints.users.resendVerificationEmail, {})
+      .pipe(
+        map((res: GenericApiResponse) =>
+          this.validationService.validate(UsersSchemas.resendVerificationEmailResponseDto, res),
+        ),
+      );
+  }
 }

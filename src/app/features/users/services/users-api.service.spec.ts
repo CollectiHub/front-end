@@ -144,4 +144,29 @@ describe('UsersApiService', () => {
       );
     });
   });
+
+  describe('resendVerificationEmail$', () => {
+    it('should trigger "post" method with correct params', () => {
+      service.resendVerificationEmail$().pipe(take(1)).subscribe();
+
+      expect(httpClientMock.post).toHaveBeenCalledWith(environment.endpoints.users.resendVerificationEmail, {});
+    });
+
+    it('should emit received response', () => {
+      const spy = jest.fn();
+
+      service.resendVerificationEmail$().pipe(take(1)).subscribe(spy);
+
+      expect(spy).toHaveBeenCalledWith(postResponseMock);
+    });
+
+    it('should validate response', () => {
+      service.resendVerificationEmail$().pipe(take(1)).subscribe();
+
+      expect(validationServiceMock.validate).toHaveBeenCalledWith(
+        UsersSchemas.resendVerificationEmailResponseDto,
+        postResponseMock,
+      );
+    });
+  });
 });

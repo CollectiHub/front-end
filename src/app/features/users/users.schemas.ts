@@ -20,6 +20,11 @@ export namespace UsersSchemas {
     ...ApiSchemas.genericApiResponse,
   };
 
+  export const resendVerificationEmailResponseDto: JSONSchemaType<GenericApiResponse> = {
+    $id: 'ResendVerificationEmailResponseDto',
+    ...ApiSchemas.genericApiResponse,
+  };
+
   export const userDataResponseSchema: JSONSchemaType<UserDataResponseDto> = {
     $id: 'UserDataResponseDto',
     type: 'object',

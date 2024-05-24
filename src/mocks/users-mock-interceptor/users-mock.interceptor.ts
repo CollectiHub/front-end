@@ -123,5 +123,17 @@ export const usersMockInterceptor = (req: HttpRequest<unknown>, next: HttpHandle
     );
   });
 
+  registry.post(environment.endpoints.users.resendVerificationEmail, () => {
+    return of(
+      new HttpResponse({
+        status: 200,
+        body: {
+          data: 'data',
+          message: 'Success!',
+        },
+      }),
+    );
+  });
+
   return registry.processRequest$(req, next);
 };
