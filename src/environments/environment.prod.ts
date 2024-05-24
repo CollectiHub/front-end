@@ -10,6 +10,7 @@ export const environment = {
       register: `${apiUrl}auth/register`,
     },
     users: {
+      base: `${apiUrl}users`,
       getUserData: `${apiUrl}users/me`,
       verifyEmail: `${apiUrl}users/verify-email`,
       requestPasswordReset: `${apiUrl}users/request-password-reset`,

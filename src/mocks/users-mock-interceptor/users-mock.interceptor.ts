@@ -24,6 +24,18 @@ export const usersMockInterceptor = (req: HttpRequest<unknown>, next: HttpHandle
     );
   });
 
+  registry.delete(environment.endpoints.users.base, () => {
+    return of(
+      new HttpResponse({
+        status: 200,
+        body: {
+          data: 'data',
+          message: 'Success!',
+        },
+      }),
+    );
+  });
+
   registry.post(environment.endpoints.users.verifyEmail, req => {
     const code = (req.body as Record<string, string>)['code'];
 

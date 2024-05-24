@@ -22,6 +22,12 @@ export class UsersApiService {
     );
   }
 
+  deleteUser$(): Observable<GenericApiResponse> {
+    return this.httpClient
+      .delete<GenericApiResponse>(environment.endpoints.users.base, {})
+      .pipe(map((res: GenericApiResponse) => this.validationService.validate(UsersSchemas.deleteUserResponseDto, res)));
+  }
+
   verifyEmail$(code: string): Observable<GenericApiResponse> {
     return this.httpClient
       .post<GenericApiResponse>(environment.endpoints.users.verifyEmail, { code })

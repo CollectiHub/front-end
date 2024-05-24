@@ -14,16 +14,17 @@ describe('UsersApiService', () => {
   let httpClientMock: MockProxy<HttpClient>;
   let validationServiceMock: MockProxy<ValidationService>;
 
-  const postResponseMock = { data: 'data', message: 'message' };
+  const genericResponseMock = { data: 'data', message: 'message' };
   const getResponseMock = { data: {}, message: 'message' };
 
   beforeEach(() => {
     httpClientMock = mock<HttpClient>();
-    httpClientMock.post.mockReturnValue(of(postResponseMock));
+    httpClientMock.post.mockReturnValue(of(genericResponseMock));
     httpClientMock.get.mockReturnValue(of(getResponseMock));
+    httpClientMock.delete.mockReturnValue(of(genericResponseMock));
 
     validationServiceMock = mock<ValidationService>();
-    validationServiceMock.validate.mockReturnValue(postResponseMock);
+    validationServiceMock.validate.mockReturnValue(genericResponseMock);
 
     service = classWithProviders({
       token: UsersApiService,
@@ -66,6 +67,36 @@ describe('UsersApiService', () => {
     });
   });
 
+  describe('deleteUser$', () => {
+    beforeEach(() => {
+      validationServiceMock.validate.mockReturnValue(genericResponseMock);
+    });
+
+    it('should trigger "delete" method with correct params', () => {
+      service.deleteUser$().pipe(take(1)).subscribe();
+
+      expect(httpClientMock.delete).toHaveBeenCalledWith(environment.endpoints.users.base, {});
+    });
+
+    it('should emit received response', () => {
+      const spy = jest.fn();
+
+      service.deleteUser$().pipe(take(1)).subscribe(spy);
+
+      expect(spy).toHaveBeenCalledWith(genericResponseMock);
+    });
+
+    it('should validate response', () => {
+      validationServiceMock.validate.mockReturnValue(genericResponseMock);
+      service.deleteUser$().pipe(take(1)).subscribe();
+
+      expect(validationServiceMock.validate).toHaveBeenCalledWith(
+        UsersSchemas.deleteUserResponseDto,
+        genericResponseMock,
+      );
+    });
+  });
+
   describe('verifyEmail$', () => {
     it('should trigger "post" method with correct params', () => {
       service.verifyEmail$('code').pipe(take(1)).subscribe();
@@ -78,7 +109,7 @@ describe('UsersApiService', () => {
 
       service.verifyEmail$('code').pipe(take(1)).subscribe(spy);
 
-      expect(spy).toHaveBeenCalledWith(postResponseMock);
+      expect(spy).toHaveBeenCalledWith(genericResponseMock);
     });
 
     it('should validate response', () => {
@@ -86,7 +117,7 @@ describe('UsersApiService', () => {
 
       expect(validationServiceMock.validate).toHaveBeenCalledWith(
         UsersSchemas.verifyEmailResponseDto,
-        postResponseMock,
+        genericResponseMock,
       );
     });
   });
@@ -105,7 +136,7 @@ describe('UsersApiService', () => {
 
       service.requestPasswordReset$('email').pipe(take(1)).subscribe(spy);
 
-      expect(spy).toHaveBeenCalledWith(postResponseMock);
+      expect(spy).toHaveBeenCalledWith(genericResponseMock);
     });
 
     it('should validate response', () => {
@@ -113,7 +144,7 @@ describe('UsersApiService', () => {
 
       expect(validationServiceMock.validate).toHaveBeenCalledWith(
         UsersSchemas.requestPasswordResetResponseDto,
-        postResponseMock,
+        genericResponseMock,
       );
     });
   });
@@ -132,7 +163,7 @@ describe('UsersApiService', () => {
 
       service.verifyPasswordReset$(bodyMock).pipe(take(1)).subscribe(spy);
 
-      expect(spy).toHaveBeenCalledWith(postResponseMock);
+      expect(spy).toHaveBeenCalledWith(genericResponseMock);
     });
 
     it('should validate response', () => {
@@ -140,7 +171,7 @@ describe('UsersApiService', () => {
 
       expect(validationServiceMock.validate).toHaveBeenCalledWith(
         UsersSchemas.verifyPasswordResetResponseDto,
-        postResponseMock,
+        genericResponseMock,
       );
     });
   });
@@ -157,7 +188,7 @@ describe('UsersApiService', () => {
 
       service.resendVerificationEmail$().pipe(take(1)).subscribe(spy);
 
-      expect(spy).toHaveBeenCalledWith(postResponseMock);
+      expect(spy).toHaveBeenCalledWith(genericResponseMock);
     });
 
     it('should validate response', () => {
@@ -165,7 +196,7 @@ describe('UsersApiService', () => {
 
       expect(validationServiceMock.validate).toHaveBeenCalledWith(
         UsersSchemas.resendVerificationEmailResponseDto,
-        postResponseMock,
+        genericResponseMock,
       );
     });
   });

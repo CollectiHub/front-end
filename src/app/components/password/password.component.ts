@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
 import { FormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
-import { IonInput, IonIcon } from '@ionic/angular/standalone';
+import { IonIcon, IonInput } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { eyeOffOutline, eyeOutline } from 'ionicons/icons';
