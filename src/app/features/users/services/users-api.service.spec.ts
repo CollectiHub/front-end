@@ -5,6 +5,7 @@ import { MockProxy, mock } from 'jest-mock-extended';
 import { of, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
+import { UpdateUserBody } from '../users.models';
 import { UsersSchemas } from '../users.schemas';
 
 import { UsersApiService } from './users-api.service';
@@ -22,6 +23,7 @@ describe('UsersApiService', () => {
     httpClientMock.post.mockReturnValue(of(genericResponseMock));
     httpClientMock.get.mockReturnValue(of(getResponseMock));
     httpClientMock.delete.mockReturnValue(of(genericResponseMock));
+    httpClientMock.patch.mockReturnValue(of(genericResponseMock));
 
     validationServiceMock = mock<ValidationService>();
     validationServiceMock.validate.mockReturnValue(genericResponseMock);
@@ -87,11 +89,48 @@ describe('UsersApiService', () => {
     });
 
     it('should validate response', () => {
-      validationServiceMock.validate.mockReturnValue(genericResponseMock);
       service.deleteUser$().pipe(take(1)).subscribe();
 
       expect(validationServiceMock.validate).toHaveBeenCalledWith(
         UsersSchemas.deleteUserResponseDto,
+        genericResponseMock,
+      );
+    });
+  });
+
+  describe('updateUserData$', () => {
+    beforeEach(() => {
+      validationServiceMock.validate.mockReturnValue(genericResponseMock);
+    });
+
+    it('should trigger "patch" method with correct params', () => {
+      service
+        .updateUserData$({} as UpdateUserBody)
+        .pipe(take(1))
+        .subscribe();
+
+      expect(httpClientMock.patch).toHaveBeenCalledWith(environment.endpoints.users.base, {});
+    });
+
+    it('should emit received response', () => {
+      const spy = jest.fn();
+
+      service
+        .updateUserData$({} as UpdateUserBody)
+        .pipe(take(1))
+        .subscribe(spy);
+
+      expect(spy).toHaveBeenCalledWith(genericResponseMock);
+    });
+
+    it('should validate response', () => {
+      service
+        .updateUserData$({} as UpdateUserBody)
+        .pipe(take(1))
+        .subscribe();
+
+      expect(validationServiceMock.validate).toHaveBeenCalledWith(
+        UsersSchemas.updateUserResponseDto,
         genericResponseMock,
       );
     });

@@ -29,6 +29,10 @@ export namespace UsersSchemas {
     $id: 'DeleteUserResponseDto',
     ...ApiSchemas.genericApiResponse,
   };
+  export const updateUserResponseDto: JSONSchemaType<GenericApiResponse> = {
+    $id: 'UpdateUserResponseDto',
+    ...ApiSchemas.genericApiResponse,
+  };
 
   export const userDataResponseSchema: JSONSchemaType<UserDataResponseDto> = {
     $id: 'UserDataResponseDto',

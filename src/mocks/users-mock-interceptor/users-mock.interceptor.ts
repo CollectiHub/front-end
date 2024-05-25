@@ -36,6 +36,39 @@ export const usersMockInterceptor = (req: HttpRequest<unknown>, next: HttpHandle
     );
   });
 
+  registry.patch(environment.endpoints.users.base, () => {
+    const email = (req.body as Record<string, string>)['email'];
+
+    if (email === 'updateError@gg.gg') {
+      return throwError(
+        () =>
+          new HttpErrorResponse({
+            status: 400,
+            error: {
+              error: 'Update User data error',
+              errors: [
+                {
+                  detail: 'Update user data error',
+                  field: 'Update user',
+                },
+              ],
+              message: 'Error during updating user data',
+            },
+          }),
+      );
+    }
+
+    return of(
+      new HttpResponse({
+        status: 200,
+        body: {
+          data: 'data',
+          message: 'Success!',
+        },
+      }),
+    );
+  });
+
   registry.post(environment.endpoints.users.verifyEmail, req => {
     const code = (req.body as Record<string, string>)['code'];
 

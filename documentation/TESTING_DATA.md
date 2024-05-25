@@ -10,3 +10,4 @@ Users:
 - useralreadyverified123123123 - will throw 400 error (user already verified) for email verification
 - requestPasswordError@gg.gg - will throw 400 error during password reset
 - verifyPasswordCode123123123 - code, that will throw error durrin reset password verification
+- updateError@gg.gg - use thi email during user data update, to throw 400 error

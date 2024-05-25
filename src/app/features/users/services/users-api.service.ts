@@ -5,7 +5,7 @@ import { GenericApiResponse } from '@models/api.models';
 import { ValidationService } from '@services/validation/validation.service';
 import { Observable, map } from 'rxjs';
 
-import { UserDataDto, UserDataResponseDto, VerifyPasswordResetBody } from '../users.models';
+import { UpdateUserBody, UserDataDto, UserDataResponseDto, VerifyPasswordResetBody } from '../users.models';
 import { UsersSchemas } from '../users.schemas';
 
 @Injectable({
@@ -26,6 +26,12 @@ export class UsersApiService {
     return this.httpClient
       .delete<GenericApiResponse>(environment.endpoints.users.base, {})
       .pipe(map((res: GenericApiResponse) => this.validationService.validate(UsersSchemas.deleteUserResponseDto, res)));
+  }
+
+  updateUserData$(body: UpdateUserBody): Observable<GenericApiResponse> {
+    return this.httpClient
+      .patch<GenericApiResponse>(environment.endpoints.users.base, body)
+      .pipe(map((res: GenericApiResponse) => this.validationService.validate(UsersSchemas.updateUserResponseDto, res)));
   }
 
   verifyEmail$(code: string): Observable<GenericApiResponse> {

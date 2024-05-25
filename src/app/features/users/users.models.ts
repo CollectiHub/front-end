@@ -18,3 +18,8 @@ export interface UserDataDto {
   username: string;
   verified: boolean;
 }
+
+export interface UpdateUserBody {
+  email: string;
+  username: string;
+}
