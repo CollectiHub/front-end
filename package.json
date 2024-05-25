@@ -37,6 +37,8 @@
     "@ionic/angular": "^8.2.0",
     "@ionic/storage-angular": "^4.0.0",
     "@ngrx/component": "^17.1.1",
+    "@ngrx/operators": "^17.2.0",
+    "@ngrx/signals": "^17.2.0",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "@ngx-unit-test/inject-mocks": "^1.1.0",
