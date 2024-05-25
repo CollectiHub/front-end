@@ -5,7 +5,13 @@ import { GenericApiResponse } from '@models/api.models';
 import { ValidationService } from '@services/validation/validation.service';
 import { Observable, map } from 'rxjs';
 
-import { UpdateUserBody, UserDataDto, UserDataResponseDto, VerifyPasswordResetBody } from '../users.models';
+import {
+  ChangePasswordBody,
+  UpdateUserBody,
+  UserDataDto,
+  UserDataResponseDto,
+  VerifyPasswordResetBody,
+} from '../users.models';
 import { UsersSchemas } from '../users.schemas';
 
 @Injectable({
@@ -17,7 +23,7 @@ export class UsersApiService {
 
   getUserData$(): Observable<UserDataDto> {
     return this.httpClient.get<UserDataResponseDto>(environment.endpoints.users.getUserData).pipe(
-      map((res: UserDataResponseDto) => this.validationService.validate(UsersSchemas.userDataResponseSchema, res)),
+      map((res: UserDataResponseDto) => this.validationService.validate(UsersSchemas.getUserDataResponseSchema, res)),
       map((res: UserDataResponseDto) => res.data),
     );
   }
@@ -32,6 +38,14 @@ export class UsersApiService {
     return this.httpClient
       .patch<GenericApiResponse>(environment.endpoints.users.base, body)
       .pipe(map((res: GenericApiResponse) => this.validationService.validate(UsersSchemas.updateUserResponseDto, res)));
+  }
+
+  changePassword$(body: ChangePasswordBody): Observable<GenericApiResponse> {
+    return this.httpClient
+      .patch<GenericApiResponse>(environment.endpoints.users.changePassword, body)
+      .pipe(
+        map((res: GenericApiResponse) => this.validationService.validate(UsersSchemas.changePasswordResponseDto, res)),
+      );
   }
 
   verifyEmail$(code: string): Observable<GenericApiResponse> {

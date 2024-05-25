@@ -5,7 +5,7 @@ import { MockProxy, mock } from 'jest-mock-extended';
 import { of, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-import { UpdateUserBody } from '../users.models';
+import { ChangePasswordBody, UpdateUserBody } from '../users.models';
 import { UsersSchemas } from '../users.schemas';
 
 import { UsersApiService } from './users-api.service';
@@ -65,7 +65,10 @@ describe('UsersApiService', () => {
     it('should validate response', () => {
       service.getUserData$().pipe(take(1)).subscribe();
 
-      expect(validationServiceMock.validate).toHaveBeenCalledWith(UsersSchemas.userDataResponseSchema, getResponseMock);
+      expect(validationServiceMock.validate).toHaveBeenCalledWith(
+        UsersSchemas.getUserDataResponseSchema,
+        getResponseMock,
+      );
     });
   });
 
@@ -131,6 +134,44 @@ describe('UsersApiService', () => {
 
       expect(validationServiceMock.validate).toHaveBeenCalledWith(
         UsersSchemas.updateUserResponseDto,
+        genericResponseMock,
+      );
+    });
+  });
+
+  describe('updateUserData$', () => {
+    beforeEach(() => {
+      validationServiceMock.validate.mockReturnValue(genericResponseMock);
+    });
+
+    it('should trigger "patch" method with correct params', () => {
+      service
+        .changePassword$({} as ChangePasswordBody)
+        .pipe(take(1))
+        .subscribe();
+
+      expect(httpClientMock.patch).toHaveBeenCalledWith(environment.endpoints.users.changePassword, {});
+    });
+
+    it('should emit received response', () => {
+      const spy = jest.fn();
+
+      service
+        .changePassword$({} as ChangePasswordBody)
+        .pipe(take(1))
+        .subscribe(spy);
+
+      expect(spy).toHaveBeenCalledWith(genericResponseMock);
+    });
+
+    it('should validate response', () => {
+      service
+        .changePassword$({} as ChangePasswordBody)
+        .pipe(take(1))
+        .subscribe();
+
+      expect(validationServiceMock.validate).toHaveBeenCalledWith(
+        UsersSchemas.changePasswordResponseDto,
         genericResponseMock,
       );
     });

@@ -69,6 +69,39 @@ export const usersMockInterceptor = (req: HttpRequest<unknown>, next: HttpHandle
     );
   });
 
+  registry.patch(environment.endpoints.users.changePassword, () => {
+    const oldPassword = (req.body as Record<string, string>)['old_password'];
+
+    if (oldPassword === '1234oldpass@@') {
+      return throwError(
+        () =>
+          new HttpErrorResponse({
+            status: 400,
+            error: {
+              error: 'Change password error',
+              errors: [
+                {
+                  detail: 'Change password error',
+                  field: 'Change password',
+                },
+              ],
+              message: 'Error during changing password',
+            },
+          }),
+      );
+    }
+
+    return of(
+      new HttpResponse({
+        status: 200,
+        body: {
+          data: 'data',
+          message: 'Success!',
+        },
+      }),
+    );
+  });
+
   registry.post(environment.endpoints.users.verifyEmail, req => {
     const code = (req.body as Record<string, string>)['code'];
 
