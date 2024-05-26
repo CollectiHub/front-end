@@ -55,7 +55,6 @@ export const UsersStore = signalStore(
           switchMap(() => usersApiService.getUserData$()),
           tapResponse(
             (userData: UserDataDto) => {
-              console.log(userData);
               patchState(store, { userData });
             },
             () => {},

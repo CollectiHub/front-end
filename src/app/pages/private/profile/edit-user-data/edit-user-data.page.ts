@@ -8,6 +8,7 @@ import { UpdateUserBody } from '@features/users/users.models';
 import {
   IonButton,
   IonContent,
+  IonIcon,
   IonInput,
   IonItem,
   IonLabel,
@@ -16,6 +17,8 @@ import {
   NavController,
 } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
+import { addIcons } from 'ionicons';
+import { arrowBackOutline } from 'ionicons/icons';
 
 import { EditUserDataForm } from './edit-user-data.models';
 import { EditUserDataValidators } from './edit-user-data.validators';
@@ -26,6 +29,7 @@ import { EditUserDataValidators } from './edit-user-data.validators';
   styleUrls: ['./edit-user-data.page.scss'],
   standalone: true,
   imports: [
+    IonIcon,
     IonLabel,
     IonSkeletonText,
     IonContent,
@@ -60,6 +64,8 @@ export default class EditUserDataPage {
   }
 
   constructor() {
+    addIcons({ arrowBackOutline });
+
     effect(() => {
       const userData = this.usersStore.userData();
 

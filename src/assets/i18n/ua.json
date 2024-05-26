@@ -57,7 +57,7 @@
   "change_password.password_pattern_helper": "Мінімум 8 символів, 1 велика літера, 1 маленька, число, спеціальний символ",
   "change_password.confirm_password_label": "Підтвердіть новий пароль",
   "change_password.confirm_password_helper": "Підтвердіть Ваш новий пароль",
-  "change_password.save_button": "Зберегти",
-  "change_password.cancel_button": "Відмінити",
+  "change_password.save_button": "Змінити пароль",
+  "change_password.toast": "Пароль успішно змінено",
   "tab.profile": "Профіль"
 }

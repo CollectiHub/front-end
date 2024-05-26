@@ -4,17 +4,16 @@
   <ion-content>
     <div class="tw-p-4">
       <ion-list>
-        <ion-item class="tw-my-4 tw-text-gray-400">
+        <ion-item class="tw-text-gray-400">
           ID&#58; @if (userData() === undefined ) {
           <ion-skeleton-text [animated]="true" class="tw-h-6 tw-m-0" />
           } @else {
           <div class="tw-text-gray-400">{{ userData()?.id}}</div>
           }
-          <ion-icon color="primary" name="create-outline" slot="end" routerLink="/profile/edit-user-data" />
         </ion-item>
 
-        <ion-item class="tw-my-4">
-          <div class="tw-flex tw-flex-col">
+        <ion-item [button]="true" routerLink="/profile/edit-user-data">
+          <div class="tw-w-full tw-flex tw-flex-col tw-py-4">
             <div class="tw-text-xs tw-font-bold tw-mb-1">{{ 'profile.email_label' | translate }}</div>
             @if (userData() === undefined ) {
             <ion-skeleton-text [animated]="true" class="tw-h-6 tw-m-0" />
@@ -24,8 +23,8 @@
           </div>
         </ion-item>
 
-        <ion-item class="tw-my-4">
-          <div class="tw-flex tw-flex-col">
+        <ion-item [button]="true" routerLink="/profile/edit-user-data">
+          <div class="tw-w-full tw-flex tw-flex-col tw-py-4">
             <div class="tw-text-xs tw-font-bold tw-mb-1">{{ 'profile.username_label' | translate }}</div>
             @if (userData() === undefined ) {
             <ion-skeleton-text [animated]="true" class="tw-h-6 tw-m-0" />
@@ -36,7 +35,13 @@
         </ion-item>
       </ion-list>
 
-      <ion-button color="primary" translate="profile.change_password_button" routerLink="/profile/change-password" />
+      <div class="tw-w-full tw-flex tw-justify-center">
+        <ion-button
+          class="tw-mt-4"
+          color="primary"
+          translate="profile.change_password_button"
+          routerLink="/profile/change-password" />
+      </div>
     </div>
   </ion-content>
 </div>

@@ -28,7 +28,7 @@ export class AuthApiService {
   register$(body: RegistrationBody): Observable<string> {
     const context = new HttpContext()
       .set(AuthConstants.skipAuthContextToken, true)
-      .set(AuthConstants.skipLoadingToken, true);
+      .set(AuthConstants.skipLoadingContextToken, true);
 
     return this.httpClient.post<ResponseWithTokenDto>(environment.endpoints.auth.register, body, { context }).pipe(
       map((res: ResponseWithTokenDto) => this.validationService.validate(AuthSchemas.registerResponseDto, res)),

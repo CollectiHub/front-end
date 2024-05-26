@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { AuthConstants } from '@features/auth/auth.constants';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { ValidationService } from '@services/validation/validation.service';
 import { MockProxy, mock } from 'jest-mock-extended';
@@ -139,18 +140,24 @@ describe('UsersApiService', () => {
     });
   });
 
-  describe('updateUserData$', () => {
+  describe('changePassword$', () => {
     beforeEach(() => {
       validationServiceMock.validate.mockReturnValue(genericResponseMock);
     });
 
     it('should trigger "patch" method with correct params', () => {
+      const contextMock = new HttpContext().set(AuthConstants.skipLoadingContextToken, true);
+
       service
         .changePassword$({} as ChangePasswordBody)
         .pipe(take(1))
         .subscribe();
 
-      expect(httpClientMock.patch).toHaveBeenCalledWith(environment.endpoints.users.changePassword, {});
+      expect(httpClientMock.patch).toHaveBeenCalledWith(
+        environment.endpoints.users.changePassword,
+        {},
+        { context: contextMock },
+      );
     });
 
     it('should emit received response', () => {

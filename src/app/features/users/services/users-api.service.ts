@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '@environments/environment';
+import { AuthConstants } from '@features/auth/auth.constants';
 import { GenericApiResponse } from '@models/api.models';
 import { ValidationService } from '@services/validation/validation.service';
 import { Observable, map } from 'rxjs';
@@ -41,8 +42,10 @@ export class UsersApiService {
   }
 
   changePassword$(body: ChangePasswordBody): Observable<GenericApiResponse> {
+    const context = new HttpContext().set(AuthConstants.skipLoadingContextToken, true);
+
     return this.httpClient
-      .patch<GenericApiResponse>(environment.endpoints.users.changePassword, body)
+      .patch<GenericApiResponse>(environment.endpoints.users.changePassword, body, { context })
       .pipe(
         map((res: GenericApiResponse) => this.validationService.validate(UsersSchemas.changePasswordResponseDto, res)),
       );

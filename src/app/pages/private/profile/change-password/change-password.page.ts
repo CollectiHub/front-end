@@ -1,14 +1,26 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { HeaderComponent } from '@components/header/header.component';
 import { PasswordComponent } from '@components/password/password.component';
+import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { ChangePasswordBody } from '@features/users/users.models';
-import { IonButton, IonContent, IonItem, IonList, NavController } from '@ionic/angular/standalone';
-import { TranslateModule } from '@ngx-translate/core';
+import {
+  IonButton,
+  IonContent,
+  IonIcon,
+  IonItem,
+  IonList,
+  NavController,
+  ToastOptions,
+} from '@ionic/angular/standalone';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LoaderService } from '@services/loader/loader.service';
-import { take } from 'rxjs';
+import { ToastService } from '@services/toast/toast.service';
+import { addIcons } from 'ionicons';
+import { arrowBackOutline } from 'ionicons/icons';
+import { switchMap, take } from 'rxjs';
 import { AppValidators } from 'src/app/validators/app.validators';
 
 import { ChangePasswordForm } from './change-password.models';
@@ -19,6 +31,7 @@ import { ChangePasswordForm } from './change-password.models';
   styleUrls: ['./change-password.page.scss'],
   standalone: true,
   imports: [
+    IonIcon,
     IonContent,
     IonList,
     IonItem,
@@ -35,6 +48,9 @@ export default class ChangePasswordPage {
   private readonly navController = inject(NavController);
   private readonly usersApiService = inject(UsersApiService);
   private readonly loaderService = inject(LoaderService);
+  private readonly toastService = inject(ToastService);
+  private readonly translateService = inject(TranslateService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   changePasswordForm = this.formBuilder.group<ChangePasswordForm>(
     {
@@ -55,6 +71,10 @@ export default class ChangePasswordPage {
     return <FormControl<string | undefined>>this.changePasswordForm.get('password');
   }
 
+  constructor() {
+    addIcons({ arrowBackOutline });
+  }
+
   getPasswordError(errors: ValidationErrors | null): string {
     return errors?.['pattern'] ? 'validation.passwords_pattern' : 'validation.required';
   }
@@ -64,6 +84,8 @@ export default class ChangePasswordPage {
   }
 
   changePassword(): void {
+    if (!this.changePasswordForm.valid) return;
+
     const body: ChangePasswordBody = {
       old_password: <string>this.oldPasswordControl.value,
       new_password: <string>this.passwordControl.value,
@@ -71,7 +93,27 @@ export default class ChangePasswordPage {
 
     const request$ = this.usersApiService.changePassword$(body);
 
-    this.loaderService.showUntilCompleted$(request$).pipe(take(1)).subscribe();
+    this.loaderService
+      .showUntilCompleted$(request$)
+      .pipe(
+        switchMap(() => {
+          const toastOptions: ToastOptions = {
+            message: this.translateService.instant('change_password.toast'),
+            duration: AppConstants.toastDuration,
+            cssClass: 'app-toast',
+            position: 'bottom',
+            color: 'success',
+            buttons: [{ icon: 'close-outline', role: 'cancel' }],
+          };
+
+          return this.toastService.open$(toastOptions);
+        }),
+        take(1),
+      )
+      .subscribe(() => {
+        this.changePasswordForm.reset();
+        this.cdr.markForCheck();
+      });
   }
 
   goToProfile(): void {

@@ -2,39 +2,43 @@
   <app-header title="profile.header" />
 
   <ion-content>
-    <form [formGroup]="editUserDataForm" (ngSubmit)="updateUserData()">
-      <ion-list class="tw-p-4">
-        <ion-item lines="none" class="tw-my-4">
-          <ion-input
-            formControlName="email"
-            type="email"
-            labelPlacement="floating"
-            [label]="'edit_user_data.email_label' | translate"
-            [errorText]="getEmailError(emailControl.errors) | translate"
-            [helperText]="'edit_user_data.email_helper' | translate" />
-        </ion-item>
+    <div class="tw-px-4">
+      <ion-button fill="clear" color="dark" class="edit-user-data-back-btn" (click)="goToProfile()">
+        <ion-icon slot="icon-only" name="arrow-back-outline" />
+      </ion-button>
 
-        <ion-item lines="none" class="tw-my-4">
-          <ion-input
-            formControlName="username"
-            type="text"
-            labelPlacement="floating"
-            [label]="'edit_user_data.username_label' | translate"
-            [errorText]="'validation.required' | translate"
-            [helperText]="'edit_user_data.username_helper' | translate" />
-        </ion-item>
-      </ion-list>
-    </form>
+      <form [formGroup]="editUserDataForm" (ngSubmit)="updateUserData()">
+        <ion-list>
+          <ion-item lines="none" class="tw-mb-4">
+            <ion-input
+              formControlName="email"
+              type="email"
+              labelPlacement="floating"
+              [label]="'edit_user_data.email_label' | translate"
+              [errorText]="getEmailError(emailControl.errors) | translate"
+              [helperText]="'edit_user_data.email_helper' | translate" />
+          </ion-item>
 
-    <div class="tw-w-full tw-flex tw-justify-center">
-      <ion-button
-        color="success"
-        class="tw-p-1"
-        translate="edit_user_data.save_button"
-        type="submit"
-        [disabled]="!editUserDataForm.valid" />
+          <ion-item lines="none" class="tw-my-4">
+            <ion-input
+              formControlName="username"
+              type="text"
+              labelPlacement="floating"
+              [label]="'edit_user_data.username_label' | translate"
+              [errorText]="'validation.required' | translate"
+              [helperText]="'edit_user_data.username_helper' | translate" />
+          </ion-item>
+        </ion-list>
 
-      <ion-button color="light" class="tw-p-1" translate="edit_user_data.cancel_button" (click)="goToProfile()" />
+        <div class="tw-w-full tw-flex tw-justify-center">
+          <ion-button
+            color="success"
+            class="tw-p-1"
+            translate="edit_user_data.save_button"
+            type="submit"
+            [disabled]="!editUserDataForm.valid" />
+        </div>
+      </form>
     </div>
   </ion-content>
 </div>

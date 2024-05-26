@@ -57,7 +57,7 @@
   "change_password.password_pattern_helper": "Min 8 characters, 1 uppercase, 1 lowercase, number, special character",
   "change_password.confirm_password_label": "Confirm new password",
   "change_password.confirm_password_helper": "Confirm your new password",
-  "change_password.save_button": "Save",
-  "change_password.cancel_button": "Cancel",
+  "change_password.save_button": "Change password",
+  "change_password.toast": "Password successfully changed",
   "tab.profile": "Profile"
 }
