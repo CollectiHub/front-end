@@ -1,9 +1,20 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HeaderComponent } from '@components/header/header.component';
 import { RegularExpressions } from '@constants/regular-expressions';
-import { IonButton, IonContent, IonInput, IonItem, IonList, NavController } from '@ionic/angular/standalone';
+import { UsersStore } from '@features/users/store/users.store';
+import { UpdateUserBody } from '@features/users/users.models';
+import {
+  IonButton,
+  IonContent,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonSkeletonText,
+  NavController,
+} from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { EditUserDataForm } from './edit-user-data.models';
@@ -15,6 +26,8 @@ import { EditUserDataValidators } from './edit-user-data.validators';
   styleUrls: ['./edit-user-data.page.scss'],
   standalone: true,
   imports: [
+    IonLabel,
+    IonSkeletonText,
     IonContent,
     IonList,
     IonItem,
@@ -30,22 +43,15 @@ import { EditUserDataValidators } from './edit-user-data.validators';
 export default class EditUserDataPage {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly navController = inject(NavController);
-
-  formInitialValue = {
-    email: 'test@gg.gg',
-    username: 'realhokage',
-  };
+  private readonly usersStore = inject(UsersStore);
 
   editUserDataForm = this.formBuilder.group<EditUserDataForm>(
     {
-      email: this.formBuilder.control(this.formInitialValue.email, [
-        Validators.required,
-        Validators.pattern(RegularExpressions.email),
-      ]),
-      username: this.formBuilder.control(this.formInitialValue.username, Validators.required),
+      email: this.formBuilder.control('', [Validators.required, Validators.pattern(RegularExpressions.email)]),
+      username: this.formBuilder.control('', Validators.required),
     },
     {
-      validators: [EditUserDataValidators.someControlValueChanged(['email', 'username'], this.formInitialValue)],
+      validators: [],
     },
   );
 
@@ -53,8 +59,31 @@ export default class EditUserDataPage {
     return <FormControl<string | undefined>>this.editUserDataForm.get('email');
   }
 
+  constructor() {
+    effect(() => {
+      const userData = this.usersStore.userData();
+
+      if (userData === undefined) return;
+
+      const formInitialValue = {
+        email: userData.email,
+        username: userData.username,
+      };
+
+      this.editUserDataForm.setValue(formInitialValue);
+
+      this.editUserDataForm.addValidators(
+        EditUserDataValidators.someControlValueChanged(['email', 'username'], formInitialValue),
+      );
+    });
+  }
+
   getEmailError(errors: ValidationErrors | null): string {
     return errors?.['required'] ? 'validation.required' : 'validation.invalid_email';
+  }
+
+  updateUserData(): void {
+    this.usersStore.updateUserData(<UpdateUserBody>this.editUserDataForm.value);
   }
 
   goToProfile(): void {

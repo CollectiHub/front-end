@@ -3,8 +3,12 @@ import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErr
 import { HeaderComponent } from '@components/header/header.component';
 import { PasswordComponent } from '@components/password/password.component';
 import { RegularExpressions } from '@constants/regular-expressions';
+import { UsersApiService } from '@features/users/services/users-api.service';
+import { ChangePasswordBody } from '@features/users/users.models';
 import { IonButton, IonContent, IonItem, IonList, NavController } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
+import { LoaderService } from '@services/loader/loader.service';
+import { take } from 'rxjs';
 import { AppValidators } from 'src/app/validators/app.validators';
 
 import { ChangePasswordForm } from './change-password.models';
@@ -29,6 +33,8 @@ import { ChangePasswordForm } from './change-password.models';
 export default class ChangePasswordPage {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly navController = inject(NavController);
+  private readonly usersApiService = inject(UsersApiService);
+  private readonly loaderService = inject(LoaderService);
 
   changePasswordForm = this.formBuilder.group<ChangePasswordForm>(
     {
@@ -41,6 +47,10 @@ export default class ChangePasswordPage {
     },
   );
 
+  get oldPasswordControl(): FormControl<string | undefined> {
+    return <FormControl<string | undefined>>this.changePasswordForm.get('oldPassword');
+  }
+
   get passwordControl(): FormControl<string | undefined> {
     return <FormControl<string | undefined>>this.changePasswordForm.get('password');
   }
@@ -51,6 +61,17 @@ export default class ChangePasswordPage {
 
   getConfirmPasswordError(formErrors: ValidationErrors | null): string {
     return formErrors?.['notMatchedPassword'] ? 'validation.passwords_not_match' : 'validation.required';
+  }
+
+  changePassword(): void {
+    const body: ChangePasswordBody = {
+      old_password: <string>this.oldPasswordControl.value,
+      new_password: <string>this.passwordControl.value,
+    };
+
+    const request$ = this.usersApiService.changePassword$(body);
+
+    this.loaderService.showUntilCompleted$(request$).pipe(take(1)).subscribe();
   }
 
   goToProfile(): void {

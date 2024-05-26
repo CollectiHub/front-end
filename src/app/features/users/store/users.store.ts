@@ -8,7 +8,7 @@ import { switchWith } from '@tools/rxjs/switch-with.operator';
 import { pipe, switchMap } from 'rxjs';
 
 import { UsersApiService } from '../services/users-api.service';
-import { UpdateUserBody } from '../users.models';
+import { UpdateUserBody, UserDataDto } from '../users.models';
 
 import { USERS_INITIAL_STATE } from './users.state';
 
@@ -20,33 +20,48 @@ export const UsersStore = signalStore(
     const router = inject(Router);
 
     return {
-      updateUserData: rxMethod(
+      updateUserData: rxMethod<UpdateUserBody>(
         pipe(
           switchWith((updateData: UpdateUserBody) => usersApiService.updateUserData$(updateData)),
-          tapResponse(([updateData]: [UpdateUserBody, GenericApiResponse]) => {
-            patchState(store, state => ({ data: { ...state.data!, ...updateData } }));
-            void router.navigate(['/profile']);
-          }),
+          tapResponse(
+            ([updateData]: [UpdateUserBody, GenericApiResponse]) => {
+              patchState(store, state => ({ userData: { ...state.userData!, ...updateData } }));
+              void router.navigate(['/profile']);
+            },
+            () => {},
+          ),
         ),
       ),
-      updateVerified: rxMethod(
+      updateVerified: rxMethod<string>(
         pipe(
           switchMap((code: string) => usersApiService.verifyEmail$(code)),
-          tapResponse(() => patchState(store, state => ({ data: { ...state.data!, verified: true } }))),
+          tapResponse(
+            () => patchState(store, state => ({ userData: { ...state.userData!, verified: true } })),
+            () => {},
+          ),
         ),
       ),
       deleteUser: rxMethod(
         pipe(
-          switchMap(() => usersApiService.deleteUser$()),
-          tapResponse(() => patchState(store, { data: undefined })),
+          switchMap(() => usersApiService.deleteUser$()), // trigger logout too
+          tapResponse(
+            () => patchState(store, { userData: undefined }),
+            () => {},
+          ),
         ),
       ),
-      loadUserData: rxMethod(
-        // TODO: Add loading user data and tirgger it in private scope
-        // read data from store in profile page
-        // connect password change and user data change to store
-        pipe()
-      )
+      loadUserData: rxMethod<void>(
+        pipe(
+          switchMap(() => usersApiService.getUserData$()),
+          tapResponse(
+            (userData: UserDataDto) => {
+              console.log(userData);
+              patchState(store, { userData });
+            },
+            () => {},
+          ),
+        ),
+      ),
     };
   }),
 );

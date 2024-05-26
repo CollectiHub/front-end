@@ -2,7 +2,7 @@
   <app-header title="profile.header" />
 
   <ion-content>
-    <form [formGroup]="editUserDataForm">
+    <form [formGroup]="editUserDataForm" (ngSubmit)="updateUserData()">
       <ion-list class="tw-p-4">
         <ion-item lines="none" class="tw-my-4">
           <ion-input
@@ -31,6 +31,7 @@
         color="success"
         class="tw-p-1"
         translate="edit_user_data.save_button"
+        type="submit"
         [disabled]="!editUserDataForm.valid" />
 
       <ion-button color="light" class="tw-p-1" translate="edit_user_data.cancel_button" (click)="goToProfile()" />
