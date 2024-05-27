@@ -1,4 +1,6 @@
 import { NonNullableFormBuilder } from '@angular/forms';
+import { UsersStoreMock } from '@features/users/store/users.state.testing';
+import { UsersStore } from '@features/users/store/users.store';
 import { NavController } from '@ionic/angular/standalone';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { MockProxy, mock } from 'jest-mock-extended';
@@ -9,10 +11,12 @@ describe(EditUserDataPage.name, () => {
   let component: EditUserDataPage;
   let formBuilderMock: MockProxy<NonNullableFormBuilder>;
   let navControllerMock: MockProxy<NavController>;
+  let usersStoreMock: MockProxy<UsersStoreMock>;
 
   beforeEach(() => {
     formBuilderMock = mock<NonNullableFormBuilder>();
     navControllerMock = mock<NavController>();
+    usersStoreMock = mock<UsersStoreMock>();
 
     component = classWithProviders({
       token: EditUserDataPage,
@@ -24,6 +28,10 @@ describe(EditUserDataPage.name, () => {
         {
           provide: NavController,
           useValue: navControllerMock,
+        },
+        {
+          provide: UsersStore,
+          useValue: usersStoreMock,
         },
       ],
     });
@@ -40,6 +48,15 @@ describe(EditUserDataPage.name, () => {
       const result = component.getEmailError({ noRequired: true });
 
       expect(result).toBe('validation.invalid_email');
+    });
+  });
+
+  // TODO: Mock effect and add testing for it;
+  describe('updateUserData', () => {
+    it('should trigger "updateUserData" method store', () => {
+      component.updateUserData();
+
+      expect(usersStoreMock.updateUserData).toHaveBeenCalledWith({ email: '', username: '' });
     });
   });
 
