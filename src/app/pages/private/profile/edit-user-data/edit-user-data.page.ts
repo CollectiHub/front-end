@@ -49,15 +49,10 @@ export default class EditUserDataPage {
   private readonly navController = inject(NavController);
   private readonly usersStore = inject(UsersStore);
 
-  editUserDataForm = this.formBuilder.group<EditUserDataForm>(
-    {
-      email: this.formBuilder.control('', [Validators.required, Validators.pattern(RegularExpressions.email)]),
-      username: this.formBuilder.control('', Validators.required),
-    },
-    {
-      validators: [],
-    },
-  );
+  editUserDataForm = this.formBuilder.group<EditUserDataForm>({
+    email: this.formBuilder.control('', [Validators.required, Validators.pattern(RegularExpressions.email)]),
+    username: this.formBuilder.control('', Validators.required),
+  });
 
   get emailControl(): FormControl<string | undefined> {
     return <FormControl<string | undefined>>this.editUserDataForm.get('email');

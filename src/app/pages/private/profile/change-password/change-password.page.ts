@@ -20,7 +20,7 @@ import { LoaderService } from '@services/loader/loader.service';
 import { ToastService } from '@services/toast/toast.service';
 import { addIcons } from 'ionicons';
 import { arrowBackOutline } from 'ionicons/icons';
-import { switchMap, take } from 'rxjs';
+import { Observable, switchMap, take } from 'rxjs';
 import { AppValidators } from 'src/app/validators/app.validators';
 
 import { ChangePasswordForm } from './change-password.models';
@@ -96,18 +96,7 @@ export default class ChangePasswordPage {
     this.loaderService
       .showUntilCompleted$(request$)
       .pipe(
-        switchMap(() => {
-          const toastOptions: ToastOptions = {
-            message: this.translateService.instant('change_password.toast'),
-            duration: AppConstants.toastDuration,
-            cssClass: 'app-toast',
-            position: 'bottom',
-            color: 'success',
-            buttons: [{ icon: 'close-outline', role: 'cancel' }],
-          };
-
-          return this.toastService.open$(toastOptions);
-        }),
+        switchMap(() => this.openSuccessToast$()),
         take(1),
       )
       .subscribe(() => {
@@ -118,5 +107,18 @@ export default class ChangePasswordPage {
 
   goToProfile(): void {
     this.navController.navigateBack('/profile');
+  }
+
+  private openSuccessToast$(): Observable<HTMLIonToastElement> {
+    const toastOptions: ToastOptions = {
+      message: this.translateService.instant('change_password.toast'),
+      duration: AppConstants.toastDuration,
+      cssClass: 'app-toast',
+      position: 'bottom',
+      color: 'success',
+      buttons: [{ icon: 'close-outline', role: 'cancel' }],
+    };
+
+    return this.toastService.open$(toastOptions);
   }
 }
