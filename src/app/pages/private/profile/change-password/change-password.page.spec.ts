@@ -144,7 +144,7 @@ describe(ChangePasswordPage.name, () => {
       it('should translate toast message', () => {
         component.changePassword();
 
-        expect(translateServiceMock.instant).toHaveBeenCalledWith('change_password.toast')
+        expect(translateServiceMock.instant).toHaveBeenCalledWith('change_password.toast');
       });
 
       it('should open toast in case of success with correct config', () => {

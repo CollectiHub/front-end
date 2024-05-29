@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HeaderComponent } from '@components/header/header.component';
 import { UsersStore } from '@features/users/store/users.store';
+import { UserDataDto } from '@features/users/users.models';
 import {
   IonButton,
   IonContent,
@@ -43,7 +44,7 @@ import { createOutline } from 'ionicons/icons';
 export default class ProfilePage {
   private readonly usersStore = inject(UsersStore);
 
-  userData = this.usersStore.userData;
+  userData: Signal<UserDataDto | undefined> = this.usersStore.userData;
 
   constructor() {
     addIcons({ createOutline });
