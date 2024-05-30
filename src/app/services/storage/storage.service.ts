@@ -42,4 +42,11 @@ export class StorageService {
       switchMap(() => this._storage!.remove(key)),
     );
   }
+
+  clear$(): Observable<void> {
+    return this.storageCreated$.pipe(
+      filter(Boolean),
+      switchMap(() => this._storage!.clear()),
+    );
+  }
 }

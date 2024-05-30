@@ -24,12 +24,14 @@
         </ion-item>
       </ion-list>
 
-      <div class="tw-w-full tw-flex tw-justify-center">
+      <div class="tw-w-full tw-flex-col tw-flex tw-justify-center tw-mt-4">
         <ion-button
           class="tw-mt-4"
           color="primary"
           translate="profile.change_password_button"
           routerLink="/profile/change-password" />
+
+        <ion-button class="tw-w-full tw-mt-4" color="danger" translate="profile.delete_account_button" (click)="deleteAccount()"/>
       </div>
     </div>
   </ion-content>
