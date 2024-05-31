@@ -30,8 +30,10 @@ export class UsersApiService {
   }
 
   deleteUser$(): Observable<GenericApiResponse> {
+    const context = new HttpContext().set(AuthConstants.skipLoadingContextToken, true);
+
     return this.httpClient
-      .delete<GenericApiResponse>(environment.endpoints.users.base, {})
+      .delete<GenericApiResponse>(environment.endpoints.users.base, { context })
       .pipe(map((res: GenericApiResponse) => this.validationService.validate(UsersSchemas.deleteUserResponseDto, res)));
   }
 

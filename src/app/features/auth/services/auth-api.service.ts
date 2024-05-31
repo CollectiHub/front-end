@@ -44,8 +44,10 @@ export class AuthApiService {
   }
 
   logout$(): Observable<GenericApiResponse> {
+    const context = new HttpContext().set(AuthConstants.skipLoadingContextToken, true);
+
     return this.httpClient
-      .post<GenericApiResponse>(environment.endpoints.auth.logout, {})
+      .post<GenericApiResponse>(environment.endpoints.auth.logout, {}, { context })
       .pipe(map((res: GenericApiResponse) => this.validationService.validate(AuthSchemas.logoutResponseDto, res)));
   }
 }

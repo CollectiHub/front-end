@@ -1,10 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Provider } from '@angular/core';
+import { fakeAsync, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import * as PreferencesPackage from '@capacitor/preferences';
 import { AppConstants } from '@constants/app.constants';
 import { AuthApiService } from '@features/auth/services/auth-api.service';
 import { GenericApiResponse } from '@models/api.models';
+import { TranslateService } from '@ngx-translate/core';
 import { runFnInContext } from '@ngx-unit-test/inject-mocks';
+import { LoaderService } from '@services/loader/loader.service';
 import { StorageService } from '@services/storage/storage.service';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of, throwError } from 'rxjs';
@@ -14,12 +18,20 @@ import { UserDataDto } from '../users.models';
 
 import { UsersStore } from './users.store';
 
+jest.mock('@capacitor/preferences', () => {
+  return {
+    Preferences: { clear: () => Promise.resolve(undefined) },
+  };
+});
+
 describe('UsersStore', () => {
   let store: any;
   let usersApiServiceMock: MockProxy<UsersApiService>;
   let routerMock: MockProxy<Router>;
   let authApiSerivceMock: MockProxy<AuthApiService>;
   let storageServiceMock: MockProxy<StorageService>;
+  let loaderServiceMock: MockProxy<LoaderService>;
+  let translateServiceMock: MockProxy<TranslateService>;
 
   let providers: Provider[];
 
@@ -32,14 +44,22 @@ describe('UsersStore', () => {
     usersApiServiceMock.updateUserData$.mockReturnValue(of({} as GenericApiResponse));
     usersApiServiceMock.verifyEmail$.mockReturnValue(of({} as GenericApiResponse));
     usersApiServiceMock.getUserData$.mockReturnValue(of(userDataResponseMock as UserDataDto));
+    usersApiServiceMock.deleteUser$.mockReturnValue(of({} as GenericApiResponse));
 
     authApiSerivceMock = mock<AuthApiService>();
     authApiSerivceMock.logout$.mockReturnValue(of({} as GenericApiResponse));
 
+    routerMock = mock<Router>();
+
     storageServiceMock = mock<StorageService>();
     storageServiceMock.remove$.mockReturnValue(of(undefined));
+    storageServiceMock.clear$.mockReturnValue(of(undefined));
 
-    routerMock = mock<Router>();
+    loaderServiceMock = mock<LoaderService>();
+    loaderServiceMock.showUntilCompleted$.mockImplementation(obs$ => obs$);
+
+    translateServiceMock = mock<TranslateService>();
+    translateServiceMock.instant.mockImplementation(k => k);
 
     providers = [
       {
@@ -47,16 +67,24 @@ describe('UsersStore', () => {
         useValue: usersApiServiceMock,
       },
       {
-        provide: Router,
-        useValue: routerMock,
-      },
-      {
         provide: AuthApiService,
         useValue: authApiSerivceMock,
       },
       {
+        provide: Router,
+        useValue: routerMock,
+      },
+      {
         provide: StorageService,
         useValue: storageServiceMock,
+      },
+      {
+        provide: LoaderService,
+        useValue: loaderServiceMock,
+      },
+      {
+        provide: TranslateService,
+        useValue: translateServiceMock,
       },
     ];
 
@@ -116,6 +144,76 @@ describe('UsersStore', () => {
       store.updateVerified('code');
 
       expect(store.error()).toBe('error verify email');
+    });
+  });
+
+  describe('deleteUser', () => {
+    it('should trigger "deleteUser$" method of usersApiService', () => {
+      store.deleteUser();
+
+      expect(usersApiServiceMock.deleteUser$).toHaveBeenCalledTimes(1);
+    });
+
+    it('should trigger "logout$" method of authApiService', () => {
+      store.deleteUser();
+
+      expect(authApiSerivceMock.logout$).toHaveBeenCalledTimes(1);
+    });
+
+    it('should trigger "clear$" method of storageService', () => {
+      store.deleteUser();
+
+      expect(storageServiceMock.clear$).toHaveBeenCalledTimes(1);
+    });
+
+    it('should trigger "clear" method of Preferences', () => {
+      const spy = jest.spyOn(PreferencesPackage.Preferences, 'clear');
+
+      store.deleteUser();
+
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should display loader with message', () => {
+      store.deleteUser();
+
+      expect(loaderServiceMock.showUntilCompleted$).toHaveBeenCalledTimes(1);
+    });
+
+    it('should translate text for loader', () => {
+      store.deleteUser();
+
+      expect(translateServiceMock.instant).toHaveBeenCalledWith('profile.delete_account_loader');
+    });
+
+    it('should navigate to "registration" page in case of successful operation', fakeAsync(() => {
+      store.deleteUser();
+      tick();
+
+      expect(routerMock.navigate).toHaveBeenCalledWith(['/registration']);
+    }));
+
+    it('should erase user data in case of successful operation', fakeAsync(() => {
+      store.deleteUser();
+
+      expect(store.userData()).toBe(undefined);
+    }));
+
+    it('should erase error data in case of successful operation', fakeAsync(() => {
+      store.deleteUser();
+      tick();
+
+      expect(store.error()).toBe(undefined);
+    }));
+
+    it('should save error to store in case of failed operation', () => {
+      usersApiServiceMock.deleteUser$.mockReturnValue(
+        throwError(() => new HttpErrorResponse({ error: { message: 'error' } })),
+      );
+
+      store.deleteUser();
+
+      expect(store.error()).toBe('error');
     });
   });
 

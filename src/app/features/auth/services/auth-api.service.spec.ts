@@ -142,9 +142,11 @@ describe('AuthApiService', () => {
     });
 
     it('should trigger "post" method with correct params', () => {
+      const contextMock = new HttpContext().set(AuthConstants.skipLoadingContextToken, true);
+
       service.logout$().subscribe();
 
-      expect(httpClientMock.post).toHaveBeenCalledWith(environment.endpoints.auth.logout, {});
+      expect(httpClientMock.post).toHaveBeenCalledWith(environment.endpoints.auth.logout, {}, { context: contextMock });
     });
 
     it('should emit response dto', () => {

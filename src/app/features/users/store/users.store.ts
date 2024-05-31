@@ -8,15 +8,16 @@ import { GenericApiResponse } from '@models/api.models';
 import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
+import { TranslateService } from '@ngx-translate/core';
+import { LoaderService } from '@services/loader/loader.service';
 import { StorageService } from '@services/storage/storage.service';
 import { switchWith } from '@tools/rxjs/switch-with.operator';
-import { catchError, forkJoin, from, pipe, switchMap, tap } from 'rxjs';
+import { catchError, concat, forkJoin, from, pipe, switchMap, take, tap } from 'rxjs';
 
 import { UsersApiService } from '../services/users-api.service';
 import { UpdateUserBody, UserDataDto } from '../users.models';
 
 import { USERS_INITIAL_STATE } from './users.state';
-import { LoaderService } from '@services/loader/loader.service';
 
 export const UsersStore = signalStore(
   { providedIn: 'root' },
@@ -27,6 +28,7 @@ export const UsersStore = signalStore(
     const router = inject(Router);
     const storageService = inject(StorageService);
     const loaderService = inject(LoaderService);
+    const translateService = inject(TranslateService);
 
     const logoutUser = () => {
       return authApiService.logout$().pipe(
@@ -67,15 +69,24 @@ export const UsersStore = signalStore(
       ),
       deleteUser: rxMethod<void>(
         pipe(
-          // TODO: add one loader for delete user and logout actions
-          switchMap(() => usersApiService.deleteUser$()),
-          switchMap(() => authApiService.logout$()),
-          switchMap(() => forkJoin([from(storageService.clear$()), from(Preferences.clear())])),
+          switchMap(() => {
+            const apiRequests = [usersApiService.deleteUser$(), authApiService.logout$()];
+            const cleanStore$ = from(storageService.clear$().pipe(take(1)));
+            const clearPreferences$ = from(Preferences.clear());
+
+            const localCleanups$ = forkJoin([cleanStore$, clearPreferences$]);
+            const stream$ = forkJoin([concat(...apiRequests, localCleanups$)]);
+
+            return loaderService.showUntilCompleted$(
+              stream$,
+              translateService.instant('profile.delete_account_loader'),
+            );
+          }),
           tapResponse(
             () => {
               patchState(store, { userData: undefined, error: undefined });
 
-              void router.navigate(['/register']);
+              void router.navigate(['/registration']);
             },
             (error: HttpErrorResponse) => {
               const errorMessage = error.error.message;

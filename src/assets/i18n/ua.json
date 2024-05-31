@@ -49,6 +49,7 @@
   "profile.detele_acount_alert.message": "Ви впевнені, що хочете видалити свій акаунт?",
   "profile.detele_acount_alert.confirm_btn": "Підтвердити",
   "profile.detele_acount_alert.cancel_btn": "Відмінити",
+  "profile.delete_account_loader": "Ви будете автоматично направлені на сторінку реєстрації",
   "edit_user_data.save_button": "Зберегти",
   "edit_user_data.cancel_button": "Відмінити",
   "edit_user_data.email_label": "Новий адрес пошти",

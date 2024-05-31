@@ -79,9 +79,11 @@ describe('UsersApiService', () => {
     });
 
     it('should trigger "delete" method with correct params', () => {
+      const contextMock = new HttpContext().set(AuthConstants.skipLoadingContextToken, true);
+
       service.deleteUser$().pipe(take(1)).subscribe();
 
-      expect(httpClientMock.delete).toHaveBeenCalledWith(environment.endpoints.users.base, {});
+      expect(httpClientMock.delete).toHaveBeenCalledWith(environment.endpoints.users.base, { context: contextMock });
     });
 
     it('should emit received response', () => {

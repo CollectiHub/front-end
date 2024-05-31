@@ -49,6 +49,7 @@
   "profile.detele_acount_alert.message": "Are you sure you want to delete your account?",
   "profile.detele_acount_alert.confirm_btn": "Confirm",
   "profile.detele_acount_alert.cancel_btn": "Cancel",
+  "profile.delete_account_loader": "You will be automatically directed to the registration page",
   "edit_user_data.save_button": "Save",
   "edit_user_data.cancel_button": "Cancel",
   "edit_user_data.email_label": "New email",
