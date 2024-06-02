@@ -49,11 +49,11 @@ describe(ProfilePage.name, () => {
         message: 'profile.detele_acount_alert.message',
         buttons: [
           {
-            text: 'profile.detele_acount_alert.cancel_btn',
+            text: 'alert.cancel_btn',
             role: AlertEventRole.Cancel,
           },
           {
-            text: 'profile.detele_acount_alert.confirm_btn',
+            text: 'alert.confirm_btn',
             role: AlertEventRole.Confirm,
           },
         ],
@@ -73,13 +73,13 @@ describe(ProfilePage.name, () => {
     it('should translate confirm button text for alert', () => {
       component.deleteAccount();
 
-      expect(translateServiceMock.instant).toHaveBeenCalledWith('profile.detele_acount_alert.confirm_btn');
+      expect(translateServiceMock.instant).toHaveBeenCalledWith('alert.confirm_btn');
     });
 
     it('should translate cancel button text for alert', () => {
       component.deleteAccount();
 
-      expect(translateServiceMock.instant).toHaveBeenCalledWith('profile.detele_acount_alert.cancel_btn');
+      expect(translateServiceMock.instant).toHaveBeenCalledWith('alert.cancel_btn');
     });
 
     it('should emit "deleteUser" event of usersStore if alert was confirmed', () => {
@@ -96,6 +96,62 @@ describe(ProfilePage.name, () => {
       component.deleteAccount();
 
       expect(usersStoreMock.deleteUser).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('logout', () => {
+    it('should open alert with correct config', () => {
+      const expectedAlertOptions = {
+        message: 'profile.logout_alert.message',
+        buttons: [
+          {
+            text: 'alert.cancel_btn',
+            role: AlertEventRole.Cancel,
+          },
+          {
+            text: 'alert.confirm_btn',
+            role: AlertEventRole.Confirm,
+          },
+        ],
+      };
+
+      component.logout();
+
+      expect(alertServiceMock.openWithListener$).toHaveBeenCalledWith(expectedAlertOptions);
+    });
+
+    it('should translate message for alert', () => {
+      component.logout();
+
+      expect(translateServiceMock.instant).toHaveBeenCalledWith('profile.logout_alert.message');
+    });
+
+    it('should translate confirm button text for alert', () => {
+      component.logout();
+
+      expect(translateServiceMock.instant).toHaveBeenCalledWith('alert.confirm_btn');
+    });
+
+    it('should translate cancel button text for alert', () => {
+      component.logout();
+
+      expect(translateServiceMock.instant).toHaveBeenCalledWith('alert.cancel_btn');
+    });
+
+    it('should emit "logout" event of usersStore if alert was confirmed', () => {
+      alertServiceMock.openWithListener$.mockReturnValue(of({ role: AlertEventRole.Confirm }));
+
+      component.logout();
+
+      expect(usersStoreMock.logout).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not emit "logout" event of usersStore if alert was not confirmed', () => {
+      alertServiceMock.openWithListener$.mockReturnValue(of({ role: AlertEventRole.Cancel }));
+
+      component.logout();
+
+      expect(usersStoreMock.logout).not.toHaveBeenCalled();
     });
   });
 });

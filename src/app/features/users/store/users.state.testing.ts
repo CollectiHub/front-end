@@ -3,4 +3,5 @@ export interface UsersStoreMock {
   updateUserData: jest.Mock;
   userData: jest.Mock;
   deleteUser: jest.Mock;
+  logout: jest.Mock;
 }

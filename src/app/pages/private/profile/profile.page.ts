@@ -75,16 +75,44 @@ export default class ProfilePage {
       .subscribe(() => this.usersStore.deleteUser());
   }
 
+  logout(): void {
+    const alertOption = this.buildLogoutAlertOptions();
+
+    this.alertService
+      .openWithListener$<undefined>(alertOption)
+      .pipe(
+        take(1),
+        filter((closeEvent: OverlayEventDetail<undefined>) => closeEvent.role === AlertEventRole.Confirm),
+      )
+      .subscribe(() => this.usersStore.logout());
+  }
+
+  private buildLogoutAlertOptions(): AlertOptions {
+    return {
+      message: this.translateService.instant('profile.logout_alert.message'),
+      buttons: [
+        {
+          text: this.translateService.instant('alert.cancel_btn'),
+          role: AlertEventRole.Cancel,
+        },
+        {
+          text: this.translateService.instant('alert.confirm_btn'),
+          role: AlertEventRole.Confirm,
+        },
+      ],
+    };
+  }
+
   private buildDeleteAccountAlertOptions(): AlertOptions {
     return {
       message: this.translateService.instant('profile.detele_acount_alert.message'),
       buttons: [
         {
-          text: this.translateService.instant('profile.detele_acount_alert.cancel_btn'),
+          text: this.translateService.instant('alert.cancel_btn'),
           role: AlertEventRole.Cancel,
         },
         {
-          text: this.translateService.instant('profile.detele_acount_alert.confirm_btn'),
+          text: this.translateService.instant('alert.confirm_btn'),
           role: AlertEventRole.Confirm,
         },
       ],

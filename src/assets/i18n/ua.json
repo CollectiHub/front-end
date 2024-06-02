@@ -47,9 +47,9 @@
   "profile.change_password_button": "Змінити пароль",
   "profile.delete_account_button": "Видалити акаунт",
   "profile.detele_acount_alert.message": "Ви впевнені, що хочете видалити свій акаунт?",
-  "profile.detele_acount_alert.confirm_btn": "Підтвердити",
-  "profile.detele_acount_alert.cancel_btn": "Відмінити",
   "profile.delete_account_loader": "Ви будете автоматично направлені на сторінку реєстрації",
+  "profile.logout_button": "Вийти з акаунту",
+  "profile.logout_alert.message": "Ви впевнені, що хочете вийти з акаунту?",
   "edit_user_data.save_button": "Зберегти",
   "edit_user_data.cancel_button": "Відмінити",
   "edit_user_data.email_label": "Новий адрес пошти",
@@ -64,5 +64,7 @@
   "change_password.confirm_password_helper": "Підтвердіть Ваш новий пароль",
   "change_password.save_button": "Змінити пароль",
   "change_password.toast": "Пароль успішно змінено",
-  "tab.profile": "Профіль"
+  "tab.profile": "Профіль",
+  "alert.confirm_btn": "Підтвердити",
+  "alert.cancel_btn": "Відмінити"
 }

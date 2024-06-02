@@ -217,6 +217,53 @@ describe('UsersStore', () => {
     });
   });
 
+  describe('logout', () => {
+    it('should trigger "remove$" method of storageService', () => {
+      store.logout();
+
+      expect(storageServiceMock.remove$).toHaveBeenCalledWith(AppConstants.tokenStorageKey);
+    });
+
+    it('should trigger "logout$" method of authApiService', () => {
+      store.logout();
+
+      expect(authApiSerivceMock.logout$).toHaveBeenCalledTimes(1);
+    });
+
+    it('should display loader', () => {
+      store.logout();
+
+      expect(loaderServiceMock.showUntilCompleted$).toHaveBeenCalledTimes(1);
+    });
+
+    it('should clean user data in storage in case of success', () => {
+      store.logout();
+
+      expect(store.userData()).toBe(undefined);
+    });
+
+    it('should clean error in storage in case of success', () => {
+      store.logout();
+
+      expect(store.error()).toBe(undefined);
+    });
+
+    it('should navigate to login page in case of success', () => {
+      store.logout();
+
+      expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
+    });
+
+    it('should save error message to storage in case of error', () => {
+      authApiSerivceMock.logout$.mockReturnValue(
+        throwError(() => new HttpErrorResponse({ error: { message: 'error' } })),
+      );
+      store.logout();
+
+      expect(store.error()).toBe('error');
+    });
+  });
+
   describe('loadUserData', () => {
     it('should trigger "getUserData$" method of users api service', () => {
       store.loadUserData();
@@ -230,34 +277,13 @@ describe('UsersStore', () => {
       expect(store.userData()).toStrictEqual(userDataResponseMock);
     });
 
-    it('should trigger "logout" method in case if user data receiving failed', () => {
+    it('sould save error in store in case of failed request', () => {
       usersApiServiceMock.getUserData$.mockReturnValue(
-        throwError(() => new HttpErrorResponse({ error: { message: 'error get user data' } })),
+        throwError(() => new HttpErrorResponse({ error: { message: 'error' } })),
       );
-
       store.loadUserData();
 
-      expect(authApiSerivceMock.logout$).toHaveBeenCalledTimes(1);
-    });
-
-    it('should trigger "remove$" method of storage to remove auth token from store', () => {
-      usersApiServiceMock.getUserData$.mockReturnValue(
-        throwError(() => new HttpErrorResponse({ error: { message: 'error get user data' } })),
-      );
-
-      store.loadUserData();
-
-      expect(storageServiceMock.remove$).toHaveBeenCalledWith(AppConstants.tokenStorageKey);
-    });
-
-    it('should navigate to login', () => {
-      usersApiServiceMock.getUserData$.mockReturnValue(
-        throwError(() => new HttpErrorResponse({ error: { message: 'error get user data' } })),
-      );
-
-      store.loadUserData();
-
-      expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
+      expect(store.error()).toBe('error');
     });
   });
 });

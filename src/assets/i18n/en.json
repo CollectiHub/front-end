@@ -47,9 +47,9 @@
   "profile.change_password_button": "Change password",
   "profile.delete_account_button": "Delete account",
   "profile.detele_acount_alert.message": "Are you sure you want to delete your account?",
-  "profile.detele_acount_alert.confirm_btn": "Confirm",
-  "profile.detele_acount_alert.cancel_btn": "Cancel",
   "profile.delete_account_loader": "You will be automatically directed to the registration page",
+  "profile.logout_button": "Logout",
+  "profile.logout_alert.message": "Are you sure you want to log out?",
   "edit_user_data.save_button": "Save",
   "edit_user_data.cancel_button": "Cancel",
   "edit_user_data.email_label": "New email",
@@ -64,5 +64,7 @@
   "change_password.confirm_password_helper": "Confirm your new password",
   "change_password.save_button": "Change password",
   "change_password.toast": "Password successfully changed",
-  "tab.profile": "Profile"
+  "tab.profile": "Profile",
+  "alert.confirm_btn": "Confirm",
+  "alert.cancel_btn": "Cancel"
 }

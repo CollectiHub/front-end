@@ -12,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LoaderService } from '@services/loader/loader.service';
 import { StorageService } from '@services/storage/storage.service';
 import { switchWith } from '@tools/rxjs/switch-with.operator';
-import { catchError, concat, forkJoin, from, pipe, switchMap, take, tap } from 'rxjs';
+import { concat, forkJoin, from, pipe, switchMap, take } from 'rxjs';
 
 import { UsersApiService } from '../services/users-api.service';
 import { UpdateUserBody, UserDataDto } from '../users.models';
@@ -29,13 +29,6 @@ export const UsersStore = signalStore(
     const storageService = inject(StorageService);
     const loaderService = inject(LoaderService);
     const translateService = inject(TranslateService);
-
-    const logoutUser = () => {
-      return authApiService.logout$().pipe(
-        switchMap(() => storageService.remove$(AppConstants.tokenStorageKey)),
-        tap(() => router.navigate(['/login'])),
-      );
-    };
 
     return {
       updateUserData: rxMethod<UpdateUserBody>(
@@ -96,11 +89,28 @@ export const UsersStore = signalStore(
           ),
         ),
       ),
-      logoutUser: rxMethod<void>(
+      logout: rxMethod<void>(
         pipe(
-          switchMap(() => authApiService.logout$()),
-          switchMap(() => storageService.remove$(AppConstants.tokenStorageKey)),
-          tap(() => router.navigate(['/login'])),
+          switchMap(() => {
+            const localCleanup$ = storageService.remove$(AppConstants.tokenStorageKey).pipe(take(1));
+            const apiLogout$ = authApiService.logout$();
+
+            const stream$ = forkJoin([apiLogout$, localCleanup$]);
+
+            return loaderService.showUntilCompleted$(stream$);
+          }),
+          tapResponse(
+            () => {
+              patchState(store, { userData: undefined, error: undefined });
+
+              router.navigate(['/login']);
+            },
+            (error: HttpErrorResponse) => {
+              const errorMessage = error.error.message;
+
+              patchState(store, { error: errorMessage });
+            },
+          ),
         ),
       ),
       loadUserData: rxMethod<void>(
@@ -109,10 +119,11 @@ export const UsersStore = signalStore(
           tapResponse(
             (userData: UserDataDto) => patchState(store, { userData }),
             (error: HttpErrorResponse) => {
-              throw error;
+              const errorMessage = error.error.message;
+
+              patchState(store, { error: errorMessage });
             },
           ),
-          catchError(() => logoutUser()),
         ),
       ),
     };
