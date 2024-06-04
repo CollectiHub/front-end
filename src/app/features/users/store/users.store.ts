@@ -47,19 +47,9 @@ export const UsersStore = signalStore(
           ),
         ),
       ),
-      updateVerified: rxMethod<string>(
-        pipe(
-          switchMap((code: string) => usersApiService.verifyEmail$(code)),
-          tapResponse(
-            () => patchState(store, state => ({ userData: { ...state.userData!, verified: true } })),
-            (error: HttpErrorResponse) => {
-              const errorMessage = error.error.message;
-
-              patchState(store, { error: errorMessage });
-            },
-          ),
-        ),
-      ),
+      setEmailVerified(): void {
+        patchState(store, state => ({ userData: { ...state.userData!, verified: true } }));
+      },
       deleteUser: rxMethod<void>(
         pipe(
           switchMap(() => {

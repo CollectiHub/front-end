@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HeaderComponent } from '@components/header/header.component';
+import { AppConstants } from '@constants/app.constants';
+import { UsersApiService } from '@features/users/services/users-api.service';
 import { UsersStore } from '@features/users/store/users.store';
 import { UserDataDto } from '@features/users/users.models';
 import {
@@ -18,14 +20,16 @@ import {
   IonTabButton,
   IonText,
   IonToolbar,
+  ToastOptions,
 } from '@ionic/angular/standalone';
 import { AlertEventRole } from '@models/app.models';
 import { OverlayEventDetail } from '@models/ionic.models';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AlertService } from '@services/alert/alert.service';
+import { ToastService } from '@services/toast/toast.service';
 import { addIcons } from 'ionicons';
 import { createOutline } from 'ionicons/icons';
-import { filter, take } from 'rxjs';
+import { filter, switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -56,6 +60,8 @@ export default class ProfilePage {
   private readonly usersStore = inject(UsersStore);
   private readonly alertService = inject(AlertService);
   private readonly translateService = inject(TranslateService);
+  private readonly usersApiService = inject(UsersApiService);
+  private readonly toastService = inject(ToastService);
 
   userData: Signal<UserDataDto | undefined> = this.usersStore.userData;
 
@@ -85,6 +91,29 @@ export default class ProfilePage {
         filter((closeEvent: OverlayEventDetail<undefined>) => closeEvent.role === AlertEventRole.Confirm),
       )
       .subscribe(() => this.usersStore.logout());
+  }
+
+  requestEmailVerification(event: MouseEvent): void {
+    event.stopPropagation();
+
+    this.usersApiService
+      .resendVerificationEmail$()
+      .pipe(
+        switchMap(() => {
+          const toastOptions: ToastOptions = {
+            message: this.translateService.instant('profile.verify_email_toast', { email: this.userData()?.email }),
+            duration: AppConstants.toastDuration,
+            cssClass: 'app-toast',
+            position: 'bottom',
+            color: 'success',
+            buttons: [{ icon: 'close-outline', role: 'cancel' }],
+          };
+
+          return this.toastService.open$(toastOptions);
+        }),
+        take(1),
+      )
+      .subscribe();
   }
 
   private buildLogoutAlertOptions(): AlertOptions {

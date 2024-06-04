@@ -10,9 +10,17 @@
         </ion-item>
 
         <ion-item [button]="true" routerLink="/profile/edit-user-data">
-          <div class="tw-w-full tw-flex tw-flex-col tw-py-4">
-            <div class="tw-text-xs tw-font-bold tw-mb-1">{{ 'profile.email_label' | translate }}</div>
-            <div class="tw-text-gray-400">{{ userData()?.email}}</div>
+          <div class="tw-flex tw-content-between tw-w-full">
+            <div class="tw-w-full tw-flex tw-flex-col tw-py-4">
+              <div class="tw-text-xs tw-font-bold tw-mb-1">{{ 'profile.email_label' | translate }}</div>
+              <div class="tw-text-gray-400">{{ userData()?.email}}</div>
+            </div>
+
+            <ion-button
+              class="tw-self-center"
+              color="warning"
+              translate="profile.verify_email_button"
+              (click)="requestEmailVerification($event)" />
           </div>
         </ion-item>
 

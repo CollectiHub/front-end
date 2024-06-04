@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UsersApiService } from '@features/users/services/users-api.service';
+import { UsersStore } from '@features/users/store/users.store';
 import { IonButton, IonContent, IonIcon, IonText } from '@ionic/angular/standalone';
 import { LetDirective } from '@ngrx/component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -19,6 +20,7 @@ import { take } from 'rxjs';
 })
 export default class VerifyEmailPage implements OnInit {
   private readonly usersApiService = inject(UsersApiService);
+  private readonly usersStore = inject(UsersStore);
 
   code = input.required<string>();
 
@@ -35,10 +37,17 @@ export default class VerifyEmailPage implements OnInit {
       .subscribe({
         next: () => {
           this.isVerified.set(true);
+          this.updateVerifiedStateInStore();
         },
         error: () => {
           this.isVerified.set(false);
         },
       });
+  }
+
+  private updateVerifiedStateInStore(): void {
+    if (this.usersStore.userData() === undefined) return;
+
+    this.usersStore.setEmailVerified();
   }
 }

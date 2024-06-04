@@ -50,6 +50,8 @@
   "profile.delete_account_loader": "You will be automatically directed to the registration page",
   "profile.logout_button": "Logout",
   "profile.logout_alert.message": "Are you sure you want to log out?",
+  "profile.verify_email_button": "Verify",
+  "profile.verify_email_toast": "Emal for verirication has beed sent to {{email}}",
   "edit_user_data.save_button": "Save",
   "edit_user_data.cancel_button": "Cancel",
   "edit_user_data.email_label": "New email",

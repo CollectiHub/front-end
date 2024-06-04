@@ -123,27 +123,11 @@ describe('UsersStore', () => {
     });
   });
 
-  describe('updateVerified', () => {
-    it('should trigger "verifyEmail$" method of users api service', () => {
-      store.updateVerified('code');
-
-      expect(usersApiServiceMock.verifyEmail$).toHaveBeenCalledWith('code');
-    });
-
-    it('should update "verified" property in store', () => {
-      store.updateVerified('code');
+  describe('setEmailVerified', () => {
+    it('should update verified property of user data to true', () => {
+      store.setEmailVerified();
 
       expect(store.userData().verified).toBe(true);
-    });
-
-    it('should save error message to store in case of error', () => {
-      usersApiServiceMock.verifyEmail$.mockReturnValue(
-        throwError(() => new HttpErrorResponse({ error: { message: 'error verify email' } })),
-      );
-
-      store.updateVerified('code');
-
-      expect(store.error()).toBe('error verify email');
     });
   });
 

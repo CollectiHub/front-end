@@ -50,6 +50,8 @@
   "profile.delete_account_loader": "Ви будете автоматично направлені на сторінку реєстрації",
   "profile.logout_button": "Вийти з акаунту",
   "profile.logout_alert.message": "Ви впевнені, що хочете вийти з акаунту?",
+  "profile.verify_email_button": "Підтвердити",
+  "profile.verify_email_toast": "Лист для підтвердження пошти був відправлений на {{email}}",
   "edit_user_data.save_button": "Зберегти",
   "edit_user_data.cancel_button": "Відмінити",
   "edit_user_data.email_label": "Новий адрес пошти",

@@ -1,9 +1,13 @@
+import { AppConstants } from '@constants/app.constants';
+import { UsersApiService } from '@features/users/services/users-api.service';
 import { UsersStoreMock } from '@features/users/store/users.state.testing';
 import { UsersStore } from '@features/users/store/users.store';
+import { GenericApiResponse } from '@models/api.models';
 import { AlertEventRole } from '@models/app.models';
 import { TranslateService } from '@ngx-translate/core';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { AlertService } from '@services/alert/alert.service';
+import { ToastService } from '@services/toast/toast.service';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of } from 'rxjs';
 
@@ -14,15 +18,24 @@ describe(ProfilePage.name, () => {
   let usersStoreMock: MockProxy<UsersStoreMock>;
   let alertServiceMock: MockProxy<AlertService>;
   let translateServiceMock: MockProxy<TranslateService>;
+  let usersApiServiceMock: MockProxy<UsersApiService>;
+  let toastServiceMock: MockProxy<ToastService>;
 
   beforeEach(() => {
     usersStoreMock = mock<UsersStoreMock>();
+    usersStoreMock.userData.mockReturnValue({ email: 'email@gg.gg' });
 
     alertServiceMock = mock<AlertService>();
     alertServiceMock.openWithListener$.mockReturnValue(of({}));
 
     translateServiceMock = mock<TranslateService>();
     translateServiceMock.instant.mockImplementation(k => k);
+
+    usersApiServiceMock = mock<UsersApiService>();
+    usersApiServiceMock.resendVerificationEmail$.mockReturnValue(of({} as GenericApiResponse));
+
+    toastServiceMock = mock<ToastService>();
+    toastServiceMock.open$.mockReturnValue(of({} as HTMLIonToastElement));
 
     component = classWithProviders({
       token: ProfilePage,
@@ -38,6 +51,14 @@ describe(ProfilePage.name, () => {
         {
           provide: TranslateService,
           useValue: translateServiceMock,
+        },
+        {
+          provide: UsersApiService,
+          useValue: usersApiServiceMock,
+        },
+        {
+          provide: ToastService,
+          useValue: toastServiceMock,
         },
       ],
     });
@@ -153,5 +174,42 @@ describe(ProfilePage.name, () => {
 
       expect(usersStoreMock.logout).not.toHaveBeenCalled();
     });
+  });
+
+  describe('requestEmailVerification', () => {
+    it('should stop event propagation', () => {
+      const eventMock = mock<MouseEvent>();
+
+      component.requestEmailVerification(eventMock);
+
+      expect(eventMock.stopPropagation).toHaveBeenCalledTimes(1);
+    });
+
+    it('should trigger "resendVerificationEmail$" api request', () => {
+      component.requestEmailVerification(mock<MouseEvent>());
+
+      expect(usersApiServiceMock.resendVerificationEmail$).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should translate message for toaster', () => {
+    component.requestEmailVerification(mock<MouseEvent>());
+
+    expect(translateServiceMock.instant).toHaveBeenCalledWith('profile.verify_email_toast', { email: 'email@gg.gg' });
+  });
+
+  it('should open toast in case of successful request', () => {
+    const expectedToastConfig = {
+      message: 'profile.verify_email_toast',
+      duration: AppConstants.toastDuration,
+      cssClass: 'app-toast',
+      position: 'bottom',
+      color: 'success',
+      buttons: [{ icon: 'close-outline', role: 'cancel' }],
+    };
+
+    component.requestEmailVerification(mock<MouseEvent>());
+
+    expect(toastServiceMock.open$).toHaveBeenCalledWith(expectedToastConfig);
   });
 });
