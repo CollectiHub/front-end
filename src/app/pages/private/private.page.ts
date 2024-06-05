@@ -1,9 +1,18 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import UserDataFetchFailedComponent from '@features/users/components/user-data-fetch-failed/user-data-fetch-failed.component';
+import { UsersApiService } from '@features/users/services/users-api.service';
 import { UsersStore } from '@features/users/store/users.store';
-import { IonIcon, IonTabBar, IonTabButton, IonTabs } from '@ionic/angular/standalone';
+import { UserDataDto } from '@features/users/users.models';
+import { IonIcon, IonTabBar, IonTabButton, IonTabs, ModalOptions } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
+import { ModalService } from '@services/modal/modal.service';
 import { addIcons } from 'ionicons';
 import { library, personCircleOutline, radio, search } from 'ionicons/icons';
+import { Observable, catchError, map, take } from 'rxjs';
+
+import { UserDataFetchResult } from './private.page.models';
+import { ModalEventRole } from '@models/app.models';
 
 @Component({
   selector: 'app-private',
@@ -15,12 +24,42 @@ import { library, personCircleOutline, radio, search } from 'ionicons/icons';
 })
 export default class PrivatePage implements OnInit {
   private readonly usersStore = inject(UsersStore);
+  private readonly usersApiService = inject(UsersApiService);
+  private readonly modalService = inject(ModalService);
 
   constructor() {
     addIcons({ search, library, radio, personCircleOutline });
   }
 
   ngOnInit(): void {
-    this.usersStore.loadUserData();
+    this.usersApiService
+      .getUserData$()
+      .pipe(
+        map((userData: UserDataDto) => ({ data: userData, error: undefined })),
+        catchError((error: HttpErrorResponse) => this.openUserDataFetchErrorModal$(error)),
+        take(1),
+      )
+      .subscribe((fetchResult: UserDataFetchResult) => {
+        if (fetchResult.data !== undefined) {
+          this.usersStore.setUserData(fetchResult.data);
+        } else {
+          this.usersStore.setError(<string>fetchResult.error);
+        }
+      });
+  }
+
+  private openUserDataFetchErrorModal$(error: HttpErrorResponse): Observable<UserDataFetchResult> {
+    const modalOptions: ModalOptions = {
+      component: UserDataFetchFailedComponent,
+      canDismiss: (_, role?: string) => {
+        console.log('role', role)
+        return Promise.resolve(role === ModalEventRole.ProgramaticDismiss);
+      },
+    };
+
+    return this.modalService.open$(modalOptions).pipe(
+      take(1),
+      map(() => ({ error: error.error.message, data: undefined })),
+    );
   }
 }

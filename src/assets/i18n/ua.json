@@ -68,5 +68,8 @@
   "change_password.toast": "Пароль успішно змінено",
   "tab.profile": "Профіль",
   "alert.confirm_btn": "Підтвердити",
-  "alert.cancel_btn": "Відмінити"
+  "alert.cancel_btn": "Відмінити",
+  "users.fetch_data_error": "Дані користувача не можуть бути завантажені. Будь ласка, спробуйте ще раз або повторно увійдіть у разі кількох невдалих спроб",
+  "users.try_again_btn": "Спробувати знову",
+  "users.logout_btn": "Вийти з акаунту"
 }

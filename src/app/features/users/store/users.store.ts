@@ -12,12 +12,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { LoaderService } from '@services/loader/loader.service';
 import { StorageService } from '@services/storage/storage.service';
 import { switchWith } from '@tools/rxjs/switch-with.operator';
-import { concat, forkJoin, from, pipe, switchMap, take } from 'rxjs';
+import { catchError, concat, forkJoin, from, of, pipe, switchMap, take } from 'rxjs';
 
 import { UsersApiService } from '../services/users-api.service';
 import { UpdateUserBody, UserDataDto } from '../users.models';
 
 import { USERS_INITIAL_STATE } from './users.state';
+import { ModalService } from '@services/modal/modal.service';
 
 export const UsersStore = signalStore(
   { providedIn: 'root' },
@@ -31,6 +32,15 @@ export const UsersStore = signalStore(
     const translateService = inject(TranslateService);
 
     return {
+      setUserData(userData: UserDataDto): void {
+        patchState(store, { userData });
+      },
+      setEmailVerified(): void {
+        patchState(store, state => ({ userData: { ...state.userData!, verified: true } }));
+      },
+      setError(error: string): void {
+        patchState(store, { error });
+      },
       updateUserData: rxMethod<UpdateUserBody>(
         pipe(
           switchWith((updateData: UpdateUserBody) => usersApiService.updateUserData$(updateData)),
@@ -47,9 +57,7 @@ export const UsersStore = signalStore(
           ),
         ),
       ),
-      setEmailVerified(): void {
-        patchState(store, state => ({ userData: { ...state.userData!, verified: true } }));
-      },
+
       deleteUser: rxMethod<void>(
         pipe(
           switchMap(() => {
@@ -95,19 +103,6 @@ export const UsersStore = signalStore(
 
               router.navigate(['/login']);
             },
-            (error: HttpErrorResponse) => {
-              const errorMessage = error.error.message;
-
-              patchState(store, { error: errorMessage });
-            },
-          ),
-        ),
-      ),
-      loadUserData: rxMethod<void>(
-        pipe(
-          switchMap(() => usersApiService.getUserData$()),
-          tapResponse(
-            (userData: UserDataDto) => patchState(store, { userData }),
             (error: HttpErrorResponse) => {
               const errorMessage = error.error.message;
 

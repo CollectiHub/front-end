@@ -68,5 +68,8 @@
   "change_password.toast": "Password successfully changed",
   "tab.profile": "Profile",
   "alert.confirm_btn": "Confirm",
-  "alert.cancel_btn": "Cancel"
+  "alert.cancel_btn": "Cancel",
+  "users.fetch_data_error": "User data can not be loaded. Please, try again or re-login in case of multiple failed attempts",
+  "users.try_again_btn": "Try again",
+  "users.logout_btn": "Logout"
 }
