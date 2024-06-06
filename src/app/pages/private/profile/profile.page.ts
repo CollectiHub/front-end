@@ -121,11 +121,11 @@ export default class ProfilePage {
       message: this.translateService.instant('profile.logout_alert.message'),
       buttons: [
         {
-          text: this.translateService.instant('alert.cancel_btn'),
+          text: this.translateService.instant('alert.cancel_button'),
           role: AlertEventRole.Cancel,
         },
         {
-          text: this.translateService.instant('alert.confirm_btn'),
+          text: this.translateService.instant('alert.confirm_button'),
           role: AlertEventRole.Confirm,
         },
       ],
@@ -137,11 +137,11 @@ export default class ProfilePage {
       message: this.translateService.instant('profile.detele_acount_alert.message'),
       buttons: [
         {
-          text: this.translateService.instant('alert.cancel_btn'),
+          text: this.translateService.instant('alert.cancel_button'),
           role: AlertEventRole.Cancel,
         },
         {
-          text: this.translateService.instant('alert.confirm_btn'),
+          text: this.translateService.instant('alert.confirm_button'),
           role: AlertEventRole.Confirm,
         },
       ],

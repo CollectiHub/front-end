@@ -70,11 +70,11 @@ describe(ProfilePage.name, () => {
         message: 'profile.detele_acount_alert.message',
         buttons: [
           {
-            text: 'alert.cancel_btn',
+            text: 'alert.cancel_button',
             role: AlertEventRole.Cancel,
           },
           {
-            text: 'alert.confirm_btn',
+            text: 'alert.confirm_button',
             role: AlertEventRole.Confirm,
           },
         ],
@@ -94,13 +94,13 @@ describe(ProfilePage.name, () => {
     it('should translate confirm button text for alert', () => {
       component.deleteAccount();
 
-      expect(translateServiceMock.instant).toHaveBeenCalledWith('alert.confirm_btn');
+      expect(translateServiceMock.instant).toHaveBeenCalledWith('alert.confirm_button');
     });
 
     it('should translate cancel button text for alert', () => {
       component.deleteAccount();
 
-      expect(translateServiceMock.instant).toHaveBeenCalledWith('alert.cancel_btn');
+      expect(translateServiceMock.instant).toHaveBeenCalledWith('alert.cancel_button');
     });
 
     it('should emit "deleteUser" event of usersStore if alert was confirmed', () => {
@@ -126,11 +126,11 @@ describe(ProfilePage.name, () => {
         message: 'profile.logout_alert.message',
         buttons: [
           {
-            text: 'alert.cancel_btn',
+            text: 'alert.cancel_button',
             role: AlertEventRole.Cancel,
           },
           {
-            text: 'alert.confirm_btn',
+            text: 'alert.confirm_button',
             role: AlertEventRole.Confirm,
           },
         ],
@@ -150,13 +150,13 @@ describe(ProfilePage.name, () => {
     it('should translate confirm button text for alert', () => {
       component.logout();
 
-      expect(translateServiceMock.instant).toHaveBeenCalledWith('alert.confirm_btn');
+      expect(translateServiceMock.instant).toHaveBeenCalledWith('alert.confirm_button');
     });
 
     it('should translate cancel button text for alert', () => {
       component.logout();
 
-      expect(translateServiceMock.instant).toHaveBeenCalledWith('alert.cancel_btn');
+      expect(translateServiceMock.instant).toHaveBeenCalledWith('alert.cancel_button');
     });
 
     it('should emit "logout" event of usersStore if alert was confirmed', () => {

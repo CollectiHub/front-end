@@ -12,13 +12,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { LoaderService } from '@services/loader/loader.service';
 import { StorageService } from '@services/storage/storage.service';
 import { switchWith } from '@tools/rxjs/switch-with.operator';
-import { catchError, concat, forkJoin, from, of, pipe, switchMap, take } from 'rxjs';
+import { concat, forkJoin, from, pipe, switchMap, take } from 'rxjs';
 
 import { UsersApiService } from '../services/users-api.service';
 import { UpdateUserBody, UserDataDto } from '../users.models';
 
 import { USERS_INITIAL_STATE } from './users.state';
-import { ModalService } from '@services/modal/modal.service';
 
 export const UsersStore = signalStore(
   { providedIn: 'root' },

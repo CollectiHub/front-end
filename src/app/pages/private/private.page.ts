@@ -5,6 +5,7 @@ import { UsersApiService } from '@features/users/services/users-api.service';
 import { UsersStore } from '@features/users/store/users.store';
 import { UserDataDto } from '@features/users/users.models';
 import { IonIcon, IonTabBar, IonTabButton, IonTabs, ModalOptions } from '@ionic/angular/standalone';
+import { ModalEventRole } from '@models/app.models';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModalService } from '@services/modal/modal.service';
 import { addIcons } from 'ionicons';
@@ -12,7 +13,6 @@ import { library, personCircleOutline, radio, search } from 'ionicons/icons';
 import { Observable, catchError, map, take } from 'rxjs';
 
 import { UserDataFetchResult } from './private.page.models';
-import { ModalEventRole } from '@models/app.models';
 
 @Component({
   selector: 'app-private',

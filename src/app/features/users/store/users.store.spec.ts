@@ -91,6 +91,30 @@ describe('UsersStore', () => {
     store = runFnInContext(providers, () => new UsersStore());
   });
 
+  describe('setUserData', () => {
+    it('should save user data to store', () => {
+      store.setUserData({});
+
+      expect(store.userData()).toStrictEqual({});
+    });
+  });
+
+  describe('setEmailVerified', () => {
+    it('should update verified property of user data to true', () => {
+      store.setEmailVerified();
+
+      expect(store.userData().verified).toBe(true);
+    });
+  });
+
+  describe('setError', () => {
+    it('should save error to store', () => {
+      store.setError('error');
+
+      expect(store.error()).toBe('error');
+    });
+  });
+
   describe('updateUserData', () => {
     it('should trigger "updateUserData$" method of users api service', () => {
       store.updateUserData({});
@@ -120,14 +144,6 @@ describe('UsersStore', () => {
       store.updateUserData({});
 
       expect(store.error()).toBe('error update user');
-    });
-  });
-
-  describe('setEmailVerified', () => {
-    it('should update verified property of user data to true', () => {
-      store.setEmailVerified();
-
-      expect(store.userData().verified).toBe(true);
     });
   });
 
@@ -243,29 +259,6 @@ describe('UsersStore', () => {
         throwError(() => new HttpErrorResponse({ error: { message: 'error' } })),
       );
       store.logout();
-
-      expect(store.error()).toBe('error');
-    });
-  });
-
-  describe('loadUserData', () => {
-    it('should trigger "getUserData$" method of users api service', () => {
-      store.loadUserData();
-
-      expect(usersApiServiceMock.getUserData$).toHaveBeenCalledTimes(1);
-    });
-
-    it('should update store with received user data', () => {
-      store.loadUserData();
-
-      expect(store.userData()).toStrictEqual(userDataResponseMock);
-    });
-
-    it('sould save error in store in case of failed request', () => {
-      usersApiServiceMock.getUserData$.mockReturnValue(
-        throwError(() => new HttpErrorResponse({ error: { message: 'error' } })),
-      );
-      store.loadUserData();
 
       expect(store.error()).toBe('error');
     });

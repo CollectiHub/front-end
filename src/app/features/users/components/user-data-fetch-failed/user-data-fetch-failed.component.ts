@@ -3,7 +3,16 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { UsersStore } from '@features/users/store/users.store';
 import { UserDataDto } from '@features/users/users.models';
-import { IonButton, IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonSkeletonText, IonText } from '@ionic/angular/standalone';
+import {
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonSkeletonText,
+  IonText,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular/standalone';
 import { ModalEventRole } from '@models/app.models';
 import { TranslateModule } from '@ngx-translate/core';
@@ -28,7 +37,6 @@ export default class UserDataFetchFailedComponent {
     addIcons({ alertCircleOutline });
   }
 
-  // TODO: Make transparent background
   fetchUserData(): void {
     this.usersApiService
       .getUserData$()
@@ -36,7 +44,7 @@ export default class UserDataFetchFailedComponent {
       .subscribe({
         next: (userData: UserDataDto) => {
           this.usersStore.setUserData(userData);
-          this.modalController.dismiss();
+          this.modalController.dismiss(undefined, ModalEventRole.ProgramaticDismiss);
         },
         error: (error: HttpErrorResponse) => this.usersStore.setError(error.error.message),
       });

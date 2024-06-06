@@ -13,5 +13,4 @@ export class ModalService {
       tap((modalElement: HTMLIonModalElement) => modalElement.present()),
     );
   }
-  
 }
