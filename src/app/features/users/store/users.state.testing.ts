@@ -1,5 +1,6 @@
 export interface UsersStoreMock {
-  loadUserData: jest.Mock;
+  setUserData: jest.Mock;
+  setError: jest.Mock;
   updateUserData: jest.Mock;
   userData: jest.Mock;
   deleteUser: jest.Mock;

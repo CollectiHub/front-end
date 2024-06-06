@@ -52,7 +52,6 @@ export default class PrivatePage implements OnInit {
     const modalOptions: ModalOptions = {
       component: UserDataFetchFailedComponent,
       canDismiss: (_, role?: string) => {
-        console.log('role', role)
         return Promise.resolve(role === ModalEventRole.ProgramaticDismiss);
       },
     };
