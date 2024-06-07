@@ -60,6 +60,6 @@ export default class LoginPage {
         switchMap((token: string) => this.storageService.set$(AppConstants.tokenStorageKey, token)),
         take(1),
       )
-      .subscribe(() => this.router.navigate(['/home']));
+      .subscribe(() => this.router.navigate(['/collection']));
   }
 }

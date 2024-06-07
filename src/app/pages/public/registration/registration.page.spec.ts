@@ -170,10 +170,10 @@ describe('RegistrationComponent', () => {
         expect(storageServiceMock.set$).toHaveBeenCalledWith(AppConstants.tokenStorageKey, 'token');
       });
 
-      it('sould navigate to "home" page after successful API request', () => {
+      it('sould navigate to "collection" page after successful API request', () => {
         component.onRegistrationFormSubmit();
 
-        expect(routerMock.navigate).toHaveBeenCalledWith(['/home']);
+        expect(routerMock.navigate).toHaveBeenCalledWith(['/collection']);
       });
     });
   });

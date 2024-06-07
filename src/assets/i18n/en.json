@@ -71,5 +71,7 @@
   "alert.cancel_button": "Cancel",
   "users.fetch_data_error": "User data can not be loaded. Please, try again or re-login in case of multiple failed attempts",
   "users.try_again_button": "Try again",
-  "users.logout_button": "Logout"
+  "users.logout_button": "Logout",
+  "collection.tab": "My collection",
+  "collection.title": "My collection"
 }

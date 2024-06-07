@@ -9,7 +9,7 @@ import { ModalEventRole } from '@models/app.models';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModalService } from '@services/modal/modal.service';
 import { addIcons } from 'ionicons';
-import { library, personCircleOutline, radio, search } from 'ionicons/icons';
+import { libraryOutline, personCircleOutline } from 'ionicons/icons';
 import { Observable, catchError, map, take } from 'rxjs';
 
 import { UserDataFetchResult } from './private.page.models';
@@ -28,7 +28,7 @@ export default class PrivatePage implements OnInit {
   private readonly modalService = inject(ModalService);
 
   constructor() {
-    addIcons({ search, library, radio, personCircleOutline });
+    addIcons({ libraryOutline, personCircleOutline });
   }
 
   ngOnInit(): void {

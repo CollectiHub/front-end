@@ -8,14 +8,14 @@ export default [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'home',
+        redirectTo: 'collection',
       },
       {
-        path: 'home',
+        path: 'collection',
         children: [
           {
             path: '',
-            loadComponent: () => import('./home/home.page'),
+            loadComponent: () => import('./collection/collection.page'),
           },
         ],
       },

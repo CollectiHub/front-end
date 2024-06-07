@@ -97,13 +97,13 @@ describe('RegistrationComponent', () => {
       expect(storageServiceMock.set$).toHaveBeenCalledWith(AppConstants.tokenStorageKey, 'token');
     });
 
-    it('should navigate to "home" page after login', () => {
+    it('should navigate to "collection" page after login', () => {
       const formValue = { email: 'test@g.g', password: '1234abcD@@' };
       component.loginForm.setValue(formValue);
 
       component.onLoginFormSubmit();
 
-      expect(routerMock.navigate).toHaveBeenCalledWith(['/home']);
+      expect(routerMock.navigate).toHaveBeenCalledWith(['/collection']);
     });
   });
 });

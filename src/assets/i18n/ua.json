@@ -71,5 +71,7 @@
   "alert.cancel_button": "Відмінити",
   "users.fetch_data_error": "Дані користувача не можуть бути завантажені. Будь ласка, спробуйте ще раз або повторно увійдіть у разі кількох невдалих спроб",
   "users.try_again_button": "Спробувати знову",
-  "users.logout_button": "Вийти з акаунту"
+  "users.logout_button": "Вийти з акаунту",
+  "collection.tab": "Моя колекція",
+  "collection.title": "Моя колекція"
 }
