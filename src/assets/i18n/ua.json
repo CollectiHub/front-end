@@ -30,7 +30,7 @@
   "reset_password.toast": "Новий пароль успішно встановлено. Тепер, Ви можете увійти використовуючи новий пароль",
   "validation.required": "Це поле є обов'язковим",
   "validation.invalid_email": "Будь ласка, введіть корректну електронну пошту",
-  "validation.passwords_pattern": "Будь ласка, введіть коректний пароль",
+  "validation.password_pattern": "Будь ласка, введіть коректний пароль",
   "validation.passwords_not_match": "Паролі не співпадають",
   "button.cancel": "Відмінити",
   "logo_alt": "Логотип",

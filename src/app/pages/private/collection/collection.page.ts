@@ -4,7 +4,7 @@ import { HeaderComponent } from '@components/header/header.component';
 @Component({
   selector: 'app-collection',
   templateUrl: './collection.page.html',
-  styleUrls: ['./collection.component.scss'],
+  styleUrls: ['./collection.page.scss'],
   standalone: true,
   imports: [HeaderComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,

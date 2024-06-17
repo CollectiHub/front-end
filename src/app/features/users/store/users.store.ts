@@ -56,7 +56,6 @@ export const UsersStore = signalStore(
           ),
         ),
       ),
-
       deleteUser: rxMethod<void>(
         pipe(
           switchMap(() => {

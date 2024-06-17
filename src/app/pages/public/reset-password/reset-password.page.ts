@@ -62,7 +62,7 @@ export default class ResetPasswordPage {
   }
 
   getPasswordError(errors: ValidationErrors | null): string {
-    return errors?.['pattern'] ? 'validation.passwords_pattern' : 'validation.required';
+    return errors?.['pattern'] ? 'validation.password_pattern' : 'validation.required';
   }
 
   getConfirmPasswordError(formErrors: ValidationErrors | null): string {

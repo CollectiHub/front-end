@@ -62,10 +62,10 @@ describe(ResetPasswordPage.name, () => {
   });
 
   describe('getPasswordError', () => {
-    it('should return "validation.passwords_pattern" error if incorrect password entered', () => {
+    it('should return "validation.password_pattern" error if incorrect password entered', () => {
       const result = component.getPasswordError({ pattern: true });
 
-      expect(result).toBe('validation.passwords_pattern');
+      expect(result).toBe('validation.password_pattern');
     });
 
     it('should return "validation.required" error if password control has no value', () => {
