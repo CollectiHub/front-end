@@ -10,7 +10,7 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConstants } from '@constants/app.constants';
 import { environment } from '@environments/environment';
-import { AuthApiService } from '@features/auth/services/auth-api.service';
+import { AuthApiService } from '@features/auth/services/auth-api/auth-api.service';
 import { StorageService } from '@services/storage/storage.service';
 import { switchWith } from '@tools/rxjs/switch-with.operator';
 import { Observable, catchError, switchMap, tap, throwError } from 'rxjs';

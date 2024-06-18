@@ -3,9 +3,9 @@ import { Provider } from '@angular/core';
 import { fakeAsync, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import * as PreferencesPackage from '@capacitor/preferences';
-import { AppConstants } from '@constants/app.constants';
-import { AuthApiService } from '@features/auth/services/auth-api.service';
+import { AuthApiService } from '@features/auth/services/auth-api/auth-api.service';
 import { GenericApiResponse } from '@models/api.models';
+import { getState } from '@ngrx/signals';
 import { TranslateService } from '@ngx-translate/core';
 import { runFnInContext } from '@ngx-unit-test/inject-mocks';
 import { LoaderService } from '@services/loader/loader.service';
@@ -89,6 +89,17 @@ describe('UsersStore', () => {
     ];
 
     store = runFnInContext(providers, () => new UsersStore());
+  });
+
+  describe('clear', () => {
+    it('should clear storage data', () => {
+      store.setUserData({});
+      store.setError('error');
+
+      store.clear();
+
+      expect(getState(store)).toStrictEqual({ userData: undefined, error: undefined });
+    });
   });
 
   describe('setUserData', () => {
@@ -212,53 +223,6 @@ describe('UsersStore', () => {
       );
 
       store.deleteUser();
-
-      expect(store.error()).toBe('error');
-    });
-  });
-
-  describe('logout', () => {
-    it('should trigger "remove$" method of storageService', () => {
-      store.logout();
-
-      expect(storageServiceMock.remove$).toHaveBeenCalledWith(AppConstants.tokenStorageKey);
-    });
-
-    it('should trigger "logout$" method of authApiService', () => {
-      store.logout();
-
-      expect(authApiSerivceMock.logout$).toHaveBeenCalledTimes(1);
-    });
-
-    it('should display loader', () => {
-      store.logout();
-
-      expect(loaderServiceMock.showUntilCompleted$).toHaveBeenCalledTimes(1);
-    });
-
-    it('should clean user data in storage in case of success', () => {
-      store.logout();
-
-      expect(store.userData()).toBe(undefined);
-    });
-
-    it('should clean error in storage in case of success', () => {
-      store.logout();
-
-      expect(store.error()).toBe(undefined);
-    });
-
-    it('should navigate to login page in case of success', () => {
-      store.logout();
-
-      expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
-    });
-
-    it('should save error message to storage in case of error', () => {
-      authApiSerivceMock.logout$.mockReturnValue(
-        throwError(() => new HttpErrorResponse({ error: { message: 'error' } })),
-      );
-      store.logout();
 
       expect(store.error()).toBe('error');
     });

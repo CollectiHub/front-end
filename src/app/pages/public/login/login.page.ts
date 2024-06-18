@@ -6,7 +6,7 @@ import { PasswordComponent } from '@components/password/password.component';
 import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { LoginBody } from '@features/auth/auth.models';
-import { AuthApiService } from '@features/auth/services/auth-api.service';
+import { AuthApiService } from '@features/auth/services/auth-api/auth-api.service';
 import { IonButton, IonContent, IonInput, IonItem, IonList, IonText } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 import { StorageService } from '@services/storage/storage.service';

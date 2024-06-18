@@ -3,7 +3,7 @@ import { Provider } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConstants } from '@constants/app.constants';
 import { environment } from '@environments/environment';
-import { AuthApiService } from '@features/auth/services/auth-api.service';
+import { AuthApiService } from '@features/auth/services/auth-api/auth-api.service';
 import { GenericApiResponse } from '@models/api.models';
 import { runFnInContext } from '@ngx-unit-test/inject-mocks';
 import { StorageService } from '@services/storage/storage.service';

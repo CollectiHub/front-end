@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { HeaderComponent } from '@components/header/header.component';
 import { AppConstants } from '@constants/app.constants';
+import { AuthFacadeService } from '@features/auth/services/auth-facade/auth-facade.service';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { UsersStore } from '@features/users/store/users.store';
 import { UserDataDto } from '@features/users/users.models';
@@ -62,6 +64,8 @@ export default class ProfilePage {
   private readonly translateService = inject(TranslateService);
   private readonly usersApiService = inject(UsersApiService);
   private readonly toastService = inject(ToastService);
+  private readonly authFacadeService = inject(AuthFacadeService);
+  private readonly router = inject(Router);
 
   readonly supportEmail = AppConstants.supportEmail;
   userData: Signal<UserDataDto | undefined> = this.usersStore.userData;
@@ -88,10 +92,19 @@ export default class ProfilePage {
     this.alertService
       .openWithListener$<undefined>(alertOption)
       .pipe(
-        take(1),
         filter((closeEvent: OverlayEventDetail<undefined>) => closeEvent.role === AlertEventRole.Confirm),
+        switchMap(() => this.authFacadeService.logout$()),
+        take(1),
       )
-      .subscribe(() => this.usersStore.logout());
+      .subscribe({
+        next: () => {
+          this.usersStore.clear();
+          this.router.navigate(['/login']);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.usersStore.setError(error.error.message);
+        },
+      });
   }
 
   requestEmailVerification(event: MouseEvent): void {

@@ -6,8 +6,8 @@ import { GenericApiResponse } from '@models/api.models';
 import { ValidationService } from '@services/validation/validation.service';
 import { Observable, map } from 'rxjs';
 
-import { AuthConstants } from '../auth.constants';
-import { LoginBody, RegistrationBody, ResponseWithTokenDto } from '../auth.models';
+import { AuthConstants } from '../../auth.constants';
+import { LoginBody, RegistrationBody, ResponseWithTokenDto } from '../../auth.models';
 
 @Injectable({
   providedIn: 'root',

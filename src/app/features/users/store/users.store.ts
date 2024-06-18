@@ -2,8 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
-import { AppConstants } from '@constants/app.constants';
-import { AuthApiService } from '@features/auth/services/auth-api.service';
+import { AuthApiService } from '@features/auth/services/auth-api/auth-api.service';
 import { GenericApiResponse } from '@models/api.models';
 import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
@@ -31,6 +30,9 @@ export const UsersStore = signalStore(
     const translateService = inject(TranslateService);
 
     return {
+      clear(): void {
+        patchState(store, { userData: undefined, error: undefined });
+      },
       setUserData(userData: UserDataDto): void {
         patchState(store, { userData });
       },
@@ -76,30 +78,6 @@ export const UsersStore = signalStore(
               patchState(store, { userData: undefined, error: undefined });
 
               void router.navigate(['/registration']);
-            },
-            (error: HttpErrorResponse) => {
-              const errorMessage = error.error.message;
-
-              patchState(store, { error: errorMessage });
-            },
-          ),
-        ),
-      ),
-      logout: rxMethod<void>(
-        pipe(
-          switchMap(() => {
-            const localCleanup$ = storageService.remove$(AppConstants.tokenStorageKey).pipe(take(1));
-            const apiLogout$ = authApiService.logout$();
-
-            const stream$ = forkJoin([apiLogout$, localCleanup$]);
-
-            return loaderService.showUntilCompleted$(stream$);
-          }),
-          tapResponse(
-            () => {
-              patchState(store, { userData: undefined, error: undefined });
-
-              router.navigate(['/login']);
             },
             (error: HttpErrorResponse) => {
               const errorMessage = error.error.message;
