@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HeaderComponent } from '@components/header/header.component';
-import { SupportInfoComponent } from '@components/support-info/support-info.component';
 import { AppConstants } from '@constants/app.constants';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { UsersStore } from '@features/users/store/users.store';
@@ -55,7 +54,6 @@ import { filter, switchMap, take } from 'rxjs';
     CommonModule,
     TranslateModule,
     RouterLink,
-    SupportInfoComponent,
   ],
 })
 export default class ProfilePage {
@@ -65,6 +63,7 @@ export default class ProfilePage {
   private readonly usersApiService = inject(UsersApiService);
   private readonly toastService = inject(ToastService);
 
+  readonly supportEmail = AppConstants.supportEmail;
   userData: Signal<UserDataDto | undefined> = this.usersStore.userData;
 
   constructor() {
