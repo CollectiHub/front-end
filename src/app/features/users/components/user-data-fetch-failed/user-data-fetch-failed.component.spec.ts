@@ -1,4 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { AuthFacadeService } from '@features/auth/services/auth-facade/auth-facade.service';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { UsersStoreMock } from '@features/users/store/users.state.testing';
 import { UsersStore } from '@features/users/store/users.store';
@@ -16,6 +18,8 @@ describe(UserDataFetchFailedComponent.name, () => {
   let usersStoreMock: MockProxy<UsersStoreMock>;
   let usersApiServiceMock: MockProxy<UsersApiService>;
   let modalControllerMock: MockProxy<ModalController>;
+  let authFacadeServiceMock: MockProxy<AuthFacadeService>;
+  let routerMock: MockProxy<Router>;
 
   beforeEach(() => {
     usersStoreMock = mock<UsersStoreMock>();
@@ -24,6 +28,11 @@ describe(UserDataFetchFailedComponent.name, () => {
     usersApiServiceMock.getUserData$.mockReturnValue(of({} as UserDataDto));
 
     modalControllerMock = mock<ModalController>();
+
+    authFacadeServiceMock = mock<AuthFacadeService>();
+    authFacadeServiceMock.logout$.mockReturnValue(of([] as any));
+
+    routerMock = mock<Router>();
 
     component = classWithProviders({
       token: UserDataFetchFailedComponent,
@@ -39,6 +48,14 @@ describe(UserDataFetchFailedComponent.name, () => {
         {
           provide: ModalController,
           useValue: modalControllerMock,
+        },
+        {
+          provide: AuthFacadeService,
+          useValue: authFacadeServiceMock,
+        },
+        {
+          provide: Router,
+          useValue: routerMock,
         },
       ],
     });
@@ -74,16 +91,37 @@ describe(UserDataFetchFailedComponent.name, () => {
   });
 
   describe('logout', () => {
-    it('should trigger "logout" method of users store', () => {
+    it('should trigger "logout$" method of authFacadeService', () => {
       component.logout();
 
-      expect(usersStoreMock.logout).toHaveBeenCalledTimes(1);
+      expect(authFacadeServiceMock.logout$).toHaveBeenCalledTimes(1);
     });
 
     it('should dimiss modal', () => {
       component.logout();
 
       expect(modalControllerMock.dismiss).toHaveBeenCalledWith(undefined, ModalEventRole.ProgramaticDismiss);
+    });
+
+    it('should trigger "clear" action of usersStore if logout was successful', () => {
+      component.logout();
+
+      expect(usersStoreMock.clear).toHaveBeenCalledTimes(1);
+    });
+
+    it('should navigate to login, if logout was successful', () => {
+      component.logout();
+
+      expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
+    });
+
+    it('should save error to store if error received during logout api call', () => {
+      authFacadeServiceMock.logout$.mockReturnValue(
+        throwError(() => new HttpErrorResponse({ error: { message: 'error' } })),
+      );
+      component.logout();
+
+      expect(usersStoreMock.setError).toHaveBeenCalledWith('error');
     });
   });
 });

@@ -1,5 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthFacadeService } from '@features/auth/services/auth-facade/auth-facade.service';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { UsersStore } from '@features/users/store/users.store';
 import { UserDataDto } from '@features/users/users.models';
@@ -32,6 +34,8 @@ export default class UserDataFetchFailedComponent {
   private readonly usersStore = inject(UsersStore);
   private readonly usersApiService = inject(UsersApiService);
   private readonly modalController = inject(ModalController);
+  private readonly authFacadeService = inject(AuthFacadeService);
+  private readonly router = inject(Router);
 
   constructor() {
     addIcons({ alertCircleOutline });
@@ -51,7 +55,18 @@ export default class UserDataFetchFailedComponent {
   }
 
   logout(): void {
-    this.usersStore.logout();
-    this.modalController.dismiss(undefined, ModalEventRole.ProgramaticDismiss);
+    this.authFacadeService
+      .logout$()
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          this.modalController.dismiss(undefined, ModalEventRole.ProgramaticDismiss);
+          this.usersStore.clear();
+          this.router.navigate(['/login']);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.usersStore.setError(error.error.message);
+        },
+      });
   }
 }

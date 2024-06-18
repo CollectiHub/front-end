@@ -1,4 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { AppConstants } from '@constants/app.constants';
+import { AuthFacadeService } from '@features/auth/services/auth-facade/auth-facade.service';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { UsersStoreMock } from '@features/users/store/users.state.testing';
 import { UsersStore } from '@features/users/store/users.store';
@@ -9,7 +12,7 @@ import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { AlertService } from '@services/alert/alert.service';
 import { ToastService } from '@services/toast/toast.service';
 import { MockProxy, mock } from 'jest-mock-extended';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import ProfilePage from './profile.page';
 
@@ -20,6 +23,8 @@ describe(ProfilePage.name, () => {
   let translateServiceMock: MockProxy<TranslateService>;
   let usersApiServiceMock: MockProxy<UsersApiService>;
   let toastServiceMock: MockProxy<ToastService>;
+  let authFacadeServiceMock: MockProxy<AuthFacadeService>;
+  let routerMock: MockProxy<Router>;
 
   beforeEach(() => {
     usersStoreMock = mock<UsersStoreMock>();
@@ -36,6 +41,11 @@ describe(ProfilePage.name, () => {
 
     toastServiceMock = mock<ToastService>();
     toastServiceMock.open$.mockReturnValue(of({} as HTMLIonToastElement));
+
+    authFacadeServiceMock = mock<AuthFacadeService>();
+    authFacadeServiceMock.logout$.mockReturnValue(of([] as any));
+
+    routerMock = mock<Router>();
 
     component = classWithProviders({
       token: ProfilePage,
@@ -59,6 +69,14 @@ describe(ProfilePage.name, () => {
         {
           provide: ToastService,
           useValue: toastServiceMock,
+        },
+        {
+          provide: AuthFacadeService,
+          useValue: authFacadeServiceMock,
+        },
+        {
+          provide: Router,
+          useValue: routerMock,
         },
       ],
     });
@@ -121,58 +139,99 @@ describe(ProfilePage.name, () => {
   });
 
   describe('logout', () => {
-    it('should open alert with correct config', () => {
-      const expectedAlertOptions = {
-        message: 'profile.logout_alert.message',
-        buttons: [
-          {
-            text: 'alert.cancel_button',
-            role: AlertEventRole.Cancel,
-          },
-          {
-            text: 'alert.confirm_button',
-            role: AlertEventRole.Confirm,
-          },
-        ],
-      };
+    describe('logout not submitted', () => {
+      beforeEach(() => {
+        alertServiceMock.openWithListener$.mockReturnValue(of({ role: AlertEventRole.Cancel }));
+      });
 
-      component.logout();
+      it('should not trigger "logout$" method of authApiService if logout was not submitted', () => {
+        component.logout();
 
-      expect(alertServiceMock.openWithListener$).toHaveBeenCalledWith(expectedAlertOptions);
+        expect(authFacadeServiceMock.logout$).not.toHaveBeenCalled();
+      });
+
+      it('should not clear user storage', () => {
+        component.logout();
+
+        expect(usersStoreMock.clear).not.toHaveBeenCalled();
+      });
+
+      it('should not navigate to login', () => {
+        component.logout();
+
+        expect(routerMock.navigate).not.toHaveBeenCalled();
+      });
     });
 
-    it('should translate message for alert', () => {
-      component.logout();
+    describe('logout submitted', () => {
+      beforeEach(() => {
+        alertServiceMock.openWithListener$.mockReturnValue(of({ role: AlertEventRole.Confirm }));
+      });
 
-      expect(translateServiceMock.instant).toHaveBeenCalledWith('profile.logout_alert.message');
-    });
+      it('should open alert with correct config', () => {
+        const expectedAlertOptions = {
+          message: 'profile.logout_alert.message',
+          buttons: [
+            {
+              text: 'alert.cancel_button',
+              role: AlertEventRole.Cancel,
+            },
+            {
+              text: 'alert.confirm_button',
+              role: AlertEventRole.Confirm,
+            },
+          ],
+        };
 
-    it('should translate confirm button text for alert', () => {
-      component.logout();
+        component.logout();
 
-      expect(translateServiceMock.instant).toHaveBeenCalledWith('alert.confirm_button');
-    });
+        expect(alertServiceMock.openWithListener$).toHaveBeenCalledWith(expectedAlertOptions);
+      });
 
-    it('should translate cancel button text for alert', () => {
-      component.logout();
+      it('should translate message for alert', () => {
+        component.logout();
 
-      expect(translateServiceMock.instant).toHaveBeenCalledWith('alert.cancel_button');
-    });
+        expect(translateServiceMock.instant).toHaveBeenCalledWith('profile.logout_alert.message');
+      });
 
-    it('should emit "logout" event of usersStore if alert was confirmed', () => {
-      alertServiceMock.openWithListener$.mockReturnValue(of({ role: AlertEventRole.Confirm }));
+      it('should translate confirm button text for alert', () => {
+        component.logout();
 
-      component.logout();
+        expect(translateServiceMock.instant).toHaveBeenCalledWith('alert.confirm_button');
+      });
 
-      expect(usersStoreMock.logout).toHaveBeenCalledTimes(1);
-    });
+      it('should translate cancel button text for alert', () => {
+        component.logout();
 
-    it('should not emit "logout" event of usersStore if alert was not confirmed', () => {
-      alertServiceMock.openWithListener$.mockReturnValue(of({ role: AlertEventRole.Cancel }));
+        expect(translateServiceMock.instant).toHaveBeenCalledWith('alert.cancel_button');
+      });
 
-      component.logout();
+      it('should trigger "logout$" method of authFacadeService', () => {
+        component.logout();
 
-      expect(usersStoreMock.logout).not.toHaveBeenCalled();
+        expect(authFacadeServiceMock.logout$).toHaveBeenCalledTimes(1);
+      });
+
+      it('should trigger "clear" action of usersStore', () => {
+        component.logout();
+
+        expect(usersStoreMock.clear).toHaveBeenCalledTimes(1);
+      });
+
+      it('should navigate to login, if logout was successful', () => {
+        component.logout();
+
+        expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
+      });
+
+      it('should save error to store if error received during logout api call', () => {
+        authFacadeServiceMock.logout$.mockReturnValue(
+          throwError(() => new HttpErrorResponse({ error: { message: 'error' } })),
+        );
+        component.logout();
+
+        expect(usersStoreMock.setError).toHaveBeenCalledWith('error');
+      });
     });
   });
 

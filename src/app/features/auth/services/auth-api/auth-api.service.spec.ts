@@ -6,8 +6,8 @@ import { MockProxy, mock } from 'jest-mock-extended';
 import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-import { AuthConstants } from '../auth.constants';
-import { LoginBody, RegistrationBody } from '../auth.models';
+import { AuthConstants } from '../../auth.constants';
+import { LoginBody, RegistrationBody } from '../../auth.models';
 
 import { AuthApiService } from './auth-api.service';
 
