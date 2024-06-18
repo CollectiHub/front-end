@@ -1,0 +1,33 @@
+image: node:lts
+
+stages:
+  - verify
+  - test
+  - build
+
+cache:
+  key:
+    files:
+      - .pnpm-lock.yaml
+    paths:
+      - .pnpm-store
+
+.install_dependecies:
+  - npm install -g pnpm@latest
+  - pnpm run config set store-dir .pnpm-store
+  - pnpm install
+
+lint:
+  stage: verify
+  script: pnpm run lint:check
+  only: merge_request
+
+test:
+  stage: test
+  script: pnpm run test
+  only: merge_request
+
+build:
+  stage: build
+  script: pnpm run build:prod
+  only: merge_request
