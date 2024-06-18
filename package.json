@@ -11,7 +11,8 @@
     "test": "jest --maxWorkers=50%",
     "start": "ng serve -c=local",
     "lint:check": "prettier --check \"src/**/*.{html, scss}\" & ng lint",
-    "lint:fix": "prettier --write \"src/**/*.{html, scss}\" & ng lint --fix"
+    "lint:fix": "prettier --write \"src/**/*.{html, scss}\" & ng lint --fix",
+    "prepare": "husky"
   },
   "private": false,
   "dependencies": {
