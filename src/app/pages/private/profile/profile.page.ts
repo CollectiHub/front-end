@@ -63,6 +63,7 @@ export default class ProfilePage {
   private readonly usersApiService = inject(UsersApiService);
   private readonly toastService = inject(ToastService);
 
+  readonly supportEmail = AppConstants.supportEmail;
   userData: Signal<UserDataDto | undefined> = this.usersStore.userData;
 
   constructor() {
