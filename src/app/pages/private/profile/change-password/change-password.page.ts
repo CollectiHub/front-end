@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { HeaderComponent } from '@components/header/header.component';
 import { PasswordComponent } from '@components/password/password.component';
+import { SupportInfoComponent } from '@components/support-info/support-info.component';
 import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { UsersApiService } from '@features/users/services/users-api.service';
@@ -40,6 +41,7 @@ import { ChangePasswordForm } from './change-password.models';
     ReactiveFormsModule,
     TranslateModule,
     HeaderComponent,
+    SupportInfoComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

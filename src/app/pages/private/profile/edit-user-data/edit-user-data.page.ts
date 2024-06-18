@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/cor
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HeaderComponent } from '@components/header/header.component';
+import { SupportInfoComponent } from '@components/support-info/support-info.component';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { UsersStore } from '@features/users/store/users.store';
 import { UpdateUserBody } from '@features/users/users.models';
@@ -41,6 +42,7 @@ import { EditUserDataValidators } from './edit-user-data.validators';
     ReactiveFormsModule,
     RouterLink,
     HeaderComponent,
+    SupportInfoComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
