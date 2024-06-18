@@ -85,10 +85,5 @@
     "ts-jest": "^29.1.2",
     "typescript": "~5.2.2"
   },
-  "description": "An Ionic project",
-  "husky": {
-    "hooks": {
-      "pre-push": "pnpm run test & pnpm run lint:check & pnpm run build:prod"
-    }
-  }
+  "description": "An Ionic project"
 }

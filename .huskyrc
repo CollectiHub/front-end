@@ -1,0 +1,5 @@
+{
+  "hooks": {
+    "pre-push": "pnpm run test & pnpm run lint:check & pnpm run build:prod"
+  }
+}
