@@ -2,7 +2,6 @@ import { ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { AppConstants } from '@constants/app.constants';
 import { UsersApiService } from '@features/users/services/users-api.service';
-import { NavController } from '@ionic/angular/standalone';
 import { GenericApiResponse } from '@models/api.models';
 import { TranslateService } from '@ngx-translate/core';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
@@ -16,7 +15,6 @@ import ChangePasswordPage from './change-password.page';
 describe(ChangePasswordPage.name, () => {
   let component: ChangePasswordPage;
   let formBuilderMock: MockProxy<NonNullableFormBuilder>;
-  let navControllerMock: MockProxy<NavController>;
   let usersApiServiceMock: MockProxy<UsersApiService>;
   let loaderServiceMock: MockProxy<LoaderService>;
   let toastServiceMock: MockProxy<ToastService>;
@@ -47,18 +45,12 @@ describe(ChangePasswordPage.name, () => {
       }) as FormGroup,
     );
 
-    navControllerMock = mock<NavController>();
-
     component = classWithProviders({
       token: ChangePasswordPage,
       providers: [
         {
           provide: NonNullableFormBuilder,
           useValue: formBuilderMock,
-        },
-        {
-          provide: NavController,
-          useValue: navControllerMock,
         },
         {
           provide: UsersApiService,
@@ -175,14 +167,6 @@ describe(ChangePasswordPage.name, () => {
 
         expect(cdrMock.markForCheck).toHaveBeenCalledTimes(1);
       });
-    });
-  });
-
-  describe('goToProfile', () => {
-    it('should trigger "navigateBack" when called', () => {
-      component.goToProfile();
-
-      expect(navControllerMock.navigateBack).toHaveBeenCalledWith('/profile');
     });
   });
 });
