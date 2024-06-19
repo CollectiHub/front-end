@@ -1,7 +1,6 @@
 import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { UsersStoreMock } from '@features/users/store/users.state.testing';
 import { UsersStore } from '@features/users/store/users.store';
-import { NavController } from '@ionic/angular/standalone';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { MockProxy, mock } from 'jest-mock-extended';
 
@@ -22,7 +21,6 @@ jest.mock('@angular/core', () => {
 describe(EditUserDataPage.name, () => {
   let component: EditUserDataPage;
   let formBuilderMock: MockProxy<NonNullableFormBuilder>;
-  let navControllerMock: MockProxy<NavController>;
   let usersStoreMock: MockProxy<UsersStoreMock>;
   let setValueSpy: jest.SpyInstance;
   let setValidatorsSpy: jest.SpyInstance;
@@ -49,7 +47,6 @@ describe(EditUserDataPage.name, () => {
     formBuilderMock = mock<NonNullableFormBuilder>();
     formBuilderMock.group.mockReturnValue(formGroupMock);
 
-    navControllerMock = mock<NavController>();
     usersStoreMock = mock<UsersStoreMock>();
     usersStoreMock.userData.mockReturnValue(userDataWrapper.userData);
 
@@ -59,10 +56,6 @@ describe(EditUserDataPage.name, () => {
         {
           provide: NonNullableFormBuilder,
           useValue: formBuilderMock,
-        },
-        {
-          provide: NavController,
-          useValue: navControllerMock,
         },
         {
           provide: UsersStore,
@@ -132,14 +125,6 @@ describe(EditUserDataPage.name, () => {
       component.updateUserData();
 
       expect(usersStoreMock.updateUserData).toHaveBeenCalledWith({ email: 'em', username: 'un' });
-    });
-  });
-
-  describe('goToProfile', () => {
-    it('should trigger "navigateBack" when called', () => {
-      component.goToProfile();
-
-      expect(navControllerMock.navigateBack).toHaveBeenCalledWith('/profile');
     });
   });
 });

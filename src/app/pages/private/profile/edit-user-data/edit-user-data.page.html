@@ -3,9 +3,7 @@
 
   <ion-content>
     <div class="tw-px-4">
-      <ion-button fill="clear" color="dark" class="edit-user-data-back-btn" (click)="goToProfile()">
-        <ion-icon slot="icon-only" name="arrow-back-outline" />
-      </ion-button>
+      <app-back-button [routePath]="profilePath" />
 
       <form [formGroup]="editUserDataForm" (ngSubmit)="updateUserData()">
         <ion-list>
