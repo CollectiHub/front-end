@@ -1,19 +1,14 @@
 <div class="ion-page">
   <ion-header>
     <ion-toolbar class="tw-text-center !tw-py-0 tw-px-4">
-      <ion-buttons slot="end">
-        <ion-button>
-          <!-- add back button here -->
-          123
-        </ion-button>
+      <ion-buttons slot="start">
+        <app-back-button routePath="/profile" />
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
 
   <ion-content>
     <div class="tw-px-4">
-      <app-back-button [routePath]="'/profile'" />
-
       <form [formGroup]="editUserDataForm" (ngSubmit)="updateUserData()">
         <ion-list>
           <ion-item lines="none" class="tw-mb-4">

@@ -33,7 +33,6 @@ import { EditUserDataValidators } from './edit-user-data.validators';
     IonToolbar,
     IonHeader,
     IonIcon,
-
     IonLabel,
     IonSkeletonText,
     IonContent,
