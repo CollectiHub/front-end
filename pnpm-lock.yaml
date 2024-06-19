@@ -72,11 +72,11 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0(@angular/core@18.0.3(rxjs@7.8.1)(zone.js@0.14.4))(rxjs@7.8.1)
       '@ngrx/component':
-        specifier: ^17.1.1
-        version: 17.1.1(@angular/common@18.0.3(@angular/core@18.0.3(rxjs@7.8.1)(zone.js@0.14.4))(rxjs@7.8.1))(@angular/core@18.0.3(rxjs@7.8.1)(zone.js@0.14.4))(rxjs@7.8.1)
+        specifier: ^18.0.0
+        version: 18.0.0(@angular/common@18.0.3(@angular/core@18.0.3(rxjs@7.8.1)(zone.js@0.14.4))(rxjs@7.8.1))(@angular/core@18.0.3(rxjs@7.8.1)(zone.js@0.14.4))(rxjs@7.8.1)
       '@ngrx/operators':
-        specifier: ^17.2.0
-        version: 17.2.0(rxjs@7.8.1)
+        specifier: ^18.0.0
+        version: 18.0.0(rxjs@7.8.1)
       '@ngrx/signals':
         specifier: ^17.2.0
         version: 17.2.0(@angular/core@18.0.3(rxjs@7.8.1)(zone.js@0.14.4))(rxjs@7.8.1)
@@ -1813,11 +1813,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@ngrx/component@17.1.1':
-    resolution: {integrity: sha512-Zu9jEjvZ7H2YNCVLMvwXOlD0ecuyTXvWi6CBUz8vHz01G9AjxI0I6noo1y32nUv/2QFZgOmgpAcbqw5D8Zta4w==}
+  '@ngrx/component@18.0.0':
+    resolution: {integrity: sha512-leNPhLUgY9WyVA6chBxqvKL5qj9P3/XDDezAsfMidYMQuSd7Sa8/uRxGDTa20Xjj52KPDc+O1SuhRQBd1QXtrw==}
     peerDependencies:
-      '@angular/common': ^17.0.0
-      '@angular/core': ^17.0.0
+      '@angular/common': ^18.0.0
+      '@angular/core': ^18.0.0
       rxjs: ^6.5.3 || ^7.5.0
 
   '@ngrx/eslint-plugin@17.1.1':
@@ -1826,8 +1826,8 @@ packages:
       eslint: '>=8.0.0'
       typescript: '*'
 
-  '@ngrx/operators@17.2.0':
-    resolution: {integrity: sha512-W7SrGK4VQSJlCtMrkxNChVBDgJGSCdZ4yLBi80xoE9CmhTMMhu9J+8BbDDhZ+PPbTHylKJobkwHq+tJ8mkf4eQ==}
+  '@ngrx/operators@18.0.0':
+    resolution: {integrity: sha512-JclwX/YCxgNWj5qLAcoSN74u0MkXOQ+y0+gVeSdiHDnFSmXApG52FG4nuqcNCjf2/H1Z8XxA/pgbtq04dEvS6w==}
     peerDependencies:
       rxjs: ^6.5.3 || ^7.4.0
 
@@ -8328,7 +8328,7 @@ snapshots:
   '@msgpackr-extract/msgpackr-extract-win32-x64@3.0.3':
     optional: true
 
-  '@ngrx/component@17.1.1(@angular/common@18.0.3(@angular/core@18.0.3(rxjs@7.8.1)(zone.js@0.14.4))(rxjs@7.8.1))(@angular/core@18.0.3(rxjs@7.8.1)(zone.js@0.14.4))(rxjs@7.8.1)':
+  '@ngrx/component@18.0.0(@angular/common@18.0.3(@angular/core@18.0.3(rxjs@7.8.1)(zone.js@0.14.4))(rxjs@7.8.1))(@angular/core@18.0.3(rxjs@7.8.1)(zone.js@0.14.4))(rxjs@7.8.1)':
     dependencies:
       '@angular/common': 18.0.3(@angular/core@18.0.3(rxjs@7.8.1)(zone.js@0.14.4))(rxjs@7.8.1)
       '@angular/core': 18.0.3(rxjs@7.8.1)(zone.js@0.14.4)
@@ -8340,13 +8340,13 @@ snapshots:
       '@typescript-eslint/experimental-utils': 5.62.0(eslint@8.57.0)(typescript@5.4.5)
       eslint: 8.57.0
       eslint-etc: 5.2.1(eslint@8.57.0)(typescript@5.4.5)
-      semver: 7.6.0
+      semver: 7.6.2
       strip-json-comments: 3.1.1
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
 
-  '@ngrx/operators@17.2.0(rxjs@7.8.1)':
+  '@ngrx/operators@18.0.0(rxjs@7.8.1)':
     dependencies:
       rxjs: 7.8.1
       tslib: 2.6.2
@@ -8896,7 +8896,7 @@ snapshots:
       '@typescript-eslint/typescript-estree': 5.62.0(typescript@5.4.5)
       eslint: 8.57.0
       eslint-scope: 5.1.1
-      semver: 7.6.0
+      semver: 7.6.2
     transitivePeerDependencies:
       - supports-color
       - typescript
