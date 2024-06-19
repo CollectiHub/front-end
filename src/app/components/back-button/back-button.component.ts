@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { IonButton, IonIcon, NavController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { arrowBackOutline } from 'ionicons/icons';
@@ -12,15 +12,15 @@ import { arrowBackOutline } from 'ionicons/icons';
   imports: [IonButton, IonIcon],
 })
 export class BackButtonComponent {
-  @Input({ required: true }) routePath: string = '';
-
   private readonly navController = inject(NavController);
+
+  routePath = input.required<string>();
 
   constructor() {
     addIcons({ arrowBackOutline });
   }
 
   navigate(): void {
-    this.navController.navigateBack(this.routePath);
+    this.navController.navigateBack(this.routePath());
   }
 }

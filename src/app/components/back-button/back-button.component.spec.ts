@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { NavController } from '@ionic/angular/standalone';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { MockProxy, mock } from 'jest-mock-extended';
@@ -19,12 +20,12 @@ describe(BackButtonComponent.name, () => {
 
   describe('navigate', () => {
     it('should trigger "navigateBack" when called', () => {
-      const testPath: string = '/testPath';
+      const testRoute: string = '/testRoute';
 
-      component.routePath = testPath;
+      component.routePath = signal(testRoute) as any;
       component.navigate();
 
-      expect(navControllerMock.navigateBack).toHaveBeenCalledWith(testPath);
+      expect(navControllerMock.navigateBack).toHaveBeenCalledWith(testRoute);
     });
   });
 });
