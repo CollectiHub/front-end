@@ -1,25 +1,16 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { BackButtonComponent } from '@components/back-button/back-button.component';
 import { HeaderComponent } from '@components/header/header.component';
 import { PasswordComponent } from '@components/password/password.component';
 import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { ChangePasswordBody } from '@features/users/users.models';
-import {
-  IonButton,
-  IonContent,
-  IonIcon,
-  IonItem,
-  IonList,
-  NavController,
-  ToastOptions,
-} from '@ionic/angular/standalone';
+import { IonButton, IonContent, IonIcon, IonItem, IonList, ToastOptions } from '@ionic/angular/standalone';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LoaderService } from '@services/loader/loader.service';
 import { ToastService } from '@services/toast/toast.service';
-import { addIcons } from 'ionicons';
-import { arrowBackOutline } from 'ionicons/icons';
 import { Observable, switchMap, take } from 'rxjs';
 import { AppValidators } from 'src/app/validators/app.validators';
 
@@ -40,12 +31,12 @@ import { ChangePasswordForm } from './change-password.models';
     ReactiveFormsModule,
     TranslateModule,
     HeaderComponent,
+    BackButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ChangePasswordPage {
   private readonly formBuilder = inject(NonNullableFormBuilder);
-  private readonly navController = inject(NavController);
   private readonly usersApiService = inject(UsersApiService);
   private readonly loaderService = inject(LoaderService);
   private readonly toastService = inject(ToastService);
@@ -69,10 +60,6 @@ export default class ChangePasswordPage {
 
   get passwordControl(): FormControl<string | undefined> {
     return <FormControl<string | undefined>>this.changePasswordForm.get('password');
-  }
-
-  constructor() {
-    addIcons({ arrowBackOutline });
   }
 
   getPasswordError(errors: ValidationErrors | null): string {
@@ -103,10 +90,6 @@ export default class ChangePasswordPage {
         this.changePasswordForm.reset();
         this.cdr.markForCheck();
       });
-  }
-
-  goToProfile(): void {
-    this.navController.navigateBack('/profile');
   }
 
   private openSuccessToast$(): Observable<HTMLIonToastElement> {

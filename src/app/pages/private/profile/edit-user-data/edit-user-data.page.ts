@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { BackButtonComponent } from '@components/back-button/back-button.component';
 import { HeaderComponent } from '@components/header/header.component';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { UsersStore } from '@features/users/store/users.store';
@@ -8,17 +9,13 @@ import { UpdateUserBody } from '@features/users/users.models';
 import {
   IonButton,
   IonContent,
-  IonIcon,
   IonInput,
   IonItem,
   IonLabel,
   IonList,
   IonSkeletonText,
-  NavController,
 } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
-import { addIcons } from 'ionicons';
-import { arrowBackOutline } from 'ionicons/icons';
 
 import { EditUserDataForm } from './edit-user-data.models';
 import { EditUserDataValidators } from './edit-user-data.validators';
@@ -29,7 +26,6 @@ import { EditUserDataValidators } from './edit-user-data.validators';
   styleUrls: ['./edit-user-data.page.scss'],
   standalone: true,
   imports: [
-    IonIcon,
     IonLabel,
     IonSkeletonText,
     IonContent,
@@ -41,12 +37,12 @@ import { EditUserDataValidators } from './edit-user-data.validators';
     ReactiveFormsModule,
     RouterLink,
     HeaderComponent,
+    BackButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class EditUserDataPage {
   private readonly formBuilder = inject(NonNullableFormBuilder);
-  private readonly navController = inject(NavController);
   private readonly usersStore = inject(UsersStore);
 
   editUserDataForm = this.formBuilder.group<EditUserDataForm>({
@@ -59,8 +55,6 @@ export default class EditUserDataPage {
   }
 
   constructor() {
-    addIcons({ arrowBackOutline });
-
     effect(() => {
       const userData = this.usersStore.userData();
 
@@ -85,9 +79,5 @@ export default class EditUserDataPage {
 
   updateUserData(): void {
     this.usersStore.updateUserData(<UpdateUserBody>this.editUserDataForm.value);
-  }
-
-  goToProfile(): void {
-    this.navController.navigateBack('/profile');
   }
 }
