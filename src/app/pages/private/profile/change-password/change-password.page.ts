@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { HeaderComponent } from '@components/header/header.component';
 import { PasswordComponent } from '@components/password/password.component';
 import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
@@ -8,10 +7,13 @@ import { UsersApiService } from '@features/users/services/users-api.service';
 import { ChangePasswordBody } from '@features/users/users.models';
 import {
   IonButton,
+  IonButtons,
   IonContent,
+  IonHeader,
   IonIcon,
   IonItem,
   IonList,
+  IonToolbar,
   NavController,
   ToastOptions,
 } from '@ionic/angular/standalone';
@@ -31,6 +33,9 @@ import { ChangePasswordForm } from './change-password.models';
   styleUrls: ['./change-password.page.scss'],
   standalone: true,
   imports: [
+    IonToolbar,
+    IonButtons,
+    IonHeader,
     IonIcon,
     IonContent,
     IonList,
@@ -39,7 +44,6 @@ import { ChangePasswordForm } from './change-password.models';
     PasswordComponent,
     ReactiveFormsModule,
     TranslateModule,
-    HeaderComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

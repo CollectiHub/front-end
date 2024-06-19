@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { HeaderComponent } from '@components/header/header.component';
 import { PasswordComponent } from '@components/password/password.component';
+import { PublicHeaderComponent } from '@components/public-header/public-header.component';
 import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { UsersApiService } from '@features/users/services/users-api.service';
@@ -29,8 +29,8 @@ import { ResetPasswordForm } from './reset-password.models';
     ReactiveFormsModule,
     RouterLink,
     TranslateModule,
-    HeaderComponent,
     PasswordComponent,
+    PublicHeaderComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

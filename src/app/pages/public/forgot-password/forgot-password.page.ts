@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { HeaderComponent } from '@components/header/header.component';
+import { PublicHeaderComponent } from '@components/public-header/public-header.component';
 import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { UsersApiService } from '@features/users/services/users-api.service';
@@ -22,7 +22,7 @@ import { Observable, switchMap, take } from 'rxjs';
     ReactiveFormsModule,
     TranslateModule,
     RouterLink,
-    HeaderComponent,
+    PublicHeaderComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './forgot-password.page.html',
