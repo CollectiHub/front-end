@@ -45,8 +45,6 @@ export default class EditUserDataPage {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly usersStore = inject(UsersStore);
 
-  readonly profilePath: string = '/profile';
-
   editUserDataForm = this.formBuilder.group<EditUserDataForm>({
     email: this.formBuilder.control('', [Validators.required, Validators.pattern(RegularExpressions.email)]),
     username: this.formBuilder.control('', Validators.required),

@@ -20,7 +20,7 @@ export class BackButtonComponent {
     addIcons({ arrowBackOutline });
   }
 
-  navigate(): void {
-    this.navController.navigateBack(this.routePath());
+  navigateBack(path: string): void {
+    this.navController.navigateBack(path);
   }
 }

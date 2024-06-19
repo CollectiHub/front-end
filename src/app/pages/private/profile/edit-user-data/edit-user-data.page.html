@@ -3,7 +3,7 @@
 
   <ion-content>
     <div class="tw-px-4">
-      <app-back-button [routePath]="profilePath" />
+      <app-back-button [routePath]="'/profile'" />
 
       <form [formGroup]="editUserDataForm" (ngSubmit)="updateUserData()">
         <ion-list>

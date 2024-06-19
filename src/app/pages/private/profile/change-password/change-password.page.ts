@@ -43,8 +43,6 @@ export default class ChangePasswordPage {
   private readonly translateService = inject(TranslateService);
   private readonly cdr = inject(ChangeDetectorRef);
 
-  readonly profilePath: string = '/profile';
-
   changePasswordForm = this.formBuilder.group<ChangePasswordForm>(
     {
       oldPassword: this.formBuilder.control('', Validators.required),
