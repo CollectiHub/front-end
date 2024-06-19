@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { HeaderComponent } from '@components/header/header.component';
 import { AppConstants } from '@constants/app.constants';
 import { AuthFacadeService } from '@features/auth/services/auth-facade/auth-facade.service';
 import { UsersApiService } from '@features/users/services/users-api.service';
@@ -14,6 +13,7 @@ import {
   IonButtons,
   IonContent,
   IonFooter,
+  IonHeader,
   IonIcon,
   IonItem,
   IonList,
@@ -30,7 +30,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AlertService } from '@services/alert/alert.service';
 import { ToastService } from '@services/toast/toast.service';
 import { addIcons } from 'ionicons';
-import { createOutline } from 'ionicons/icons';
+import { createOutline, logOutOutline } from 'ionicons/icons';
 import { filter, switchMap, take } from 'rxjs';
 
 @Component({
@@ -40,6 +40,7 @@ import { filter, switchMap, take } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
+    IonHeader,
     IonButtons,
     IonToolbar,
     IonFooter,
@@ -52,7 +53,6 @@ import { filter, switchMap, take } from 'rxjs';
     IonItem,
     IonButton,
     IonText,
-    HeaderComponent,
     CommonModule,
     TranslateModule,
     RouterLink,
@@ -71,7 +71,7 @@ export default class ProfilePage {
   userData: Signal<UserDataDto | undefined> = this.usersStore.userData;
 
   constructor() {
-    addIcons({ createOutline });
+    addIcons({ createOutline, logOutOutline });
   }
 
   deleteAccount(): void {

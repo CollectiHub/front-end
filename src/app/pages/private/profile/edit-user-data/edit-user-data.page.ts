@@ -2,18 +2,21 @@ import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/cor
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { BackButtonComponent } from '@components/back-button/back-button.component';
-import { HeaderComponent } from '@components/header/header.component';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { UsersStore } from '@features/users/store/users.store';
 import { UpdateUserBody } from '@features/users/users.models';
 import {
   IonButton,
+  IonButtons,
   IonContent,
+  IonHeader,
+  IonIcon,
   IonInput,
   IonItem,
   IonLabel,
   IonList,
   IonSkeletonText,
+  IonToolbar,
 } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -26,6 +29,10 @@ import { EditUserDataValidators } from './edit-user-data.validators';
   styleUrls: ['./edit-user-data.page.scss'],
   standalone: true,
   imports: [
+    IonButtons,
+    IonToolbar,
+    IonHeader,
+    IonIcon,
     IonLabel,
     IonSkeletonText,
     IonContent,
@@ -36,7 +43,6 @@ import { EditUserDataValidators } from './edit-user-data.validators';
     TranslateModule,
     ReactiveFormsModule,
     RouterLink,
-    HeaderComponent,
     BackButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

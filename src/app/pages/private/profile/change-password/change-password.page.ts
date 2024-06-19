@@ -1,13 +1,22 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { BackButtonComponent } from '@components/back-button/back-button.component';
-import { HeaderComponent } from '@components/header/header.component';
 import { PasswordComponent } from '@components/password/password.component';
 import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { ChangePasswordBody } from '@features/users/users.models';
-import { IonButton, IonContent, IonIcon, IonItem, IonList, ToastOptions } from '@ionic/angular/standalone';
+import {
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonItem,
+  IonList,
+  IonToolbar,
+  ToastOptions,
+} from '@ionic/angular/standalone';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LoaderService } from '@services/loader/loader.service';
 import { ToastService } from '@services/toast/toast.service';
@@ -22,6 +31,9 @@ import { ChangePasswordForm } from './change-password.models';
   styleUrls: ['./change-password.page.scss'],
   standalone: true,
   imports: [
+    IonToolbar,
+    IonButtons,
+    IonHeader,
     IonIcon,
     IonContent,
     IonList,
@@ -30,7 +42,6 @@ import { ChangePasswordForm } from './change-password.models';
     PasswordComponent,
     ReactiveFormsModule,
     TranslateModule,
-    HeaderComponent,
     BackButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

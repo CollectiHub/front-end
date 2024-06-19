@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IonHeader, IonIcon, IonImg, IonText, IonToolbar } from '@ionic/angular/standalone';
 import { LetDirective } from '@ngrx/component';
@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SelectLanguageComponent } from '../select-language/select-language.component';
 
 @Component({
-  selector: 'app-header',
+  selector: 'app-public-header',
   standalone: true,
   imports: [
     IonIcon,
@@ -21,9 +21,7 @@ import { SelectLanguageComponent } from '../select-language/select-language.comp
     RouterLink,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  templateUrl: './public-header.component.html',
+  styleUrls: ['./public-header.component.scss'],
 })
-export class HeaderComponent {
-  title = input.required<string>();
-}
+export class PublicHeaderComponent {}

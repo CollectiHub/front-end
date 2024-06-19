@@ -1,5 +1,13 @@
 <div class="ion-page">
-  <app-header title="profile.header" />
+  <ion-header>
+    <ion-toolbar class="!tw-py-0 tw-px-4">
+      <ion-buttons slot="end">
+        <ion-button class="app-icon-button" (click)="logout()">
+          <ion-icon name="log-out-outline" slot="icon-only" />
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
 
   <ion-content>
     <div class="tw-p-4">
@@ -53,12 +61,4 @@
       </div>
     </div>
   </ion-content>
-
-  <ion-footer class="tw-border-b">
-    <ion-toolbar>
-      <ion-buttons class="tw-w-full">
-        <ion-button class="tw-w-full" translate="profile.logout_button" (click)="logout()" />
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-footer>
 </div>
