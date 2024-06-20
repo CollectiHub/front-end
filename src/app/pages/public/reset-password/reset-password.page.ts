@@ -3,14 +3,13 @@ import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErr
 import { RouterLink } from '@angular/router';
 import { PasswordComponent } from '@components/password/password.component';
 import { PublicHeaderComponent } from '@components/public-header/public-header.component';
-import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { UsersApiService } from '@features/users/services/users-api.service';
-import { IonButton, IonContent, IonItem, IonList, IonText, ToastOptions } from '@ionic/angular/standalone';
-import { OverlayEventDetail } from '@models/ionic.models';
+import { IonButton, IonContent, IonItem, IonList, IonText } from '@ionic/angular/standalone';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ToastColor } from '@services/toast/toast.models';
 import { ToastService } from '@services/toast/toast.service';
-import { Observable, switchMap, take } from 'rxjs';
+import { switchMap, take } from 'rxjs';
 import { AppValidators } from 'src/app/validators/app.validators';
 
 import { ResetPasswordForm } from './reset-password.models';
@@ -77,23 +76,13 @@ export default class ResetPasswordPage {
     this.usersApiService
       .verifyPasswordReset$(body)
       .pipe(
-        switchMap(() => this.translateService.get('reset_password.toast')),
-        switchMap((message: string) => this.openToast$(message)),
+        switchMap(() => {
+          const message = this.translateService.instant('reset_password.toast');
+
+          return this.toastService.open$(message, ToastColor.Success);
+        }),
         take(1),
       )
       .subscribe();
-  }
-
-  private openToast$(message: string): Observable<OverlayEventDetail<void>> {
-    const toastOptions: ToastOptions = {
-      message,
-      duration: AppConstants.toastDuration,
-      cssClass: 'app-toast',
-      position: 'bottom',
-      color: 'success',
-      buttons: [{ icon: 'close-outline', role: 'cancel' }],
-    };
-
-    return this.toastService.openWithListener$(toastOptions);
   }
 }

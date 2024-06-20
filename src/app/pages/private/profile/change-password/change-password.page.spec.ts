@@ -1,11 +1,11 @@
 import { ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
-import { AppConstants } from '@constants/app.constants';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { GenericApiResponse } from '@models/api.models';
 import { TranslateService } from '@ngx-translate/core';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { LoaderService } from '@services/loader/loader.service';
+import { ToastColor } from '@services/toast/toast.models';
 import { ToastService } from '@services/toast/toast.service';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of } from 'rxjs';
@@ -140,18 +140,9 @@ describe(ChangePasswordPage.name, () => {
       });
 
       it('should open toast in case of success with correct config', () => {
-        const expectedToastConfig = {
-          message: 'change_password.toast',
-          duration: AppConstants.toastDuration,
-          cssClass: 'app-toast',
-          position: 'bottom',
-          color: 'success',
-          buttons: [{ icon: 'close-outline', role: 'cancel' }],
-        };
-
         component.changePassword();
 
-        expect(toastServiceMock.open$).toHaveBeenCalledWith(expectedToastConfig);
+        expect(toastServiceMock.open$).toHaveBeenCalledWith('change_password.toast', ToastColor.Success);
       });
 
       it('should form after success request', () => {

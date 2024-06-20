@@ -4,6 +4,7 @@ import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of, take } from 'rxjs';
 
+import { ToastColor } from './toast.models';
 import { ToastService } from './toast.service';
 
 describe(ToastService.name, () => {
@@ -26,9 +27,18 @@ describe(ToastService.name, () => {
 
   describe('open$', () => {
     it('should trigger "create" method with target options', () => {
-      service.open$({}).pipe(take(1)).subscribe();
+      const expectedToastConfig = {
+        duration: 3000,
+        cssClass: 'app-toast',
+        position: 'bottom',
+        message: 'message',
+        color: ToastColor.Success,
+        buttons: [{ icon: 'close-outline', role: 'cancel' }],
+      };
 
-      expect(toastControllerMock.create).toHaveBeenCalledWith({});
+      service.open$('message', ToastColor.Success).pipe(take(1)).subscribe();
+
+      expect(toastControllerMock.create).toHaveBeenCalledWith(expectedToastConfig);
     });
 
     it('should trigger "present" method to display toast', fakeAsync(() => {
@@ -37,29 +47,10 @@ describe(ToastService.name, () => {
         present: presentSpy,
       } as any);
 
-      service.open$({}).pipe(take(1)).subscribe();
+      service.open$('message', ToastColor.Success).pipe(take(1)).subscribe();
       tick();
 
       expect(presentSpy).toHaveBeenCalledTimes(1);
     }));
-  });
-
-  describe('openWithListener$', () => {
-    it('should trigger "open" method with target options', () => {
-      const spy = jest.spyOn(service, 'open$');
-
-      service.openWithListener$({}).pipe(take(1)).subscribe();
-
-      expect(spy).toHaveBeenCalledWith({});
-    });
-
-    it('should trigger "onDidDismiss" method to know when toaster closed', () => {
-      const didDismissSpy = jest.fn();
-      jest.spyOn(service, 'open$').mockReturnValue(of({ onDidDismiss: didDismissSpy } as any));
-
-      service.openWithListener$({}).pipe(take(1)).subscribe();
-
-      expect(didDismissSpy).toHaveBeenCalledTimes(1);
-    });
   });
 });

@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { BackButtonComponent } from '@components/back-button/back-button.component';
 import { PasswordComponent } from '@components/password/password.component';
-import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { ChangePasswordBody } from '@features/users/users.models';
@@ -15,12 +14,12 @@ import {
   IonItem,
   IonList,
   IonToolbar,
-  ToastOptions,
 } from '@ionic/angular/standalone';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LoaderService } from '@services/loader/loader.service';
+import { ToastColor } from '@services/toast/toast.models';
 import { ToastService } from '@services/toast/toast.service';
-import { Observable, switchMap, take } from 'rxjs';
+import { switchMap, take } from 'rxjs';
 import { AppValidators } from 'src/app/validators/app.validators';
 
 import { ChangePasswordForm } from './change-password.models';
@@ -94,25 +93,16 @@ export default class ChangePasswordPage {
     this.loaderService
       .showUntilCompleted$(request$)
       .pipe(
-        switchMap(() => this.openSuccessToast$()),
+        switchMap(() => {
+          const message = this.translateService.instant('change_password.toast');
+
+          return this.toastService.open$(message, ToastColor.Success);
+        }),
         take(1),
       )
       .subscribe(() => {
         this.changePasswordForm.reset();
         this.cdr.markForCheck();
       });
-  }
-
-  private openSuccessToast$(): Observable<HTMLIonToastElement> {
-    const toastOptions: ToastOptions = {
-      message: this.translateService.instant('change_password.toast'),
-      duration: AppConstants.toastDuration,
-      cssClass: 'app-toast',
-      position: 'bottom',
-      color: 'success',
-      buttons: [{ icon: 'close-outline', role: 'cancel' }],
-    };
-
-    return this.toastService.open$(toastOptions);
   }
 }

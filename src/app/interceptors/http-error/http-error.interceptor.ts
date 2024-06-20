@@ -1,7 +1,6 @@
 import { HttpErrorResponse, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AppConstants } from '@constants/app.constants';
-import { ToastOptions } from '@ionic/angular/standalone';
+import { ToastColor } from '@services/toast/toast.models';
 import { ToastService } from '@services/toast/toast.service';
 import { catchError, switchMap, throwError } from 'rxjs';
 
@@ -10,16 +9,7 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      const toastOptions: ToastOptions = {
-        message: error.error.message,
-        duration: AppConstants.toastDuration,
-        cssClass: 'app-toast',
-        position: 'bottom',
-        color: 'danger',
-        buttons: [{ icon: 'close-outline', role: 'cancel' }],
-      };
-
-      return toastService.open$(toastOptions).pipe(switchMap(() => throwError(() => error)));
+      return toastService.open$(error.error.message, ToastColor.Danger).pipe(switchMap(() => throwError(() => error)));
     }),
   );
 };

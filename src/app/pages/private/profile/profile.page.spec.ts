@@ -1,6 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AppConstants } from '@constants/app.constants';
 import { AuthFacadeService } from '@features/auth/services/auth-facade/auth-facade.service';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { UsersStoreMock } from '@features/users/store/users.state.testing';
@@ -10,6 +9,7 @@ import { AlertEventRole } from '@models/app.models';
 import { TranslateService } from '@ngx-translate/core';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { AlertService } from '@services/alert/alert.service';
+import { ToastColor } from '@services/toast/toast.models';
 import { ToastService } from '@services/toast/toast.service';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of, throwError } from 'rxjs';
@@ -258,17 +258,8 @@ describe(ProfilePage.name, () => {
   });
 
   it('should open toast in case of successful request', () => {
-    const expectedToastConfig = {
-      message: 'profile.verify_email_toast',
-      duration: AppConstants.toastDuration,
-      cssClass: 'app-toast',
-      position: 'bottom',
-      color: 'success',
-      buttons: [{ icon: 'close-outline', role: 'cancel' }],
-    };
-
     component.requestEmailVerification(mock<MouseEvent>());
 
-    expect(toastServiceMock.open$).toHaveBeenCalledWith(expectedToastConfig);
+    expect(toastServiceMock.open$).toHaveBeenCalledWith('profile.verify_email_toast', ToastColor.Success);
   });
 });

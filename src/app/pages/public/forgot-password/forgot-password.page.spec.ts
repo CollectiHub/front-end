@@ -1,8 +1,8 @@
-import { AppConstants } from '@constants/app.constants';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { GenericApiResponse } from '@models/api.models';
 import { TranslateService } from '@ngx-translate/core';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
+import { ToastColor } from '@services/toast/toast.models';
 import { ToastService } from '@services/toast/toast.service';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of } from 'rxjs';
@@ -20,10 +20,10 @@ describe('ResetPasswordComponent', () => {
     usersApiServiceMock.requestPasswordReset$.mockReturnValue(of({} as GenericApiResponse));
 
     toastServiceMock = mock<ToastService>();
-    toastServiceMock.openWithListener$.mockReturnValue(of({} as any));
+    toastServiceMock.open$.mockReturnValue(of({} as any));
 
     translateServiceMock = mock<TranslateService>();
-    translateServiceMock.get.mockReturnValue(of('message'));
+    translateServiceMock.instant.mockImplementation(key => key);
 
     component = classWithProviders({
       token: ForgotPasswordComponent,
@@ -77,23 +77,14 @@ describe('ResetPasswordComponent', () => {
       component.forgotPasswordControl.setValue('email@gg.gg');
       component.submitForgotPassword();
 
-      expect(translateServiceMock.get).toHaveBeenCalledWith('forgot_password.toast', { email: 'email@gg.gg' });
+      expect(translateServiceMock.instant).toHaveBeenCalledWith('forgot_password.toast', { email: 'email@gg.gg' });
     });
 
-    it('should open toast in case of success request', () => {
-      const expectedToastConfig = {
-        message: 'message',
-        duration: AppConstants.toastDuration,
-        cssClass: 'app-toast',
-        position: 'bottom',
-        color: 'success',
-        buttons: [{ icon: 'close-outline', role: 'cancel' }],
-      };
-
+    it('shouldopen toast in case of success', () => {
       component.forgotPasswordControl.setValue('email@gg.gg');
       component.submitForgotPassword();
 
-      expect(toastServiceMock.openWithListener$).toHaveBeenCalledWith(expectedToastConfig);
+      expect(toastServiceMock.open$).toHaveBeenCalledWith('forgot_password.toast', ToastColor.Success);
     });
   });
 });
