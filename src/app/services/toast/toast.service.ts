@@ -1,21 +1,25 @@
 import { Injectable, inject } from '@angular/core';
 import { ToastController, ToastOptions } from '@ionic/angular/standalone';
-import { OverlayEventDetail } from '@models/ionic.models';
-import { Observable, from, switchMap, tap } from 'rxjs';
+import { Observable, from, tap } from 'rxjs';
+
+import { ToastColor } from './toast.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ToastService {
+  private readonly baseToastConfig: ToastOptions = {
+    duration: 3000,
+    cssClass: 'app-toast',
+    position: 'bottom',
+    buttons: [{ icon: 'close-outline', role: 'cancel' }],
+  };
+
   private readonly toastControl = inject(ToastController);
 
-  open$(options: ToastOptions): Observable<HTMLIonToastElement> {
-    return from(this.toastControl.create(options)).pipe(
+  open$(message: string, color: ToastColor): Observable<HTMLIonToastElement> {
+    return from(this.toastControl.create({ ...this.baseToastConfig, message, color })).pipe(
       tap((toastElement: HTMLIonToastElement) => toastElement.present()),
     );
-  }
-
-  openWithListener$<T>(options: ToastOptions): Observable<OverlayEventDetail<T>> {
-    return this.open$(options).pipe(switchMap((toastCtrl: HTMLIonToastElement) => toastCtrl.onDidDismiss()));
   }
 }

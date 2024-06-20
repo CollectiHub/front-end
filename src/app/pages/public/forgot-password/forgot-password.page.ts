@@ -2,14 +2,13 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { PublicHeaderComponent } from '@components/public-header/public-header.component';
-import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { UsersApiService } from '@features/users/services/users-api.service';
-import { IonButton, IonContent, IonInput, IonItem, IonList, ToastOptions } from '@ionic/angular/standalone';
-import { OverlayEventDetail } from '@models/ionic.models';
+import { IonButton, IonContent, IonInput, IonItem, IonList } from '@ionic/angular/standalone';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ToastColor } from '@services/toast/toast.models';
 import { ToastService } from '@services/toast/toast.service';
-import { Observable, switchMap, take } from 'rxjs';
+import { switchMap, take } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -50,23 +49,13 @@ export default class ForgotPasswordComponent {
     this.usersApiService
       .requestPasswordReset$(email)
       .pipe(
-        switchMap(() => this.translateService.get('forgot_password.toast', { email })),
-        switchMap((message: string) => this.openToast$(message)),
+        switchMap(() => {
+          const message = this.translateService.instant('forgot_password.toast', { email });
+
+          return this.toastService.open$(message, ToastColor.Success);
+        }),
         take(1),
       )
       .subscribe();
-  }
-
-  private openToast$(message: string): Observable<OverlayEventDetail<void>> {
-    const toastOptions: ToastOptions = {
-      message,
-      duration: AppConstants.toastDuration,
-      cssClass: 'app-toast',
-      position: 'bottom',
-      color: 'success',
-      buttons: [{ icon: 'close-outline', role: 'cancel' }],
-    };
-
-    return this.toastService.openWithListener$(toastOptions);
   }
 }

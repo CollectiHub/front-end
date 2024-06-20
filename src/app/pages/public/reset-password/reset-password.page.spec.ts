@@ -1,10 +1,10 @@
 import { signal } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
-import { AppConstants } from '@constants/app.constants';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { GenericApiResponse } from '@models/api.models';
 import { TranslateService } from '@ngx-translate/core';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
+import { ToastColor } from '@services/toast/toast.models';
 import { ToastService } from '@services/toast/toast.service';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of } from 'rxjs';
@@ -23,10 +23,10 @@ describe(ResetPasswordPage.name, () => {
     usersApiServiceMock.verifyPasswordReset$.mockReturnValue(of({} as GenericApiResponse));
 
     toastServiceMock = mock<ToastService>();
-    toastServiceMock.openWithListener$.mockReturnValue(of({} as any));
+    toastServiceMock.open$.mockReturnValue(of({} as any));
 
     translateServiceMock = mock<TranslateService>();
-    translateServiceMock.get.mockReturnValue(of('message'));
+    translateServiceMock.instant.mockImplementation(key => key);
 
     formBuilderMock = mock<NonNullableFormBuilder>();
     formBuilderMock.group.mockReturnValue(
@@ -114,22 +114,13 @@ describe(ResetPasswordPage.name, () => {
       it('should trigger translate toast message in case of success request', () => {
         component.submitResetPassword();
 
-        expect(translateServiceMock.get).toHaveBeenCalledWith('reset_password.toast');
+        expect(translateServiceMock.instant).toHaveBeenCalledWith('reset_password.toast');
       });
 
-      it('should open toast in case of success request', () => {
-        const expectedToastConfig = {
-          message: 'message',
-          duration: AppConstants.toastDuration,
-          cssClass: 'app-toast',
-          position: 'bottom',
-          color: 'success',
-          buttons: [{ icon: 'close-outline', role: 'cancel' }],
-        };
-
+      it('should should open toast in case of success request', () => {
         component.submitResetPassword();
 
-        expect(toastServiceMock.openWithListener$).toHaveBeenCalledWith(expectedToastConfig);
+        expect(toastServiceMock.open$).toHaveBeenCalledWith('reset_password.toast', ToastColor.Success);
       });
     });
   });

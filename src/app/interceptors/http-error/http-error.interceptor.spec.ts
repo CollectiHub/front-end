@@ -1,7 +1,7 @@
 import { HttpRequest } from '@angular/common/http';
 import { Provider } from '@angular/core';
-import { AppConstants } from '@constants/app.constants';
 import { runFnInContext } from '@ngx-unit-test/inject-mocks';
+import { ToastColor } from '@services/toast/toast.models';
 import { ToastService } from '@services/toast/toast.service';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of, take, throwError } from 'rxjs';
@@ -30,19 +30,11 @@ describe('httpErrorInterceptor', () => {
 
   it('should trigger "open$" method of toastService when error received', () => {
     const nextMock = jest.fn(() => throwError(() => errorMock));
-    const expectedConfig = {
-      duration: AppConstants.toastDuration,
-      cssClass: 'app-toast',
-      message: 'error',
-      position: 'bottom',
-      color: 'danger',
-      buttons: [{ icon: 'close-outline', role: 'cancel' }],
-    };
 
     const interceptor$ = runFnInContext(providers, () => httpErrorInterceptor({} as HttpRequest<unknown>, nextMock));
     interceptor$.pipe(take(1)).subscribe();
 
-    expect(toastServiceMock.open$).toHaveBeenCalledWith(expectedConfig);
+    expect(toastServiceMock.open$).toHaveBeenCalledWith('error', ToastColor.Danger);
   });
 
   it('should throw an error when error received during API call', () => {
