@@ -1,38 +1,38 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CollectionSettingsComponent } from '@features/collection/components/collection-settings/collection-settings.component';
 import {
   IonButton,
   IonButtons,
   IonContent,
   IonHeader,
   IonIcon,
-  IonMenu,
   IonMenuToggle,
+  IonTitle,
   IonToolbar,
 } from '@ionic/angular/standalone';
+import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { settingsOutline } from 'ionicons/icons';
+import { closeOutline } from 'ionicons/icons';
 
 @Component({
-  selector: 'app-collection',
-  templateUrl: './collection.page.html',
-  styleUrls: ['./collection.page.scss'],
+  selector: 'app-collection-settings',
   standalone: true,
   imports: [
-    IonContent,
+    IonIcon,
     IonButton,
     IonButtons,
     IonToolbar,
+    IonTitle,
     IonHeader,
-    IonIcon,
-    IonMenu,
+    IonContent,
     IonMenuToggle,
-    CollectionSettingsComponent,
+    TranslateModule,
   ],
+  templateUrl: './collection-settings.component.html',
+  styleUrl: './collection-settings.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class CollectionPage {
+export class CollectionSettingsComponent {
   constructor() {
-    addIcons({ settingsOutline });
+    addIcons({ closeOutline });
   }
 }
