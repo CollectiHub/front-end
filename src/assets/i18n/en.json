@@ -65,5 +65,12 @@
   "users.try_again_button": "Try again",
   "users.logout_button": "Logout",
   "collection.tab": "My collection",
-  "collection.settings_title": "Collection settings"
+  "collection_settings.title": "Collection settings",
+  "collection_settings.global_progress.label": "Collection progress appearance",
+  "collection_settings.global_progress.none_option": "None",
+  "collection_settings.rarity_progress.label": "Rarity progress appearance",
+  "collection_settings.rarity_progress.none_option": "None",
+  "collection_settings.cards_mode.label": "Cards display mode",
+  "collection_settings.cards_mode.chip_option": "Chips",
+  "collection_settings.cards_mode.image_option": "Images"
 }

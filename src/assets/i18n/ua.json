@@ -65,5 +65,12 @@
   "users.try_again_button": "Спробувати знову",
   "users.logout_button": "Вийти з акаунту",
   "collection.tab": "Моя колекція",
-  "collection.settings_title": "Налаштування колекції"
+  "collection_settings.title": "Налаштування колекції",
+  "collection_settings.global_progress.label": "Відображення прогресу колекції",
+  "collection_settings.global_progress.none_option": "Не відображати",
+  "collection_settings.rarity_progress.label": "Відображення прогресу рідкості",
+  "collection_settings.rarity_progress.none_option": "Не відображати",
+  "collection_settings.cards_mode.label": "Відображення карток",
+  "collection_settings.cards_mode.chip_option": "Чіпи",
+  "collection_settings.cards_mode.image_option": "Картинки"
 }

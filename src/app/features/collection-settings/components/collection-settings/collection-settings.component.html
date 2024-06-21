@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="tw-p-0" translate="collection_settings.title" />
+
+    <ion-buttons slot="end">
+      <ion-menu-toggle class="tw-text-2xl">
+        <ion-button class="app-icon-button">
+          <ion-icon slot="icon-only" name="close-outline" />
+        </ion-button>
+      </ion-menu-toggle>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item>
+      <div class="tw-flex tw-flex-col tw-w-full">
+        <ion-text class="tw-text-sm tw-mb-1" translate="collection_settings.global_progress.label" />
+
+        <div class="tw-flex tw-justify-between tw-pb-1">
+          <ion-button [fill]="settings.collectionProgressMode === CollectionProgressMode.Numbers ? 'solid' : 'outline'">
+            10 / 100
+          </ion-button>
+
+          <ion-button
+            [fill]="settings.collectionProgressMode === CollectionProgressMode.Percentages ? 'solid' : 'outline'">
+            40%
+          </ion-button>
+
+          <ion-button
+            [fill]="settings.collectionProgressMode === CollectionProgressMode.None ? 'solid' : 'outline'"
+            translate="collection_settings.global_progress.none_option" />
+        </div>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>
