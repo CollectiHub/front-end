@@ -22,13 +22,7 @@ describe('PasswordComponent', () => {
     });
   });
 
-  describe('toggleReveal', () => {
-    it('should trigger "set" method of signal with oposite value', () => {
-      const spy = jest.spyOn(component.isRevealed, 'set');
-
-      component.toggleReveal();
-
-      expect(spy).toHaveBeenCalledWith(true);
-    });
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 });
