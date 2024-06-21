@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { FormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
-import { IonIcon, IonInput } from '@ionic/angular/standalone';
+import { IonInput, IonInputPasswordToggle } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { eyeOffOutline, eyeOutline } from 'ionicons/icons';
@@ -10,7 +10,7 @@ import { NoopCustomFormControlDirective } from 'src/app/directives/noop-custom-f
   selector: 'app-password',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonInput, IonIcon, TranslateModule, ReactiveFormsModule],
+  imports: [IonInput, IonInputPasswordToggle, TranslateModule, ReactiveFormsModule],
   templateUrl: './password.component.html',
   styleUrls: ['./password.component.scss'],
   hostDirectives: [NoopCustomFormControlDirective],
@@ -21,7 +21,6 @@ export class PasswordComponent {
   label = input.required<string>();
   helperText = input.required<string>();
   error = input.required<string>();
-  isRevealed = signal(false);
 
   get control(): FormControl {
     return this.ngControl.control as FormControl;
@@ -29,9 +28,5 @@ export class PasswordComponent {
 
   constructor() {
     addIcons({ eyeOutline, eyeOffOutline });
-  }
-
-  toggleReveal(): void {
-    this.isRevealed.set(!this.isRevealed());
   }
 }
