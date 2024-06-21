@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 import { LanguageConstants } from '@constants/languages';
-import { IonSelect, IonSelectOption, SelectCustomEvent } from '@ionic/angular/standalone';
+import { IonItem, IonSelect, IonSelectOption, SelectCustomEvent } from '@ionic/angular/standalone';
 import { LanguageData } from '@models/languages.models';
 import { LetDirective } from '@ngrx/component';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -11,7 +11,7 @@ import { Observable, from, map, startWith, take } from 'rxjs';
   selector: 'app-select-language',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonSelect, IonSelectOption, TranslateModule, LetDirective],
+  imports: [IonItem, IonSelect, IonSelectOption, TranslateModule, LetDirective],
   templateUrl: './select-language.component.html',
   styleUrls: ['./select-language.component.scss'],
 })

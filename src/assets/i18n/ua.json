@@ -65,5 +65,6 @@
   "users.try_again_button": "Спробувати знову",
   "users.logout_button": "Вийти з акаунту",
   "collection.tab": "Моя колекція",
-  "collection.settings_title": "Налаштування колекції"
+  "collection.settings_title": "Налаштування колекції",
+  "select_language.label": "Мова"
 }
