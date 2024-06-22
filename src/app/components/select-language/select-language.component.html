@@ -1,20 +1,16 @@
-<ion-item class="tw-relative" *ngrxLet="currentLanguageData$ as currentLanguageData">
-  <ion-select
-    class="tw-w-fit tw-py-3"
-    interface="action-sheet"
-    justify="start"
-    [value]="currentLanguageData.code"
-    [cancelText]="'button.cancel' | translate"
-    (ionChange)="handleLanguageChange($event)">
-    <span class="tw-text-xs tw-font-bold" translate="select_language.label" slot="label"></span>
+<ion-select
+  *ngrxLet="currentLanguageData$ as currentLanguageData"
+  class="tw-w-fit"
+  interface="action-sheet"
+  [value]="currentLanguageData.code"
+  [cancelText]="'button.cancel' | translate"
+  (ionChange)="handleLanguageChange($event)">
+  <span class="tw-mr-2 tw-text-sm" slot="label">
+    {{ currentLanguageData.code | uppercase }}
+  </span>
+  <span class="fi fi-{{ currentLanguageData.flagIconCode }}" slot="label"></span>
 
-    @for (language of supporedLanguages; track language) {
-      <ion-select-option [value]="language.code">{{ language.displayValue }}</ion-select-option>
-    }
-  </ion-select>
-
-  <div class="tw-absolute tw-right-0">
-    <span class="tw-mr-2 tw-text-sm"> {{ currentLanguageData.displayValue }}</span>
-    <span class=" fi fi-{{ currentLanguageData.flagIconCode }}"></span>
-  </div>
-</ion-item>
+  @for (language of supporedLanguages; track language) {
+    <ion-select-option [value]="language.code">{{ language.displayValue }}</ion-select-option>
+  }
+</ion-select>
