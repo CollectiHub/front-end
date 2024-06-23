@@ -1,6 +1,7 @@
 <ion-select
   *ngrxLet="currentLanguageData$ as currentLanguageData"
-  class="tw-w-fit"
+  class="tw-w-full"
+  justify="end"
   interface="action-sheet"
   [value]="currentLanguageData.code"
   [cancelText]="'button.cancel' | translate"
