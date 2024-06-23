@@ -1,23 +1,20 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  CardsDisplayMode,
-  CollectionProgressMode,
-} from '@features/collection-settings/collection-settings.component.models';
+import { CardsDisplayMode, CollectionProgressMode } from '@features/collection-settings/collection-settings.models';
 import {
   IonButton,
   IonButtons,
   IonContent,
   IonHeader,
   IonIcon,
+  IonItem,
+  IonList,
   IonMenuToggle,
-  IonTitle,
-  IonToolbar,
   IonSelect,
   IonSelectOption,
-  IonList,
-  IonItem,
-  IonText,
   IonTabButton,
+  IonText,
+  IonTitle,
+  IonToolbar,
 } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
