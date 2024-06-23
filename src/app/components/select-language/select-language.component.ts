@@ -1,3 +1,4 @@
+import { UpperCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 import { LanguageConstants } from '@constants/languages';
@@ -11,7 +12,7 @@ import { Observable, from, map, startWith, take } from 'rxjs';
   selector: 'app-select-language',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonSelect, IonSelectOption, TranslateModule, LetDirective],
+  imports: [IonSelect, IonSelectOption, TranslateModule, LetDirective, UpperCasePipe],
   templateUrl: './select-language.component.html',
   styleUrls: ['./select-language.component.scss'],
 })

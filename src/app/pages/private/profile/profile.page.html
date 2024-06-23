@@ -38,6 +38,11 @@
             <div class="tw-text-gray-400">{{ userData()?.username}}</div>
           </div>
         </ion-item>
+
+        <ion-item>
+          <div class="tw-text-xs tw-font-bold tw-mb-1">{{ 'select_language.label' | translate }}</div>
+          <app-select-language class="tw-py-2 tw-w-full" />
+        </ion-item>
       </ion-list>
 
       <div class="tw-w-full tw-flex-col tw-flex tw-justify-center tw-mt-4">

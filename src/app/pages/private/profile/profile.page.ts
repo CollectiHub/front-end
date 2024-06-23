@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { SelectLanguageComponent } from '@components/select-language/select-language.component';
 import { AppConstants } from '@constants/app.constants';
 import { AuthFacadeService } from '@features/auth/services/auth-facade/auth-facade.service';
 import { UsersApiService } from '@features/users/services/users-api.service';
@@ -56,6 +57,7 @@ import { filter, switchMap, take } from 'rxjs';
     CommonModule,
     TranslateModule,
     RouterLink,
+    SelectLanguageComponent,
   ],
 })
 export default class ProfilePage {
