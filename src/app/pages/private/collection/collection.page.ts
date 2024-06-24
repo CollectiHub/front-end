@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CollectionSettingsComponent } from '@features/collection/components/collection-settings/collection-settings.component';
+import { CollectionSettingsComponent } from '@features/collection-settings/components/collection-settings/collection-settings.component';
 import {
   IonButton,
   IonButtons,
