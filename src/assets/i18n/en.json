@@ -71,6 +71,5 @@
   "collection_settings.rarity_progress.label": "Rarity progress appearance",
   "collection_settings.rarity_progress.none_option": "None",
   "collection_settings.cards_mode.label": "Cards display mode",
-  "collection_settings.cards_mode.chip_option": "Chips",
-  "collection_settings.cards_mode.image_option": "Images"
+  "collection_settings.import_collection_button": "Import collection"
 }
