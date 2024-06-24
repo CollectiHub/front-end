@@ -67,9 +67,8 @@
   "collection.tab": "My collection",
   "collection_settings.title": "Collection settings",
   "collection_settings.global_progress.label": "Collection progress appearance",
-  "collection_settings.global_progress.none_option": "None",
   "collection_settings.rarity_progress.label": "Rarity progress appearance",
-  "collection_settings.rarity_progress.none_option": "None",
+  "collection_settings.none_progress_option": "None",
   "collection_settings.cards_mode.label": "Cards display mode",
   "collection_settings.import_collection_button": "Import collection"
 }

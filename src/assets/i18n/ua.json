@@ -67,9 +67,8 @@
   "collection.tab": "Моя колекція",
   "collection_settings.title": "Налаштування колекції",
   "collection_settings.global_progress.label": "Відображення прогресу колекції",
-  "collection_settings.global_progress.none_option": "Не відображати",
   "collection_settings.rarity_progress.label": "Відображення прогресу рідкості",
-  "collection_settings.rarity_progress.none_option": "Не відображати",
+  "collection_settings.none_progress_option": "Не відображати",
   "collection_settings.cards_mode.label": "Відображення карток",
   "collection_settings.import_collection_button": "Імпортувати колекцію"
 }
