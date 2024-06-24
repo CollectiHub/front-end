@@ -65,6 +65,7 @@
   "users.try_again_button": "Спробувати знову",
   "users.logout_button": "Вийти з акаунту",
   "collection.tab": "Моя колекція",
+  "select_language.label": "Мова",
   "collection_settings.title": "Налаштування колекції",
   "collection_settings.global_progress.label": "Відображення прогресу колекції",
   "collection_settings.rarity_progress.label": "Відображення прогресу рідкості",

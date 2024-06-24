@@ -65,6 +65,7 @@
   "users.try_again_button": "Try again",
   "users.logout_button": "Logout",
   "collection.tab": "My collection",
+  "select_language.label": "Language",
   "collection_settings.title": "Collection settings",
   "collection_settings.global_progress.label": "Collection progress appearance",
   "collection_settings.rarity_progress.label": "Rarity progress appearance",
