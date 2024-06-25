@@ -1,14 +1,13 @@
 <div class="tw-flex tw-flex-nowrap tw-overflow-x-auto">
-  <ion-card
-    *ngFor="let rarity of rarities()"
-    class="tw-flex-shrink-0 tw-flex-grow-0 tw-flex-auto tw-my-4 tw-mx-2"
-    [button]="true">
-    <ion-card-content
-      [ngClass]="{ active: currentSelectedRarity() === rarity }"
-      class="tw-flex tw-justify-center tw-items-center tw-w-11 tw-h-11 tw-text-sm"
-      fill="clear"
-      (click)="onClick(rarity)">
-      {{ rarity }}
-    </ion-card-content>
-  </ion-card>
+  @for (rarity of rarities(); track rarity) {
+    <ion-card class="tw-flex-shrink-0 tw-flex-grow-0 tw-flex-auto tw-my-4 tw-mx-2" [button]="true">
+      <ion-card-content
+        [class.selected-rarity]="selectedRarity() === rarity"
+        class="tw-flex tw-justify-center tw-items-center tw-w-11 tw-h-11 tw-text-sm"
+        fill="clear"
+        (click)="onClick(rarity)">
+        {{ rarity }}
+      </ion-card-content>
+    </ion-card>
+  }
 </div>

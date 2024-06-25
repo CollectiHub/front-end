@@ -36,7 +36,7 @@ import { settingsOutline } from 'ionicons/icons';
 })
 export default class CollectionPage {
   rarities = signal<string[]>(stubRarityList);
-  lastSelectedRarity = signal<string>('');
+  selectedRarity = signal<string>('R');
 
   constructor() {
     addIcons({ settingsOutline });
@@ -44,6 +44,6 @@ export default class CollectionPage {
 
   handleSelectRarity(rarity: string): void {
     // TO DO
-    console.log(rarity);
+    this.selectedRarity.set(rarity);
   }
 }

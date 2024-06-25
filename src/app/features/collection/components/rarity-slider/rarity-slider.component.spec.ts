@@ -13,21 +13,13 @@ describe(RaritySliderComponent.name, () => {
   });
 
   describe('onClick', () => {
-    it('should set the current selected rarity', () => {
-      const testValue: string = 'R';
-
-      component.onClick(testValue);
-
-      expect(component.currentSelectedRarity()).toBe(testValue);
-    });
-
     it('should emit selected rarity value', () => {
       const testValue: string = 'SR';
-      const spyon = jest.spyOn(component.selectRarity, 'emit');
+      const spy = jest.spyOn(component.selectRarity, 'emit');
 
       component.onClick(testValue);
 
-      expect(spyon).toHaveBeenCalledWith(testValue);
+      expect(spy).toHaveBeenCalledWith(testValue);
     });
   });
 });
