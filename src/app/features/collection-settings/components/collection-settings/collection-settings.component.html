@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="tw-p-0" translate="collection_settings.title" />
+
+    <ion-buttons slot="end">
+      <ion-menu-toggle class="tw-text-2xl">
+        <ion-button class="app-icon-button">
+          <ion-icon slot="icon-only" name="close-outline" />
+        </ion-button>
+      </ion-menu-toggle>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item>
+      <app-collection-progress-setting
+        label="collection_settings.global_progress.label"
+        [selectedMode]="CollectionProgressMode.Numbers" />
+    </ion-item>
+
+    <ion-item>
+      <app-collection-progress-setting
+        label="collection_settings.rarity_progress.label"
+        [selectedMode]="CollectionProgressMode.Percentages" />
+    </ion-item>
+
+    <ion-item>
+      <div class="tw-flex tw-flex-col tw-py-2">
+        <ion-text class="tw-text-sm tw-mb-2" translate="collection_settings.cards_mode.label" />
+
+        <div class="tw-flex">
+          <ion-button class="tw-mr-2" fill="solid" (click)="handleCardsViewModeChange(CardsDisplayMode.Image)">
+            <ion-icon class="tw-text-3xl tw-p-1" slot="icon-only" name="image-outline" />
+          </ion-button>
+
+          <ion-button fill="outline" (click)="handleCardsViewModeChange(CardsDisplayMode.Chip)">
+            <ion-icon class="tw-text-3xl tw-p-1" slot="icon-only" name="tablet-landscape-outline" />
+          </ion-button>
+        </div>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button class="tw-w-full tw-text-center" translate="collection_settings.import_collection_button">
+        <ion-icon slot="start" name="add-outline" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

@@ -1,4 +1,4 @@
-<ion-tabs>
+<ion-tabs id="tabs">
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="collection">
       <ion-icon name="library-outline" />
@@ -10,3 +10,7 @@
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
+
+<ion-menu side="end" menuId="collection-settings-menu" contentId="tabs">
+  <app-collection-settings class="tw-flex tw-flex-col tw-h-full" />
+</ion-menu>

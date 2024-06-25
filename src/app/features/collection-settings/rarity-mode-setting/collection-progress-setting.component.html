@@ -1,0 +1,22 @@
+<div class="tw-flex tw-flex-col tw-w-full tw-py-2">
+  <ion-text class="tw-text-sm tw-mb-2" [translate]="label()" />
+
+  <div class="tw-flex tw-justify-between">
+    <ion-button
+      [fill]="selectedMode() === CollectionProgressMode.Numbers ? 'solid' : 'outline'"
+      (click)="handleProgressModeChange(CollectionProgressMode.Numbers)">
+      10 / 100
+    </ion-button>
+
+    <ion-button
+      [fill]="selectedMode() === CollectionProgressMode.Percentages ? 'solid' : 'outline'"
+      (click)="handleProgressModeChange(CollectionProgressMode.Percentages)">
+      40%
+    </ion-button>
+
+    <ion-button
+      [fill]="selectedMode() === CollectionProgressMode.None ? 'solid' : 'outline'"
+      translate="collection_settings.none_progress_option"
+      (click)="handleProgressModeChange(CollectionProgressMode.None)" />
+  </div>
+</div>

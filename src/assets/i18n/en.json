@@ -65,6 +65,11 @@
   "users.try_again_button": "Try again",
   "users.logout_button": "Logout",
   "collection.tab": "My collection",
-  "collection.settings_title": "Collection settings",
-  "select_language.label": "Language"
+  "select_language.label": "Language",
+  "collection_settings.title": "Collection settings",
+  "collection_settings.global_progress.label": "Collection progress appearance",
+  "collection_settings.rarity_progress.label": "Rarity progress appearance",
+  "collection_settings.none_progress_option": "None",
+  "collection_settings.cards_mode.label": "Cards display mode",
+  "collection_settings.import_collection_button": "Import collection"
 }

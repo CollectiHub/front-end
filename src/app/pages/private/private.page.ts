@@ -1,10 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { CollectionSettingsComponent } from '@features/collection-settings/components/collection-settings/collection-settings.component';
 import UserDataFetchFailedComponent from '@features/users/components/user-data-fetch-failed/user-data-fetch-failed.component';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { UsersStore } from '@features/users/store/users.store';
 import { UserDataDto } from '@features/users/users.models';
-import { IonIcon, IonTabBar, IonTabButton, IonTabs, ModalOptions } from '@ionic/angular/standalone';
+import { IonIcon, IonMenu, IonTabBar, IonTabButton, IonTabs, ModalOptions } from '@ionic/angular/standalone';
 import { ModalEventRole } from '@models/app.models';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModalService } from '@services/modal/modal.service';
@@ -20,7 +21,7 @@ import { UserDataFetchResult } from './private.page.models';
   styleUrls: ['./private.page.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonTabs, IonTabBar, IonTabButton, IonIcon, TranslateModule],
+  imports: [IonTabs, IonTabBar, IonTabButton, IonIcon, TranslateModule, IonMenu, CollectionSettingsComponent],
 })
 export default class PrivatePage implements OnInit {
   private readonly usersStore = inject(UsersStore);
