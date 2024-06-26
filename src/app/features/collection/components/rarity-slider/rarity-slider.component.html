@@ -1,0 +1,14 @@
+<div class="tw-bg-zinc-50">
+  <ion-segment
+    class="tw-p-2"
+    color="primary"
+    [scrollable]="true"
+    [value]="selectedRarity()"
+    (ionChange)="handleRarityChange($event)">
+    @for (rarity of rarities(); track rarity) {
+      <ion-segment-button [value]="rarity">
+        <ion-label>{{ rarity }}</ion-label>
+      </ion-segment-button>
+    }
+  </ion-segment>
+</div>

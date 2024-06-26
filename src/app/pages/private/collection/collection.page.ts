@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { stubRarityList } from '@features/collection/components/rarity-slider/rarities.stub';
+import { RaritySliderComponent } from '@features/collection/components/rarity-slider/rarity-slider.component';
 import { CollectionSettingsComponent } from '@features/collection-settings/components/collection-settings/collection-settings.component';
 import {
   IonButton,
@@ -28,11 +30,20 @@ import { settingsOutline } from 'ionicons/icons';
     IonMenu,
     IonMenuToggle,
     CollectionSettingsComponent,
+    RaritySliderComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class CollectionPage {
+  rarities = signal<string[]>(stubRarityList);
+  selectedRarity = signal<string>('SE');
+
   constructor() {
     addIcons({ settingsOutline });
+  }
+
+  handleSelectRarity(rarity: string): void {
+    // TO DO
+    console.log(rarity);
   }
 }
