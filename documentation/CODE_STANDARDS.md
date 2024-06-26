@@ -122,10 +122,10 @@ if (isCar && redColor) {
 - All components should have:
   - html file (component.html),
   - styles file (component.scss),
-  - test file (component.spec.ts),
+  - test file (component.spec.ts) - optional,
   - ts file (component.ts)
 
-> Reason: Default angular component generation. Even if your components don't have something to test you don't know if this will always be the case.
+> Note: While test files are part of this standard, their presence may be optional if the component doesn't currently require testing.
 
 - Don't use `TestBed`. When you create a component with angular cli, will automatically create the test file with `TestBed` included.
 
