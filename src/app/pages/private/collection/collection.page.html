@@ -10,4 +10,9 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
+
+  <app-rarity-slider
+    [rarities]="rarities()"
+    [selectedRarity]="selectedRarity()"
+    (selectRarity)="handleSelectRarity($event)" />
 </div>
