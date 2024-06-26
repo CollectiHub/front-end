@@ -1,13 +1,9 @@
-<div class="tw-flex tw-flex-nowrap tw-overflow-x-auto">
-  @for (rarity of rarities(); track rarity) {
-    <ion-card class="tw-flex-shrink-0 tw-flex-grow-0 tw-flex-auto tw-my-4 tw-mx-2" [button]="true">
-      <ion-card-content
-        [class.selected-rarity]="selectedRarity() === rarity"
-        class="tw-flex tw-justify-center tw-items-center tw-w-11 tw-h-11 tw-text-sm"
-        fill="clear"
-        (click)="onClick(rarity)">
-        {{ rarity }}
-      </ion-card-content>
-    </ion-card>
-  }
+<div class="tw-bg-zinc-50">
+  <ion-segment color="primary" [scrollable]="true" [value]="selectedRarity()" (ionChange)="handleRarityChange($event)">
+    @for (rarity of rarities(); track rarity) {
+      <ion-segment-button [value]="rarity" class="tw-my-2">
+        <ion-label>{{ rarity }}</ion-label>
+      </ion-segment-button>
+    }
+  </ion-segment>
 </div>
