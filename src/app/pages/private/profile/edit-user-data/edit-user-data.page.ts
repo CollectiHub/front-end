@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/cor
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { BackButtonComponent } from '@components/back-button/back-button.component';
+import { EmailComponent } from '@components/email/email.component';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { UsersStore } from '@features/users/store/users.store';
 import { UpdateUserBody } from '@features/users/users.models';
@@ -44,6 +45,7 @@ import { EditUserDataValidators } from './edit-user-data.validators';
     ReactiveFormsModule,
     RouterLink,
     BackButtonComponent,
+    EmailComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

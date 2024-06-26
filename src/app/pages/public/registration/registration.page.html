@@ -18,14 +18,11 @@
         </ion-item>
 
         <ion-item lines="none">
-          <ion-input
-            type="email"
-            class="tw-text-sm"
+          <app-email
             formControlName="email"
-            labelPlacement="floating"
             [label]="'email_label' | translate"
-            [errorText]="getEmailError(emailControl.errors) | translate "
-            [helperText]="'email_helper' | translate" />
+            [helperText]="'email_helper' | translate"
+            [error]="getEmailError(emailControl.errors) | translate" />
         </ion-item>
 
         <ion-item lines="none">

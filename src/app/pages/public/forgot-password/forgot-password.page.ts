@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { EmailComponent } from '@components/email/email.component';
 import { PublicHeaderComponent } from '@components/public-header/public-header.component';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { UsersApiService } from '@features/users/services/users-api.service';
@@ -21,6 +22,7 @@ import { switchMap, take } from 'rxjs';
     ReactiveFormsModule,
     TranslateModule,
     RouterLink,
+    EmailComponent,
     PublicHeaderComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

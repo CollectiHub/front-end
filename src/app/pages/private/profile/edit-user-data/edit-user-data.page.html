@@ -12,13 +12,11 @@
       <form [formGroup]="editUserDataForm" (ngSubmit)="updateUserData()">
         <ion-list>
           <ion-item lines="none" class="tw-mb-4">
-            <ion-input
+            <app-email
               formControlName="email"
-              type="email"
-              labelPlacement="floating"
               [label]="'edit_user_data.email_label' | translate"
-              [errorText]="getEmailError(emailControl.errors) | translate"
-              [helperText]="'edit_user_data.email_helper' | translate" />
+              [helperText]="'edit_user_data.email_helper' | translate"
+              [error]="getEmailError(emailControl.errors) | translate" />
           </ion-item>
 
           <ion-item lines="none" class="tw-my-4">
