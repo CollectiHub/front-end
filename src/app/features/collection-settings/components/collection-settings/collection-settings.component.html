@@ -17,13 +17,15 @@
     <ion-item>
       <app-collection-progress-setting
         label="collection_settings.global_progress.label"
-        [selectedMode]="CollectionProgressMode.Numbers" />
+        [selectedMode]="globalProgressMode()" 
+        (progressModeChange)="handleGlobalProgressModeChange($event)"/>
     </ion-item>
 
     <ion-item>
       <app-collection-progress-setting
         label="collection_settings.rarity_progress.label"
-        [selectedMode]="CollectionProgressMode.Percentages" />
+        [selectedMode]="rarityProgressMode()" 
+        (progressModeChange)="handleRarityProgressModeChange($event)"/>
     </ion-item>
 
     <ion-item>
@@ -31,11 +33,16 @@
         <ion-text class="tw-text-sm tw-mb-2" translate="collection_settings.cards_mode.label" />
 
         <div class="tw-flex">
-          <ion-button class="tw-mr-2" fill="solid" (click)="handleCardsViewModeChange(CardsDisplayMode.Image)">
+          <ion-button
+            class="tw-mr-2"
+            [fill]="cardsDisplayMode() === CardsDisplayMode.Image ? 'solid' : 'outline'"
+            (click)="handleCardsViewModeChange(CardsDisplayMode.Image)">
             <ion-icon class="tw-text-3xl tw-p-1" slot="icon-only" name="image-outline" />
           </ion-button>
 
-          <ion-button fill="outline" (click)="handleCardsViewModeChange(CardsDisplayMode.Chip)">
+          <ion-button
+            [fill]="cardsDisplayMode() === CardsDisplayMode.Chip ? 'solid' : 'outline'"
+            (click)="handleCardsViewModeChange(CardsDisplayMode.Chip)">
             <ion-icon class="tw-text-3xl tw-p-1" slot="icon-only" name="tablet-landscape-outline" />
           </ion-button>
         </div>
