@@ -11,31 +11,34 @@
 
   <ion-content>
     <div class="tw-p-4">
-      <ion-list>
+      <ion-list lines="none">
         <ion-item class="tw-text-gray-400">
           ID&#58;
           <div class="tw-text-gray-400">{{ userData()?.id}}</div>
         </ion-item>
 
-        <ion-item [button]="true" routerLink="/profile/edit-user-data">
-          <div class="tw-flex tw-content-between tw-w-full">
-            <div class="tw-w-full tw-flex tw-flex-col tw-py-4">
-              <div class="tw-text-xs tw-font-bold tw-mb-1">{{ 'profile.email_label' | translate }}</div>
-              <div class="tw-text-gray-400">{{ userData()?.email}}</div>
+        <ion-item
+          class="tw-border tw-border-gray-300 tw-rounded"
+          routerLink="/profile/edit-user-data"
+          [button]="true"
+          [detail]="true">
+          <div class="tw-flex tw-flex-col tw-w-full">
+            <div class="tw-flex tw-content-between tw-w-full">
+              <div class="tw-w-full tw-flex tw-flex-col tw-py-4">
+                <div class="tw-text-xs tw-font-bold tw-mb-1">{{ 'profile.email_label' | translate }}</div>
+                <div class="tw-text-gray-400">{{ userData()?.email}}</div>
+              </div>
+              <ion-button
+                class="tw-self-center"
+                color="warning"
+                translate="profile.verify_email_button"
+                (click)="requestEmailVerification($event)" />
             </div>
 
-            <ion-button
-              class="tw-self-center"
-              color="warning"
-              translate="profile.verify_email_button"
-              (click)="requestEmailVerification($event)" />
-          </div>
-        </ion-item>
-
-        <ion-item [button]="true" routerLink="/profile/edit-user-data">
-          <div class="tw-w-full tw-flex tw-flex-col tw-py-4">
-            <div class="tw-text-xs tw-font-bold tw-mb-1">{{ 'profile.username_label' | translate }}</div>
-            <div class="tw-text-gray-400">{{ userData()?.username}}</div>
+            <div class="tw-w-full tw-flex tw-flex-col tw-py-4">
+              <div class="tw-text-xs tw-font-bold tw-mb-1">{{ 'profile.username_label' | translate }}</div>
+              <div class="tw-text-gray-400">{{ userData()?.username}}</div>
+            </div>
           </div>
         </ion-item>
 
