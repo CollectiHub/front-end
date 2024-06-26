@@ -15,11 +15,8 @@ export class RaritySliderComponent {
 
   selectRarity = output<string>();
 
-  handleRarityChange(segmentEnent: SegmentCustomEvent): void {
-    const rarity = segmentEnent.detail.value;
-    const isCorrectValue = rarity && typeof rarity === 'string';
-
-    if (!isCorrectValue) return;
+  handleRarityChange(segmentEvent: SegmentCustomEvent): void {
+    const rarity = segmentEvent.detail.value as string;
 
     this.selectRarity.emit(rarity);
   }
