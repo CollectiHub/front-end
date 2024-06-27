@@ -26,8 +26,6 @@ export default class CollectionProgressSettingsComponent {
   }
 
   handleProgressModeChange(mode: CollectionProgressMode): void {
-    if (mode === this.selectedMode()) return;
-
     this.progressModeChange.emit(mode);
   }
 }

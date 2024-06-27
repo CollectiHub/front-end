@@ -16,15 +16,6 @@ describe(CollectionProgressSettingsComponent.name, () => {
   });
 
   describe('handleProgressModeChange', () => {
-    it('should not emit "progressModeChange" output if progress mode was not changed', () => {
-      const spy = jest.spyOn(component.progressModeChange, 'emit');
-      component.selectedMode = signal(CollectionProgressMode.Numbers) as any;
-
-      component.handleProgressModeChange(CollectionProgressMode.Numbers);
-
-      expect(spy).not.toHaveBeenCalled();
-    });
-
     it('should emit "progressModeChange" output if progress mode was changed', () => {
       const spy = jest.spyOn(component.progressModeChange, 'emit');
       component.selectedMode = signal(CollectionProgressMode.Numbers) as any;

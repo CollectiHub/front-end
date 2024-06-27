@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CardsDisplayMode, CollectionProgressMode } from '@features/collection-settings/collection-settings.models';
 import CollectionProgressSettingsComponent from '@features/collection-settings/rarity-mode-setting/collection-progress-setting.component';
+import { CollectionSettingsStore } from '@features/collection-settings/store/collection-settings.store';
 import {
   IonButton,
   IonButtons,
@@ -43,6 +44,12 @@ import { addOutline, closeOutline, imageOutline, tabletLandscapeOutline } from '
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollectionSettingsComponent {
+  private readonly collectionSettingsStore = inject(CollectionSettingsStore);
+
+  globalProgressMode = this.collectionSettingsStore.globalProgressDisplayMode;
+  rarityProgressMode = this.collectionSettingsStore.rarityProgressDisplayMode;
+  cardsDisplayMode = this.collectionSettingsStore.cardsDisplayMode;
+
   CollectionProgressMode = CollectionProgressMode;
   CardsDisplayMode = CardsDisplayMode;
 
@@ -50,5 +57,21 @@ export class CollectionSettingsComponent {
     addIcons({ closeOutline, tabletLandscapeOutline, imageOutline, addOutline });
   }
 
-  handleCardsViewModeChange(mode: CardsDisplayMode): void {}
+  handleGlobalProgressModeChange(mode: CollectionProgressMode): void {
+    if (mode === this.globalProgressMode()) return;
+
+    this.collectionSettingsStore.updateSettings({ globalProgressDisplayMode: mode });
+  }
+
+  handleRarityProgressModeChange(mode: CollectionProgressMode): void {
+    if (mode === this.rarityProgressMode()) return;
+
+    this.collectionSettingsStore.updateSettings({ rarityProgressDisplayMode: mode });
+  }
+
+  handleCardsViewModeChange(mode: CardsDisplayMode): void {
+    if (mode === this.cardsDisplayMode()) return;
+
+    this.collectionSettingsStore.updateSettings({ cardsDisplayMode: mode });
+  }
 }
