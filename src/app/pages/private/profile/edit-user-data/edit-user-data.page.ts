@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
-import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { BackButtonComponent } from '@components/back-button/back-button.component';
+import { EmailComponent } from '@components/email/email.component';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { UsersStore } from '@features/users/store/users.store';
 import { UpdateUserBody } from '@features/users/users.models';
@@ -44,6 +45,7 @@ import { EditUserDataValidators } from './edit-user-data.validators';
     ReactiveFormsModule,
     RouterLink,
     BackButtonComponent,
+    EmailComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -55,10 +57,6 @@ export default class EditUserDataPage {
     email: this.formBuilder.control('', [Validators.required, Validators.pattern(RegularExpressions.email)]),
     username: this.formBuilder.control('', Validators.required),
   });
-
-  get emailControl(): FormControl<string | undefined> {
-    return <FormControl<string | undefined>>this.editUserDataForm.get('email');
-  }
 
   constructor() {
     effect(() => {
@@ -77,10 +75,6 @@ export default class EditUserDataPage {
         EditUserDataValidators.someControlValueChanged(['email', 'username'], formInitialValue),
       );
     });
-  }
-
-  getEmailError(errors: ValidationErrors | null): string {
-    return errors?.['required'] ? 'validation.required' : 'validation.invalid_email';
   }
 
   updateUserData(): void {

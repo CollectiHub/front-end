@@ -76,20 +76,6 @@ describe('RegistrationComponent', () => {
     });
   });
 
-  describe('getEmailError', () => {
-    it('should return "validation.required" text if such error in form control', () => {
-      const result = component.getEmailError({ required: true });
-
-      expect(result).toBe('validation.required');
-    });
-
-    it('should return "validation.invalid_email" text if control error is not required', () => {
-      const result = component.getEmailError({ noRequired: true });
-
-      expect(result).toBe('validation.invalid_email');
-    });
-  });
-
   describe('getPasswordError', () => {
     it('should return "validation.password_pattern" error if incorrect password entered', () => {
       const result = component.getPasswordError({ pattern: true });

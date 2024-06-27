@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { EmailComponent } from '@components/email/email.component';
 import { PasswordComponent } from '@components/password/password.component';
 import { PublicHeaderComponent } from '@components/public-header/public-header.component';
 import { AppConstants } from '@constants/app.constants';
@@ -29,8 +30,9 @@ import { RegistrationForm } from './registration.page.models';
     ReactiveFormsModule,
     TranslateModule,
     RouterLink,
-    PublicHeaderComponent,
+    EmailComponent,
     PasswordComponent,
+    PublicHeaderComponent,
   ],
   templateUrl: './registration.page.html',
   styleUrls: ['./registration.page.scss'],
@@ -70,10 +72,6 @@ export default class RegistrationPageComponent {
 
   get confirmPasswordControl(): FormControl<string | undefined> {
     return <FormControl<string | undefined>>this.registrationForm.get('confirmPassword');
-  }
-
-  getEmailError(errors: ValidationErrors | null): string {
-    return errors?.['required'] ? 'validation.required' : 'validation.invalid_email';
   }
 
   getPasswordError(errors: ValidationErrors | null): string {

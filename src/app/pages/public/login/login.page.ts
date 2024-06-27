@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { EmailComponent } from '@components/email/email.component';
 import { PasswordComponent } from '@components/password/password.component';
 import { PublicHeaderComponent } from '@components/public-header/public-header.component';
 import { AppConstants } from '@constants/app.constants';
@@ -26,8 +27,9 @@ import { LoginForm } from './login.page.models';
     ReactiveFormsModule,
     TranslateModule,
     RouterLink,
-    PublicHeaderComponent,
+    EmailComponent,
     PasswordComponent,
+    PublicHeaderComponent,
   ],
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
@@ -42,14 +44,6 @@ export default class LoginPage {
     email: this.formBuilder.control(undefined, [Validators.required, Validators.pattern(RegularExpressions.email)]),
     password: this.formBuilder.control(undefined, [Validators.required]),
   });
-
-  get emailControl(): FormControl<string | undefined> {
-    return <FormControl<string | undefined>>this.loginForm.get('email');
-  }
-
-  getEmailError(errors: ValidationErrors | null): string {
-    return errors?.['required'] ? 'validation.required' : 'validation.invalid_email';
-  }
 
   onLoginFormSubmit(): void {
     if (!this.loginForm.valid) return;
