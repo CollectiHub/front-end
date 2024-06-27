@@ -17,7 +17,6 @@ import {
   IonToolbar,
 } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
-import { StorageService } from '@services/storage/storage.service';
 import { addIcons } from 'ionicons';
 import { addOutline, closeOutline, imageOutline, tabletLandscapeOutline } from 'ionicons/icons';
 

@@ -23,7 +23,7 @@ export const CollectionSettingsStore = signalStore(
       ),
     };
   }),
- 
+
   withHooks({
     onInit(store) {
       inject(StorageService)
