@@ -2,7 +2,7 @@
   class="tw-text-sm"
   type="email"
   labelPlacement="floating"
-  [label]="label()"
   [formControl]="control"
-  [helperText]="helperText()"
-  [errorText]="error()" />
+  [label]="label() | translate"
+  [helperText]="helperText() | translate"
+  [errorText]="getErrorText(control.errors) | translate" />

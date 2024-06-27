@@ -25,6 +25,7 @@
     "paths": {
       "@constants/*": ["src/app/constants/*"],
       "@components/*": ["src/app/components/*"],
+      "@directives/*": ["src/app/directives/*"],
       "@features/*": ["src/app/features/*"],
       "@services/*": ["src/app/services/*"],
       "@environments/*": ["src/environments/*"],

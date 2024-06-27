@@ -74,10 +74,6 @@ export default class RegistrationPageComponent {
     return <FormControl<string | undefined>>this.registrationForm.get('confirmPassword');
   }
 
-  getEmailError(errors: ValidationErrors | null): string {
-    return errors?.['required'] ? 'validation.required' : 'validation.invalid_email';
-  }
-
   getPasswordError(errors: ValidationErrors | null): string {
     return errors?.['pattern'] ? 'validation.password_pattern' : 'validation.required';
   }

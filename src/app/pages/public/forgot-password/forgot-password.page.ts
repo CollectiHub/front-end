@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { EmailComponent } from '@components/email/email.component';
 import { PublicHeaderComponent } from '@components/public-header/public-header.component';
@@ -38,10 +38,6 @@ export default class ForgotPasswordComponent {
     nonNullable: true,
     validators: [Validators.required, Validators.pattern(RegularExpressions.email)],
   });
-
-  getControlError(errors: ValidationErrors | null): string {
-    return errors?.['required'] ? 'validation.required' : 'validation.invalid_email';
-  }
 
   submitForgotPassword(): void {
     if (!this.forgotPasswordControl.valid) return;
