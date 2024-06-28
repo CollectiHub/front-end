@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { SelectLanguageComponent } from '@components/select-language/select-language.component';
-import { AppConstants } from '@constants/app.constants';
+import { SupportInfoComponent } from '@components/support-info/support-info.component';
 import { AuthFacadeService } from '@features/auth/services/auth-facade/auth-facade.service';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { UsersStore } from '@features/users/store/users.store';
@@ -58,6 +58,7 @@ import { filter, switchMap, take } from 'rxjs';
     TranslateModule,
     RouterLink,
     SelectLanguageComponent,
+    SupportInfoComponent,
   ],
 })
 export default class ProfilePage {
@@ -69,7 +70,6 @@ export default class ProfilePage {
   private readonly authFacadeService = inject(AuthFacadeService);
   private readonly router = inject(Router);
 
-  readonly supportEmail = AppConstants.supportEmail;
   userData: Signal<UserDataDto | undefined> = this.usersStore.userData;
 
   constructor() {
