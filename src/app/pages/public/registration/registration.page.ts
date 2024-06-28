@@ -4,11 +4,21 @@ import { Router, RouterLink } from '@angular/router';
 import { EmailComponent } from '@components/email/email.component';
 import { PasswordComponent } from '@components/password/password.component';
 import { PublicHeaderComponent } from '@components/public-header/public-header.component';
+import { SupportInfoComponent } from '@components/support-info/support-info.component';
 import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { RegistrationBody } from '@features/auth/auth.models';
 import { AuthApiService } from '@features/auth/services/auth-api/auth-api.service';
-import { IonButton, IonContent, IonInput, IonItem, IonList, IonText } from '@ionic/angular/standalone';
+import {
+  IonButton,
+  IonContent,
+  IonFooter,
+  IonInput,
+  IonItem,
+  IonList,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular/standalone';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LoaderService } from '@services/loader/loader.service';
 import { StorageService } from '@services/storage/storage.service';
@@ -21,6 +31,8 @@ import { RegistrationForm } from './registration.page.models';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    IonFooter,
+    IonToolbar,
     IonContent,
     IonList,
     IonItem,
@@ -33,6 +45,7 @@ import { RegistrationForm } from './registration.page.models';
     EmailComponent,
     PasswordComponent,
     PublicHeaderComponent,
+    SupportInfoComponent,
   ],
   templateUrl: './registration.page.html',
   styleUrls: ['./registration.page.scss'],

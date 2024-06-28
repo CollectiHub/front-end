@@ -4,11 +4,21 @@ import { Router, RouterLink } from '@angular/router';
 import { EmailComponent } from '@components/email/email.component';
 import { PasswordComponent } from '@components/password/password.component';
 import { PublicHeaderComponent } from '@components/public-header/public-header.component';
+import { SupportInfoComponent } from '@components/support-info/support-info.component';
 import { AppConstants } from '@constants/app.constants';
 import { RegularExpressions } from '@constants/regular-expressions';
 import { LoginBody } from '@features/auth/auth.models';
 import { AuthApiService } from '@features/auth/services/auth-api/auth-api.service';
-import { IonButton, IonContent, IonInput, IonItem, IonList, IonText } from '@ionic/angular/standalone';
+import {
+  IonButton,
+  IonContent,
+  IonFooter,
+  IonInput,
+  IonItem,
+  IonList,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 import { StorageService } from '@services/storage/storage.service';
 import { switchMap, take } from 'rxjs';
@@ -18,6 +28,8 @@ import { LoginForm } from './login.page.models';
 @Component({
   standalone: true,
   imports: [
+    IonFooter,
+    IonToolbar,
     IonContent,
     IonList,
     IonItem,
@@ -30,6 +42,7 @@ import { LoginForm } from './login.page.models';
     EmailComponent,
     PasswordComponent,
     PublicHeaderComponent,
+    SupportInfoComponent,
   ],
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
