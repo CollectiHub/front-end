@@ -5,18 +5,7 @@ import { AuthFacadeService } from '@features/auth/services/auth-facade/auth-faca
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { UsersStore } from '@features/users/store/users.store';
 import { UserDataDto } from '@features/users/users.models';
-import {
-  IonButton,
-  IonContent,
-  IonHeader,
-  IonIcon,
-  IonSkeletonText,
-  IonText,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/angular/standalone';
-import { ModalController } from '@ionic/angular/standalone';
-import { ModalEventRole } from '@models/app.models';
+import { IonButton, IonContent, IonIcon, IonText } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { alertCircleOutline } from 'ionicons/icons';
@@ -24,16 +13,15 @@ import { take } from 'rxjs';
 
 @Component({
   selector: 'app-user-data-fetch-failed',
-  templateUrl: './user-data-fetch-failed.component.html',
-  styleUrls: ['./user-data-fetch-failed.component.scss'],
   standalone: true,
+  imports: [IonText, IonIcon, IonButton, IonContent, TranslateModule],
+  templateUrl: './user-data-fetch-failed.page.html',
+  styleUrl: './user-data-fetch-failed.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonText, IonSkeletonText, IonIcon, IonButton, IonTitle, IonToolbar, IonHeader, IonContent, TranslateModule],
 })
-export default class UserDataFetchFailedComponent {
+export default class UserDataFetchFailedPage {
   private readonly usersStore = inject(UsersStore);
   private readonly usersApiService = inject(UsersApiService);
-  private readonly modalController = inject(ModalController);
   private readonly authFacadeService = inject(AuthFacadeService);
   private readonly router = inject(Router);
 
@@ -48,7 +36,7 @@ export default class UserDataFetchFailedComponent {
       .subscribe({
         next: (userData: UserDataDto) => {
           this.usersStore.setUserData(userData);
-          this.modalController.dismiss(undefined, ModalEventRole.ProgramaticDismiss);
+          this.router.navigate(['/collection']);
         },
         error: (error: HttpErrorResponse) => this.usersStore.setError(error.error.message),
       });
@@ -60,7 +48,6 @@ export default class UserDataFetchFailedComponent {
       .pipe(take(1))
       .subscribe({
         next: () => {
-          this.modalController.dismiss(undefined, ModalEventRole.ProgramaticDismiss);
           this.usersStore.clear();
           this.router.navigate(['/login']);
         },

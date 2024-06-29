@@ -1,4 +1,4 @@
-import { HttpClient, HttpContext } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
 import { AuthConstants } from '@features/auth/auth.constants';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { ValidationService } from '@services/validation/validation.service';
@@ -49,22 +49,35 @@ describe('UsersApiService', () => {
       validationServiceMock.validate.mockReturnValue(getResponseMock);
     });
 
-    it('should trigger "get" method with correct params', () => {
+    it('should trigger "get" method with options if token passed', () => {
+      const contextMock = new HttpContext().set(AuthConstants.skipAuthContextToken, true);
+      const headersMock = new HttpHeaders().set('Authorization', 'token');
+
+      service.getUserData$('token').pipe(take(1)).subscribe();
+
+      expect(httpClientMock.get).toHaveBeenCalledWith(environment.endpoints.users.getUserData, {
+        context: contextMock,
+        headers: headersMock,
+        withCredentials: true,
+      });
+    });
+
+    it('should trigger "get" method without options, if not token passed', () => {
       service.getUserData$().pipe(take(1)).subscribe();
 
-      expect(httpClientMock.get).toHaveBeenCalledWith(environment.endpoints.users.getUserData);
+      expect(httpClientMock.get).toHaveBeenCalledWith(environment.endpoints.users.getUserData, {});
     });
 
     it('should emit data of received response', () => {
       const spy = jest.fn();
 
-      service.getUserData$().subscribe(spy);
+      service.getUserData$('token').subscribe(spy);
 
       expect(spy).toHaveBeenCalledWith({});
     });
 
     it('should validate response', () => {
-      service.getUserData$().pipe(take(1)).subscribe();
+      service.getUserData$('token').pipe(take(1)).subscribe();
 
       expect(validationServiceMock.validate).toHaveBeenCalledWith(
         UsersSchemas.getUserDataResponseSchema,

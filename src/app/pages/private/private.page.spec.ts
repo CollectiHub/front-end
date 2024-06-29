@@ -1,11 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import UserDataFetchFailedComponent from '@features/users/components/user-data-fetch-failed/user-data-fetch-failed.component';
+import { Router } from '@angular/router';
 import { UsersApiService } from '@features/users/services/users-api.service';
 import { UsersStoreMock } from '@features/users/store/users.state.testing';
 import { UsersStore } from '@features/users/store/users.store';
 import { UserDataDto } from '@features/users/users.models';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
-import { ModalService } from '@services/modal/modal.service';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of, throwError } from 'rxjs';
 
@@ -15,7 +14,7 @@ describe(PrivatePage.name, () => {
   let component: PrivatePage;
   let usersStoreMock: MockProxy<UsersStoreMock>;
   let usersApiServiceMock: MockProxy<UsersApiService>;
-  let modalServiceMock: MockProxy<ModalService>;
+  let routerMock: MockProxy<Router>;
 
   beforeEach(() => {
     usersStoreMock = mock<UsersStoreMock>();
@@ -23,8 +22,7 @@ describe(PrivatePage.name, () => {
     usersApiServiceMock = mock<UsersApiService>();
     usersApiServiceMock.getUserData$.mockReturnValue(of({} as UserDataDto));
 
-    modalServiceMock = mock<ModalService>();
-    modalServiceMock.open$.mockReturnValue(of({} as HTMLIonModalElement));
+    routerMock = mock<Router>();
 
     component = classWithProviders({
       token: PrivatePage,
@@ -38,51 +36,61 @@ describe(PrivatePage.name, () => {
           useValue: usersApiServiceMock,
         },
         {
-          provide: ModalService,
-          useValue: modalServiceMock,
+          provide: Router,
+          useValue: routerMock,
         },
       ],
     });
   });
 
   describe('ngOnInit', () => {
-    describe('api call', () => {
-      it('should trigger "getUserData$" method of api service', () => {
+    describe('user data was fetched', () => {
+      describe('successful user data request', () => {
+        it('should trigger "getUserData$" method of api service', () => {
+          component.ngOnInit();
+
+          expect(usersApiServiceMock.getUserData$).toHaveBeenCalledTimes(1);
+        });
+
+        it('should emit "setUserData" action of user storage', () => {
+          component.ngOnInit();
+
+          expect(usersStoreMock.setUserData).toHaveBeenCalledWith({});
+        });
+      });
+
+      describe('failded user data request', () => {
+        beforeEach(() => {
+          usersApiServiceMock.getUserData$.mockReturnValue(
+            throwError(() => new HttpErrorResponse({ error: { message: 'error' } })),
+          );
+        });
+
+        it('should save error to users store', () => {
+          component.ngOnInit();
+
+          expect(usersStoreMock.setError).toHaveBeenCalledWith('error');
+        });
+
+        it('should navigate to "user-data-fetch-failed" route', () => {
+          component.ngOnInit();
+
+          expect(routerMock.navigate).toHaveBeenCalledWith(['/user-data-fetch-failed']);
+        });
+      });
+    });
+
+    describe('not user data in store', () => {
+      it('should not trigger "getUserData$" method of api service', () => {
         component.ngOnInit();
 
         expect(usersApiServiceMock.getUserData$).toHaveBeenCalledTimes(1);
       });
-    });
 
-    describe('successful request', () => {
-      it('should emit "setUserData" action of user storage', () => {
+      it('should not emit "setUserData" action of user storage', () => {
         component.ngOnInit();
 
         expect(usersStoreMock.setUserData).toHaveBeenCalledWith({});
-      });
-    });
-
-    describe('failed request', () => {
-      it('should emit "setError" action of user storage', () => {
-        usersApiServiceMock.getUserData$.mockReturnValue(
-          throwError(() => new HttpErrorResponse({ error: { message: 'error' } })),
-        );
-
-        component.ngOnInit();
-
-        expect(usersStoreMock.setError).toHaveBeenCalledWith('error');
-      });
-
-      it('should open modal with correct options', () => {
-        const expectedModalOptions = {
-          component: UserDataFetchFailedComponent,
-          canDismiss: expect.any(Function),
-        };
-        usersApiServiceMock.getUserData$.mockReturnValue(throwError(() => new HttpErrorResponse({ error: 'error' })));
-
-        component.ngOnInit();
-
-        expect(modalServiceMock.open$).toHaveBeenCalledWith(expect.objectContaining(expectedModalOptions));
       });
     });
   });
