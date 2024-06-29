@@ -7,6 +7,27 @@ export const usersMockInterceptor = (req: HttpRequest<unknown>, next: HttpHandle
   const registry = new MockInterceptorRegistryService();
 
   registry.get(environment.endpoints.users.getUserData, () => {
+    const throwUserDataError = false;
+
+    if (throwUserDataError) {
+      return throwError(
+        () =>
+          new HttpErrorResponse({
+            status: 400,
+            error: {
+              error: 'Update User data error',
+              errors: [
+                {
+                  detail: 'Update user data error',
+                  field: 'Update user',
+                },
+              ],
+              message: 'Error during updating user data',
+            },
+          }),
+      );
+    }
+
     return of(
       new HttpResponse({
         status: 200,

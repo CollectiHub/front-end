@@ -27,7 +27,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LoaderService } from '@services/loader/loader.service';
 import { StorageService } from '@services/storage/storage.service';
 import { switchWith } from '@tools/rxjs/switch-with.operator';
-import { switchMap, take } from 'rxjs';
+import { switchMap, take, tap } from 'rxjs';
 
 import { LoginForm } from './login.page.models';
 
@@ -70,23 +70,28 @@ export default class LoginPage {
   onLoginFormSubmit(): void {
     if (!this.loginForm.valid) return;
 
-    const request$ = this.authApiService.login$(<LoginBody>this.loginForm.value).pipe(
+    const loginRequestsChain$ = this.authApiService.login$(<LoginBody>this.loginForm.value).pipe(
       switchWith((token: string) => this.storageService.set$(AppConstants.tokenStorageKey, token)),
-      switchMap(([token]) => this.usersApiService.getUserData$(token)),
+      switchMap(([token]) => this.fetchUserData$(token)),
     );
 
     this.loaderService
-      .showUntilCompleted$(request$)
+      .showUntilCompleted$(loginRequestsChain$)
       .pipe(take(1))
-      .subscribe({
-        next: (userData: UserDataDto) => {
-          this.usersStore.setUserData(userData);
-          this.router.navigate(['/collection']);
-        },
+      .subscribe((userData: UserDataDto) => {
+        this.usersStore.setUserData(userData);
+        this.router.navigate(['/collection']);
+      });
+  }
+
+  private fetchUserData$(token: string) {
+    return this.usersApiService.getUserData$(token).pipe(
+      tap({
         error: (error: HttpErrorResponse) => {
           this.usersStore.setError(error.error.message);
           void this.router.navigate(['/user-data-fetch-failed']);
         },
-      });
+      }),
+    );
   }
 }

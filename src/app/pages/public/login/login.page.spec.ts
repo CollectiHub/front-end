@@ -88,22 +88,6 @@ describe('RegistrationComponent', () => {
   });
 
   describe('onLoginFormSubmit', () => {
-    it('should not trigger "login$" method if form is invalid', () => {
-      component.loginForm.setErrors({ rquired: true });
-
-      component.onLoginFormSubmit();
-
-      expect(authApiServiceMock.login$).not.toHaveBeenCalled();
-    });
-
-    it('should trigger "login$" method if form is valid', () => {
-      component.loginForm.setValue(validFormValue);
-
-      component.onLoginFormSubmit();
-
-      expect(authApiServiceMock.login$).toHaveBeenCalledWith(validFormValue);
-    });
-
     it('should display loader during API calls', () => {
       component.onLoginFormSubmit();
 
@@ -116,6 +100,56 @@ describe('RegistrationComponent', () => {
       component.onLoginFormSubmit();
 
       expect(storageServiceMock.set$).toHaveBeenCalledWith(AppConstants.tokenStorageKey, 'token');
+    });
+
+    describe('login$ api method', () => {
+      it('should not trigger "login$" method if form is invalid', () => {
+        component.loginForm.setErrors({ rquired: true });
+
+        component.onLoginFormSubmit();
+
+        expect(authApiServiceMock.login$).not.toHaveBeenCalled();
+      });
+
+      it('should trigger "login$" method if form is valid', () => {
+        component.loginForm.setValue(validFormValue);
+
+        component.onLoginFormSubmit();
+
+        expect(authApiServiceMock.login$).toHaveBeenCalledWith(validFormValue);
+      });
+
+      it('should not navigate user to "user-data-fetch-failed" route when login failed', () => {
+        authApiServiceMock.login$.mockReturnValue(
+          throwError(
+            () =>
+              new HttpErrorResponse({
+                error: { message: 'error' },
+              }),
+          ),
+        );
+        component.loginForm.setValue(validFormValue);
+
+        component.onLoginFormSubmit();
+
+        expect(routerMock.navigate).not.toHaveBeenCalledWith(['/user-data-fetch-failed']);
+      });
+
+      it('should not save error to user storage if login failed', () => {
+        authApiServiceMock.login$.mockReturnValue(
+          throwError(
+            () =>
+              new HttpErrorResponse({
+                error: { message: 'error' },
+              }),
+          ),
+        );
+        component.loginForm.setValue(validFormValue);
+
+        component.onLoginFormSubmit();
+
+        expect(usersStoreMock.setError).not.toHaveBeenCalledWith('error');
+      });
     });
 
     describe('user data fetch success', () => {
@@ -156,7 +190,7 @@ describe('RegistrationComponent', () => {
         expect(usersStoreMock.setError).toHaveBeenCalledWith('error');
       });
 
-      it('should navigate to "user-data-fetch-failed" page', () => {
+      it('should navigate to "user-data-fetch-failed" page if user data fetch failed', () => {
         component.loginForm.setValue(validFormValue);
 
         component.onLoginFormSubmit();
