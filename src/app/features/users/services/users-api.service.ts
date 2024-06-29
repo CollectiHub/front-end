@@ -1,4 +1,4 @@
-import { HttpClient, HttpContext } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '@environments/environment';
 import { AuthConstants } from '@features/auth/auth.constants';
@@ -22,8 +22,10 @@ export class UsersApiService {
   private readonly httpClient = inject(HttpClient);
   private readonly validationService = inject(ValidationService);
 
-  getUserData$(): Observable<UserDataDto> {
-    return this.httpClient.get<UserDataResponseDto>(environment.endpoints.users.getUserData).pipe(
+  getUserData$(token?: string): Observable<UserDataDto> {
+    const options = this.buildGetUserDataOption(token);
+
+    return this.httpClient.get<UserDataResponseDto>(environment.endpoints.users.getUserData, options).pipe(
       map((res: UserDataResponseDto) => this.validationService.validate(UsersSchemas.getUserDataResponseSchema, res)),
       map((res: UserDataResponseDto) => res.data),
     );
@@ -89,5 +91,18 @@ export class UsersApiService {
           this.validationService.validate(UsersSchemas.resendVerificationEmailResponseDto, res),
         ),
       );
+  }
+
+  private buildGetUserDataOption(token?: string) {
+    if (!token) return {};
+
+    const context = new HttpContext().set(AuthConstants.skipAuthContextToken, true);
+    const headers = new HttpHeaders().set('Authorization', token);
+
+    return {
+      headers,
+      context,
+      withCredentials: true,
+    };
   }
 }

@@ -30,4 +30,8 @@ export default [
       },
     ],
   },
+  {
+    path: 'user-data-fetch-failed',
+    loadComponent: () => import('./user-data-fetch-failed/user-data-fetch-failed.page'),
+  },
 ] satisfies Routes;

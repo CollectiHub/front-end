@@ -45,7 +45,9 @@ describe('AuthApiService', () => {
     });
 
     it('should trigger "post" method with correct params', () => {
-      const contextMock = new HttpContext().set(AuthConstants.skipAuthContextToken, true);
+      const contextMock = new HttpContext()
+        .set(AuthConstants.skipAuthContextToken, true)
+        .set(AuthConstants.skipLoadingContextToken, true);
 
       service.login$({} as LoginBody).subscribe();
 
