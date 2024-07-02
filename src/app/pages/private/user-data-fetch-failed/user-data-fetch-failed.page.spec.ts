@@ -5,19 +5,16 @@ import { UsersApiService } from '@features/users/services/users-api.service';
 import { UsersStoreMock } from '@features/users/store/users.state.testing';
 import { UsersStore } from '@features/users/store/users.store';
 import { UserDataDto } from '@features/users/users.models';
-import { ModalController } from '@ionic/angular/standalone';
-import { ModalEventRole } from '@models/app.models';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of, throwError } from 'rxjs';
 
-import UserDataFetchFailedComponent from './user-data-fetch-failed.component';
+import UserDataFetchFailedPage from './user-data-fetch-failed.page';
 
-describe(UserDataFetchFailedComponent.name, () => {
-  let component: UserDataFetchFailedComponent;
+describe(UserDataFetchFailedPage.name, () => {
+  let component: UserDataFetchFailedPage;
   let usersStoreMock: MockProxy<UsersStoreMock>;
   let usersApiServiceMock: MockProxy<UsersApiService>;
-  let modalControllerMock: MockProxy<ModalController>;
   let authFacadeServiceMock: MockProxy<AuthFacadeService>;
   let routerMock: MockProxy<Router>;
 
@@ -27,15 +24,13 @@ describe(UserDataFetchFailedComponent.name, () => {
     usersApiServiceMock = mock<UsersApiService>();
     usersApiServiceMock.getUserData$.mockReturnValue(of({} as UserDataDto));
 
-    modalControllerMock = mock<ModalController>();
-
     authFacadeServiceMock = mock<AuthFacadeService>();
     authFacadeServiceMock.logout$.mockReturnValue(of([] as any));
 
     routerMock = mock<Router>();
 
     component = classWithProviders({
-      token: UserDataFetchFailedComponent,
+      token: UserDataFetchFailedPage,
       providers: [
         {
           provide: UsersStore,
@@ -44,10 +39,6 @@ describe(UserDataFetchFailedComponent.name, () => {
         {
           provide: UsersApiService,
           useValue: usersApiServiceMock,
-        },
-        {
-          provide: ModalController,
-          useValue: modalControllerMock,
         },
         {
           provide: AuthFacadeService,
@@ -62,7 +53,7 @@ describe(UserDataFetchFailedComponent.name, () => {
   });
 
   describe('fetchUserData', () => {
-    it('should trigger "getUserData$" method of users API service', () => {
+    it('should trigger "getUserData$" method of users API service with token received from storage', () => {
       component.fetchUserData();
 
       expect(usersApiServiceMock.getUserData$).toHaveBeenCalledTimes(1);
@@ -72,12 +63,6 @@ describe(UserDataFetchFailedComponent.name, () => {
       component.fetchUserData();
 
       expect(usersStoreMock.setUserData).toHaveBeenCalledWith({});
-    });
-
-    it('should dismiss modal in case of success request', () => {
-      component.fetchUserData();
-
-      expect(modalControllerMock.dismiss).toHaveBeenCalledWith(undefined, ModalEventRole.ProgramaticDismiss);
     });
 
     it('should save error to store in case of failed request', () => {
@@ -95,12 +80,6 @@ describe(UserDataFetchFailedComponent.name, () => {
       component.logout();
 
       expect(authFacadeServiceMock.logout$).toHaveBeenCalledTimes(1);
-    });
-
-    it('should dimiss modal', () => {
-      component.logout();
-
-      expect(modalControllerMock.dismiss).toHaveBeenCalledWith(undefined, ModalEventRole.ProgramaticDismiss);
     });
 
     it('should trigger "clear" action of usersStore if logout was successful', () => {

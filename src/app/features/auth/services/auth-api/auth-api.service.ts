@@ -17,7 +17,9 @@ export class AuthApiService {
   private readonly validationService = inject(ValidationService);
 
   login$(body: LoginBody): Observable<string> {
-    const context = new HttpContext().set(AuthConstants.skipAuthContextToken, true);
+    const context = new HttpContext()
+      .set(AuthConstants.skipAuthContextToken, true)
+      .set(AuthConstants.skipLoadingContextToken, true);
 
     return this.httpClient.post<ResponseWithTokenDto>(environment.endpoints.auth.login, body, { context }).pipe(
       map((res: ResponseWithTokenDto) => this.validationService.validate(AuthSchemas.loginResponseDto, res)),
