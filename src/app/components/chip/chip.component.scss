@@ -1,0 +1,26 @@
+.chip {
+  border-radius: var(--chip-border-radius);
+  background-color: var(--chip-bg-default);
+  color: var(--chip-color-default);
+
+  &--missing {
+    opacity: var(--chip-opacity-missing);
+  }
+
+  &--collected {
+    background-color: var(--chip-bg-collected);
+    color: var(--chip-color-collected);
+  }
+
+  &--loading {
+    color: var(--chip-color-loading);
+  }
+}
+
+.chip-spinner {
+  color: var(--chip-spinner-color-default);
+
+  &--collected {
+    color: var(--chip-spinner-color-collected);
+  }
+}

@@ -1,0 +1,13 @@
+:root {
+  /** chip **/
+  --chip-min-width: 7rem;
+  --chip-border-radius: 0.25rem;
+  --chip-bg-default: #e0e0e0;
+  --chip-color-default: #828282;
+  --chip-opacity-missing: 0.3;
+  --chip-bg-collected: #8ae88a;
+  --chip-color-collected: #18b318;
+  --chip-color-loading: transparent;
+  --chip-spinner-color-default: var(--chip-color-default);
+  --chip-spinner-color-collected: var(--chip-color-collected);
+}
