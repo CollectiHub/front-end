@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChipListComponent } from '@features/collection/components/chip-list/chip-list.component';
 import { stubRarityList } from '@features/collection/components/rarity-slider/rarities.stub';
 import { RaritySliderComponent } from '@features/collection/components/rarity-slider/rarity-slider.component';
 import { CollectionSettingsComponent } from '@features/collection-settings/components/collection-settings/collection-settings.component';
@@ -30,6 +31,7 @@ import { settingsOutline } from 'ionicons/icons';
     IonIcon,
     IonMenu,
     IonMenuToggle,
+    ChipListComponent,
     CollectionSettingsComponent,
     RaritySliderComponent,
   ],

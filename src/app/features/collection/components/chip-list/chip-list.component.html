@@ -1,0 +1,10 @@
+<div class="chip-list">
+  @for (chip of chipList(); track chip) {
+    <app-chip
+      [chipId]="chip.id"
+      [isExists]="chip.isExists"
+      [isCollected]="chip.isCollected"
+      [isLoading]="getLoadingStatus(chipsPendingResponse(), chip.id)"
+      (clickChip)="handleChipClick($event)" />
+  }
+</div>

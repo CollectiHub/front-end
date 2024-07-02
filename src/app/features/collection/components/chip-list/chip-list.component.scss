@@ -1,0 +1,5 @@
+.chip-list {
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minMax(var(--chip-min-width), 1fr));
+}
