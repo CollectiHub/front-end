@@ -71,5 +71,7 @@
   "collection_settings.rarity_progress.label": "Rarity progress appearance",
   "collection_settings.none_progress_option": "None",
   "collection_settings.cards_mode.label": "Cards display mode",
-  "collection_settings.import_collection_button": "Import collection"
+  "collection_settings.import_collection_button": "Import collection",
+  "progress_bar.global_progress.label": "Collection progress",
+  "progress_bar.rarity_progress.label": "Rarity progress"
 }
