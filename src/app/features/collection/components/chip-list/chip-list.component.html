@@ -1,9 +1,7 @@
-<div class="chip-list">
-  @for (chip of chipList(); track chip) {
+<div class="tw-flex tw-flex-wrap tw-justify-center tw-py-1">
+  @for (chip of chipList(); track chip.id) {
     <app-chip
-      [chipId]="chip.id"
-      [isExists]="chip.isExists"
-      [isCollected]="chip.isCollected"
+      [chip]="chip"
       [isLoading]="getLoadingStatus(chipsPendingResponse(), chip.id)"
       (clickChip)="handleChipClick($event)" />
   }

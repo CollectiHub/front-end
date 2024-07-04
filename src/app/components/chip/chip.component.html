@@ -1,17 +1,19 @@
-<div class="tw-inline-flex tw-relative tw-w-full">
+<div class="tw-relative">
   <ion-chip
-    class="chip tw-w-full tw-justify-center"
-    [class.chip--missing]="!isExists()"
-    [class.chip--collected]="isCollected()"
-    [class.chip--loading]="isLoading()"
-    [disabled]="!isExists() || isLoading()"
-    (click)="handleChipClick(chipId())">
-    <ion-label>{{ chipId() }}</ion-label>
+    class="chip tw-rounded"
+    [ngClass]="{
+      'chip--missing': !chip().isExists,
+      'chip--collected': chip().isCollected,
+      'chip--loading': isLoading()
+    }"
+    [disabled]="!chip().isExists || isLoading()"
+    (click)="handleChipClick(chip().id)">
+    <ion-label>{{ chip().id }}</ion-label>
   </ion-chip>
 
-  <ng-container *ngIf="isLoading()">
-    <div class="tw-absolute tw-flex tw-justify-center tw-items-center tw-h-full tw-w-full">
-      <ion-spinner class="chip-spinner" [class.chip-spinner--collected]="isCollected()" name="dots" />
+  @if (isLoading()) {
+    <div class="tw-absolute tw-flex tw-justify-center tw-items-center tw-inset-x-0 tw-inset-y-0">
+      <ion-spinner class="chip-spinner" [class.chip-spinner--collected]="chip().isCollected" name="dots" />
     </div>
-  </ng-container>
+  }
 </div>

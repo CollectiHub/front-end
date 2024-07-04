@@ -29,8 +29,4 @@ describe(ChipListComponent.name, () => {
       expect(isLoading).toBe(false);
     });
   });
-
-  describe('handleChipClick', () => {
-    it('should', () => {});
-  });
 });

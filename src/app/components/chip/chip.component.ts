@@ -1,19 +1,18 @@
-import { NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { Card } from '@features/collection/components/chip-list/cards.models';
 import { IonChip, IonLabel, IonSpinner } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-chip',
   standalone: true,
-  imports: [NgIf, IonChip, IonLabel, IonSpinner],
+  imports: [NgClass, IonChip, IonLabel, IonSpinner],
   templateUrl: './chip.component.html',
   styleUrl: './chip.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChipComponent {
-  chipId = input.required<string>();
-  isExists = input.required<boolean>();
-  isCollected = input.required<boolean>();
+  chip = input.required<Card>();
   isLoading = input.required<boolean>();
 
   clickChip = output<string>();
