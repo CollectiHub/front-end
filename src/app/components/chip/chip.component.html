@@ -1,11 +1,11 @@
 <div class="tw-relative">
   <ion-chip
-    class="chip tw-rounded"
+    class="tw-rounded"
     [ngClass]="{
-      'chip--missing': !chip().isExists,
-      'chip--collected': chip().isCollected,
-      'chip--loading': isLoading()
+      'tw-opacity-30': !chip().isExists,
+      'tw-text-transparent': isLoading()
     }"
+    [color]="chip().isCollected ? 'success' : 'medium'"
     [disabled]="!chip().isExists || isLoading()"
     (click)="handleChipClick(chip().id)">
     <ion-label>{{ chip().id }}</ion-label>
@@ -13,7 +13,7 @@
 
   @if (isLoading()) {
     <div class="tw-absolute tw-flex tw-justify-center tw-items-center tw-inset-x-0 tw-inset-y-0">
-      <ion-spinner class="chip-spinner" [class.chip-spinner--collected]="chip().isCollected" name="dots" />
+      <ion-spinner [color]="chip().isCollected ? 'success' : 'medium'" name="dots" />
     </div>
   }
 </div>
