@@ -11,13 +11,24 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-progress-bar [type]="'global'" [mode]="globalProgressMode()" [cardCountDetails]="globalCardCountDetails()" />
+  @if(globalProgressDisplayMode() !== 'none'){
+  <app-progress-bar
+    [label]="'progress_bar.global_progress.label'"
+    [maxValue]="globalTotalCardCount()"
+    [currentValue]="globalCollectedCardCount()"
+    [displayMode]="globalProgressDisplayMode()" />}
 
   <ion-content>
     <app-chip-list />
   </ion-content>
 
-  <app-progress-bar [type]="'rarity'" [mode]="rarityProgressMode()" [cardCountDetails]="rarityCardCountDetails()" />
+  @if(rarityProgressDisplayMode() !== 'none'){
+  <app-progress-bar
+    [label]="'progress_bar.rarity_progress.label'"
+    [maxValue]="rarityTotalCardCount()"
+    [currentValue]="rarityCollectedCardCount()"
+    [displayMode]="rarityProgressDisplayMode()" />}
+
   <app-rarity-slider
     [rarities]="rarities()"
     [selectedRarity]="selectedRarity()"

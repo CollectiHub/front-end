@@ -1,11 +1,7 @@
-@if (mode() !== 'none') {
-  <div class="tw-flex tw-flex-col tw-items-center tw-w-full tw-p-1 tw-bg-zinc-50 tw-text-xs tw-text-black">
-    <p>{{ getProgressLabel(type()) | translate }}</p>
-    <div class="tw-flex tw-items-center tw-gap-1 tw-w-full">
-      <p class="tw-shrink-0">
-        {{ getFormattedProgressValue(mode(), cardCountDetails()) }}
-      </p>
-      <ion-progress-bar color="success" [value]="getProgressValue(cardCountDetails())" />
-    </div>
+<div class="tw-flex tw-flex-col tw-items-center tw-w-full tw-p-1 tw-bg-zinc-50 tw-text-xs tw-text-black">
+  <p>{{ label() | translate }}</p>
+  <div class="tw-flex tw-items-center tw-gap-1 tw-w-full">
+    <p class="tw-shrink-0">{{ formattedProgressValue() }}</p>
+    <ion-progress-bar color="success" [value]="progressValue()" />
   </div>
-}
+</div>

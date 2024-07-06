@@ -1,9 +1,7 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { CollectionProgressMode } from '@features/collection-settings/collection-settings.models';
 import { IonProgressBar } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
-
-import { CardCountDetails, ProgressType } from './progress-bar.models';
 
 @Component({
   selector: 'app-progress-bar',
@@ -14,25 +12,32 @@ import { CardCountDetails, ProgressType } from './progress-bar.models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgressBarComponent {
-  type = input.required<ProgressType>();
-  mode = input.required<CollectionProgressMode>();
-  cardCountDetails = input.required<CardCountDetails>();
+  label = input.required<string>();
+  maxValue = input.required<number>();
+  currentValue = input.required<number>();
+  displayMode = input.required<CollectionProgressMode>();
 
-  getProgressLabel(type: ProgressType): string {
-    return type === 'global' ? 'progress_bar.global_progress.label' : 'progress_bar.rarity_progress.label';
-  }
+  progressValue = computed(() => this.getProgressValue(this.currentValue(), this.maxValue()));
+  formattedProgressValue = computed(() =>
+    this.getFormattedProgressValue(this.currentValue(), this.maxValue(), this.displayMode()),
+  );
 
-  getProgressValue(cardDetails: CardCountDetails): number {
-    return Number((cardDetails.collectedAmount / cardDetails.totalAmount).toFixed(2));
-  }
+  private getProgressValue(currentValue: number, maxValue: number): number {
+    const progressValue = parseFloat((currentValue / maxValue).toFixed(2));
+    const isValidProgressValue = !isNaN(progressValue) && isFinite(progressValue);
 
-  getFormattedProgressValue(mode: CollectionProgressMode, cardDetails: CardCountDetails): string {
-    const { collectedAmount, totalAmount } = cardDetails;
-
-    if (mode === 'percentages') {
-      return `${Math.round((collectedAmount / totalAmount) * 100)} %`;
+    if (!isValidProgressValue) {
+      throw Error('Progress value is invalid');
     }
 
-    return `${collectedAmount} / ${totalAmount}`;
+    return progressValue;
+  }
+
+  private getFormattedProgressValue(currentValue: number, maxValue: number, mode: CollectionProgressMode): string {
+    if (mode === CollectionProgressMode.Percentages) {
+      return `${((currentValue / maxValue) * 100).toFixed(2)} %`;
+    }
+
+    return `${currentValue} / ${maxValue}`;
   }
 }

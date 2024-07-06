@@ -13,40 +13,31 @@ describe(ProgressBarComponent.name, () => {
     });
   });
 
-  describe('getProgressLabel', () => {
-    it('should return "progress_bar.global_progress.label" text if progress type "global"', () => {
-      const result = component.getProgressLabel('global');
-
-      expect(result).toBe('progress_bar.global_progress.label');
-    });
-
-    it('should return "progress_bar.rarity_progress.label" text if progress type "rarity"', () => {
-      const result = component.getProgressLabel('rarity');
-
-      expect(result).toBe('progress_bar.rarity_progress.label');
-    });
-  });
-
   describe('getProgressValue', () => {
     it('should return correct progress value', () => {
-      const cardCountDetails = { collectedAmount: 55, totalAmount: 100 };
-      const result = component.getProgressValue(cardCountDetails);
+      const result = component['getProgressValue'](55, 100);
 
       expect(result).toBe(0.55);
+    });
+
+    it('should throw the error "Progress value is invalid" if result is Infinity', () => {
+      expect(() => component['getProgressValue'](10, 0)).toThrow('Progress value is invalid');
+    });
+
+    it('should throw the error "Progress value is invalid" if result is NaN', () => {
+      expect(() => component['getProgressValue'](10, NaN)).toThrow('Progress value is invalid');
     });
   });
 
   describe('getFormattedProgressValue', () => {
-    it('should return a string of the form "{percentage integer} %" in "percentages" mode', () => {
-      const cardCountDetails = { collectedAmount: 10, totalAmount: 100 };
-      const result = component.getFormattedProgressValue(CollectionProgressMode.Percentages, cardCountDetails);
+    it('should return a string of the form "{percentage float(2 decimals)} %" in "percentages" mode', () => {
+      const result = component['getFormattedProgressValue'](10, 100, CollectionProgressMode.Percentages);
 
-      expect(result).toBe('10 %');
+      expect(result).toBe('10.00 %');
     });
 
     it('should return a string of the form "{collectedAmount} / {totalAmount}" in "numbers" mode', () => {
-      const cardCountDetails = { collectedAmount: 55, totalAmount: 100 };
-      const result = component.getFormattedProgressValue(CollectionProgressMode.Numbers, cardCountDetails);
+      const result = component['getFormattedProgressValue'](55, 100, CollectionProgressMode.Numbers);
 
       expect(result).toBe('55 / 100');
     });
