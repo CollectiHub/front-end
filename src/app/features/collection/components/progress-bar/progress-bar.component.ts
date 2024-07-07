@@ -17,20 +17,32 @@ export class ProgressBarComponent {
   currentValue = input.required<number>();
   displayMode = input.required<CollectionProgressMode>();
 
-  progressValue = computed(() => this.getProgressValue(this.currentValue(), this.maxValue()));
-  formattedProgressValue = computed(() =>
-    this.getFormattedProgressValue(this.currentValue(), this.maxValue(), this.displayMode()),
-  );
-
-  private getProgressValue(currentValue: number, maxValue: number): number {
-    const progressValue = parseFloat((currentValue / maxValue).toFixed(2));
-    const isValidProgressValue = !isNaN(progressValue) && isFinite(progressValue);
-
-    if (!isValidProgressValue) {
-      throw Error('Progress value is invalid');
+  progressValue = computed(() => {
+    if (!this.isCountInputValuesSet(this.currentValue(), this.maxValue())) {
+      return;
     }
 
-    return progressValue;
+    if (!this.isCountInputValuesValid(this.currentValue(), this.maxValue())) {
+      return 0;
+    }
+
+    return this.getProgressValue(this.currentValue(), this.maxValue());
+  });
+
+  formattedProgressValue = computed(() => {
+    if (!this.isCountInputValuesSet(this.currentValue(), this.maxValue())) {
+      return;
+    }
+
+    if (!this.isCountInputValuesValid(this.currentValue(), this.maxValue())) {
+      return 'n/a';
+    }
+
+    return this.getFormattedProgressValue(this.currentValue(), this.maxValue(), this.displayMode());
+  });
+
+  private getProgressValue(currentValue: number, maxValue: number): number {
+    return parseFloat((currentValue / maxValue).toFixed(2));
   }
 
   private getFormattedProgressValue(currentValue: number, maxValue: number, mode: CollectionProgressMode): string {
@@ -39,5 +51,16 @@ export class ProgressBarComponent {
     }
 
     return `${currentValue} / ${maxValue}`;
+  }
+
+  private isCountInputValuesSet(currentValue: unknown, maxValue: unknown): boolean {
+    return currentValue !== undefined && maxValue !== undefined;
+  }
+
+  private isCountInputValuesValid(currentValue: number, maxValue: number): boolean {
+    const isValuesInteger = Number.isInteger(currentValue) && Number.isInteger(maxValue);
+    const isValuesValid = currentValue >= 0 && maxValue > 0;
+
+    return isValuesInteger && isValuesValid;
   }
 }

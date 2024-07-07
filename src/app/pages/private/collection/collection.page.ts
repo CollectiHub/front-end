@@ -3,6 +3,7 @@ import { ChipListComponent } from '@features/collection/components/chip-list/chi
 import { ProgressBarComponent } from '@features/collection/components/progress-bar/progress-bar.component';
 import { stubRarityList } from '@features/collection/components/rarity-slider/rarities.stub';
 import { RaritySliderComponent } from '@features/collection/components/rarity-slider/rarity-slider.component';
+import { CollectionProgressMode } from '@features/collection-settings/collection-settings.models';
 import { CollectionSettingsComponent } from '@features/collection-settings/components/collection-settings/collection-settings.component';
 import { CollectionSettingsStore } from '@features/collection-settings/store/collection-settings.store';
 import {
@@ -41,6 +42,9 @@ import { settingsOutline } from 'ionicons/icons';
 })
 export default class CollectionPage {
   private readonly collectionSettingsStore = inject(CollectionSettingsStore);
+
+  readonly progressDisplayMode = CollectionProgressMode;
+
   globalProgressDisplayMode = this.collectionSettingsStore.globalProgressDisplayMode;
   rarityProgressDisplayMode = this.collectionSettingsStore.rarityProgressDisplayMode;
   selectedRarity = this.collectionSettingsStore.selectedRarity;
