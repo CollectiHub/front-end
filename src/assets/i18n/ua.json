@@ -71,5 +71,7 @@
   "collection_settings.rarity_progress.label": "Відображення прогресу рідкості",
   "collection_settings.none_progress_option": "Не відображати",
   "collection_settings.cards_mode.label": "Відображення карток",
-  "collection_settings.import_collection_button": "Імпортувати колекцію"
+  "collection_settings.import_collection_button": "Імпортувати колекцію",
+  "progress_bar.global_progress.label": "Прогрес колекції",
+  "progress_bar.rarity_progress.label": "Прогрес рідкості"
 }
