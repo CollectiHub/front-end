@@ -1,46 +1,51 @@
-import { ClipboardPlugin, ReadResult, WriteOptions } from '@capacitor/clipboard';
+import { Clipboard } from '@capacitor/clipboard';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
-import { MockProxy, mock } from 'jest-mock-extended';
 import { take } from 'rxjs';
 
-import { CLIPBOARD_PLUGIN_TOKEN, ClipboardService } from './clipboard.service';
+import { ClipboardService } from './clipboard.service';
+
+jest.mock('@capacitor/clipboard', () => {
+  return {
+    Clipboard: {
+      write: jest.fn(() => Promise.resolve()),
+      read: jest.fn(() => Promise.resolve({})),
+    },
+  };
+});
 
 describe(ClipboardService.name, () => {
   let service: ClipboardService;
-  let clipboardPluginMock: MockProxy<ClipboardPlugin>;
 
   beforeEach(() => {
-    clipboardPluginMock = mock<ClipboardPlugin>({
-      write: jest.fn(() => Promise.resolve()),
-      read: jest.fn(() => Promise.resolve({} as ReadResult)),
-    });
-
     service = classWithProviders({
       token: ClipboardService,
-      providers: [{ provide: CLIPBOARD_PLUGIN_TOKEN, useValue: clipboardPluginMock }],
+      providers: [],
     });
   });
 
   describe('write$', () => {
     it('should trigger "write" method', () => {
-      const testOptions: WriteOptions = { string: 'testId' };
+      const spy = jest.spyOn(Clipboard, 'write');
+      const testOptions = { string: 'testId' };
 
       service.write$(testOptions).pipe(take(1)).subscribe();
 
-      expect(clipboardPluginMock.write).toHaveBeenCalledWith(testOptions);
+      expect(spy).toHaveBeenCalledWith(testOptions);
     });
   });
 
   describe('read$', () => {
     it('should trigger "read" method', () => {
+      const spy = jest.spyOn(Clipboard, 'read');
+
       service.read$().pipe(take(1)).subscribe();
 
-      expect(clipboardPluginMock.read).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledTimes(1);
     });
 
     it('should return correct result', done => {
-      const testResult: ReadResult = { type: 'string', value: 'testId' };
-      clipboardPluginMock.read.mockImplementationOnce(() => Promise.resolve(testResult));
+      const testResult = { type: 'string', value: 'testId' };
+      jest.spyOn(Clipboard, 'read').mockImplementationOnce(() => Promise.resolve(testResult));
 
       service
         .read$()
