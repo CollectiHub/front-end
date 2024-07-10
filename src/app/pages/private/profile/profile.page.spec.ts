@@ -9,6 +9,7 @@ import { AlertEventRole } from '@models/app.models';
 import { TranslateService } from '@ngx-translate/core';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { AlertService } from '@services/alert/alert.service';
+import { ClipboardService } from '@services/clipboard/clipboard.service';
 import { ToastColor } from '@services/toast/toast.models';
 import { ToastService } from '@services/toast/toast.service';
 import { MockProxy, mock } from 'jest-mock-extended';
@@ -24,6 +25,7 @@ describe(ProfilePage.name, () => {
   let usersApiServiceMock: MockProxy<UsersApiService>;
   let toastServiceMock: MockProxy<ToastService>;
   let authFacadeServiceMock: MockProxy<AuthFacadeService>;
+  let clipboardServiceMock: MockProxy<ClipboardService>;
   let routerMock: MockProxy<Router>;
 
   beforeEach(() => {
@@ -44,6 +46,9 @@ describe(ProfilePage.name, () => {
 
     authFacadeServiceMock = mock<AuthFacadeService>();
     authFacadeServiceMock.logout$.mockReturnValue(of([] as any));
+
+    clipboardServiceMock = mock<ClipboardService>();
+    clipboardServiceMock.write$.mockReturnValue(of(undefined));
 
     routerMock = mock<Router>();
 
@@ -73,6 +78,10 @@ describe(ProfilePage.name, () => {
         {
           provide: AuthFacadeService,
           useValue: authFacadeServiceMock,
+        },
+        {
+          provide: ClipboardService,
+          useValue: clipboardServiceMock,
         },
         {
           provide: Router,
@@ -261,5 +270,37 @@ describe(ProfilePage.name, () => {
     component.requestEmailVerification(mock<MouseEvent>());
 
     expect(toastServiceMock.open$).toHaveBeenCalledWith('profile.verify_email_toast', ToastColor.Success);
+  });
+
+  describe('copyUserIdToClipboard', () => {
+    it('should not trigger "write$" method of clipboardService if userId is undefined', () => {
+      component.copyUserIdToClipboard(undefined);
+
+      expect(clipboardServiceMock.write$).not.toHaveBeenCalled();
+    });
+
+    it('should not trigger "write$" method of clipboardService if userId is empty String', () => {
+      component.copyUserIdToClipboard('');
+
+      expect(clipboardServiceMock.write$).not.toHaveBeenCalled();
+    });
+
+    it('should trigger "write$" method of clipboardService', () => {
+      component.copyUserIdToClipboard('userId');
+
+      expect(clipboardServiceMock.write$).toHaveBeenCalledWith({ string: 'userId' });
+    });
+  });
+
+  it('should translate message for toaster', () => {
+    component.copyUserIdToClipboard('userId');
+
+    expect(translateServiceMock.instant).toHaveBeenCalledWith('profile.copy_id_toast');
+  });
+
+  it('should open toast in case of a successful copy to the clipboard', () => {
+    component.copyUserIdToClipboard('userId');
+
+    expect(toastServiceMock.open$).toHaveBeenCalledWith('profile.copy_id_toast', ToastColor.Medium);
   });
 });

@@ -13,8 +13,15 @@
     <div class="tw-p-4">
       <ion-list lines="none">
         <ion-item class="tw-text-gray-400">
-          ID&#58;
-          <div class="tw-text-gray-400">{{ userData()?.id}}</div>
+          <div class="tw-flex tw-justify-between tw-items-center tw-w-full">
+            <div class="tw-flex tw-items-center tw-gap-1 tw-text-sm">
+              <div>ID&#58;</div>
+              <div class="tw-text-gray-400">{{ userData()?.id}}</div>
+            </div>
+            <ion-button color="medium" fill="clear" (click)="copyUserIdToClipboard(userData()?.id)">
+              <ion-icon slot="icon-only" name="copy-outline" />
+            </ion-button>
+          </div>
         </ion-item>
 
         <ion-item

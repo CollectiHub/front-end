@@ -28,10 +28,11 @@ import { AlertEventRole } from '@models/app.models';
 import { OverlayEventDetail } from '@models/ionic.models';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AlertService } from '@services/alert/alert.service';
+import { ClipboardService } from '@services/clipboard/clipboard.service';
 import { ToastColor } from '@services/toast/toast.models';
 import { ToastService } from '@services/toast/toast.service';
 import { addIcons } from 'ionicons';
-import { createOutline, logOutOutline } from 'ionicons/icons';
+import { copyOutline, createOutline, logOutOutline } from 'ionicons/icons';
 import { filter, switchMap, take } from 'rxjs';
 
 @Component({
@@ -68,12 +69,13 @@ export default class ProfilePage {
   private readonly usersApiService = inject(UsersApiService);
   private readonly toastService = inject(ToastService);
   private readonly authFacadeService = inject(AuthFacadeService);
+  private readonly clipboardService = inject(ClipboardService);
   private readonly router = inject(Router);
 
   userData: Signal<UserDataDto | undefined> = this.usersStore.userData;
 
   constructor() {
-    addIcons({ createOutline, logOutOutline });
+    addIcons({ createOutline, logOutOutline, copyOutline });
   }
 
   deleteAccount(): void {
@@ -121,6 +123,22 @@ export default class ProfilePage {
           });
 
           return this.toastService.open$(message, ToastColor.Success);
+        }),
+        take(1),
+      )
+      .subscribe();
+  }
+
+  copyUserIdToClipboard(id: string | undefined): void {
+    if (!id) return;
+
+    this.clipboardService
+      .write$({ string: id })
+      .pipe(
+        switchMap(() => {
+          const message = this.translateService.instant('profile.copy_id_toast');
+
+          return this.toastService.open$(message, ToastColor.Medium);
         }),
         take(1),
       )

@@ -44,6 +44,7 @@
   "profile.logout_alert.message": "Ви впевнені, що хочете вийти з акаунту?",
   "profile.verify_email_button": "Підтвердити",
   "profile.verify_email_toast": "Лист для підтвердження пошти був відправлений на {{email}}",
+  "profile.copy_id_toast": "ID скопійовано до буфера обміну",
   "edit_user_data.save_button": "Зберегти",
   "edit_user_data.email_label": "Новий адрес пошти",
   "edit_user_data.email_helper": "Введіть нову пошту",
