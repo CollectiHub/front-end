@@ -1,0 +1,28 @@
+<ion-card
+  class="tw-flex tw-flex-col tw-justify-between tw-h-full tw-m-0 tw-rounded"
+  [ngClass]="{ 'tw-outline tw-outline-green-300': card().isCollected }"
+  [disabled]="!card().isExists"
+  (click)="handleCardClick(card().id)">
+  <div class="tw-flex tw-flex-auto tw-items-center">
+    <img
+      class="tw-w-full"
+      alt="image description"
+      [src]="card().isExists ? card().imageUrl : 'assets/img/card-not-found.jpg'"
+      (error)="handleImageLoadError($event)" />
+  </div>
+  <ion-card-content class="tw-flex tw-justify-between tw-items-center tw-p-2">
+    <ion-label class="tw-text-sm">{{ card().id }}</ion-label>
+    @if (card().isExists) {
+      <div class="tw-flex tw-justify-center tw-items-center tw-w-6 tw-h-6">
+        @if (!isLoading()) {
+          <ion-checkbox
+            color="success"
+            [checked]="card().isCollected"
+            (click)="handleCheckboxClick($event, card().id)" />
+        } @else {
+          <ion-spinner [color]="card().isCollected ? 'success' : 'medium'" name="circular" />
+        }
+      </div>
+    }
+  </ion-card-content>
+</ion-card>

@@ -19,7 +19,11 @@
     [displayMode]="globalProgressDisplayMode()" />}
 
   <ion-content>
+    @if(cardsDisplayMode() === cardsDisplayModeEnum.Chip) {
     <app-chip-list />
+    } @else {
+    <app-card-list />
+    }
   </ion-content>
 
   @if(rarityProgressDisplayMode() !== progressDisplayMode.None){
