@@ -1,0 +1,10 @@
+<div class="tw-flex tw-flex-wrap">
+  @for (card of cardList(); track card.id) {
+    <app-card
+      class="tw-w-1/3 tw-p-2"
+      [card]="card"
+      [isLoading]="getLoadingStatus(cardsPendingResponse(), card.id)"
+      (clickCard)="handleCardClick($event)"
+      (clickCheckbox)="handleCheckboxClick($event)" />
+  }
+</div>
