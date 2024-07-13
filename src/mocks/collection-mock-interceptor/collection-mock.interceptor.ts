@@ -1,4 +1,5 @@
 import { HttpErrorResponse, HttpHandlerFn, HttpRequest, HttpResponse } from '@angular/common/http';
+import { Card, StatusCard } from '@models/collection.models';
 import { from, map, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -71,9 +72,9 @@ export const collectionMockInterceptor = (req: HttpRequest<unknown>, next: HttpH
 
     const cache = cacheManager.getCacheData();
     const targetCards = cache.cards.filter(card => {
-      const isMatchCharacterName = card['character_name']?.toLocaleLowerCase().includes(searchTerm);
-      const isMatchNumber = card['serial_number']?.toLocaleLowerCase().includes(searchTerm);
-      const isCardExisting = card.status !== 'not_existing';
+      const isMatchCharacterName = card.character_name.toLocaleLowerCase().includes(searchTerm);
+      const isMatchNumber = card.serial_number.toLocaleLowerCase().includes(searchTerm);
+      const isCardExisting = card.status !== StatusCard.NotExisting;
 
       return isCardExisting && (isMatchCharacterName || isMatchNumber);
     });
@@ -82,10 +83,10 @@ export const collectionMockInterceptor = (req: HttpRequest<unknown>, next: HttpH
   });
 
   registry.patch(environment.endpoints.collection.update, req => {
-    const requestCards = (req.body as Record<string, []>)['cards'];
+    const requestCards = (req.body as Record<string, []>)['cards'] as Card[];
 
-    const reqCardsMap = requestCards.reduce((memo: Record<string, any>, card) => {
-      memo[card?.['id']] = card;
+    const reqCardsMap = requestCards.reduce((memo: Record<string, Card>, card) => {
+      memo[card.id] = card;
       return memo;
     }, {});
 
@@ -109,7 +110,7 @@ export const collectionMockInterceptor = (req: HttpRequest<unknown>, next: HttpH
     }
     const cache = cacheManager.getCacheData();
 
-    const areCardsCollected = requestCards.some(card => card?.['status'] === 'collected');
+    const areCardsCollected = requestCards.some(card => card.status === StatusCard.Collected);
     const updatedCardsCollected = areCardsCollected
       ? cache.cards_collected + requestCards.length
       : cache.cards_collected - requestCards.length;
