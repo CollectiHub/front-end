@@ -14,3 +14,9 @@ Users:
 - verifyPasswordCode123123123 - code, that will throw error durrin reset password verification
 - updateError@gg.gg - use thi email during user data update, to throw 400 error
 - 1234oldpass@@ - use this as old password, to throw 400 error during password change
+
+Collection:
+
+- use 'showError' as sarch term - to receive error for 'search' cards request;
+- update card with id '3' (R-003) to receive error for 'update' cards request;
+- try to fetch cards for 'SSR' rarity, to receive error for fetching cards by rarity;
