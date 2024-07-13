@@ -9,6 +9,12 @@ export const environment = {
       refreshToken: `${apiUrl}auth/refresh-token`,
       register: `${apiUrl}auth/register`,
     },
+    collection: {
+      getCollectionInfo: `${apiUrl}collection/info`,
+      getByRarity: `${apiUrl}collection/get-by-rarity`,
+      update: `${apiUrl}collection/update`,
+      search: `${apiUrl}collection/search`,
+    },
     users: {
       base: `${apiUrl}users`,
       getUserData: `${apiUrl}users/me`,
