@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { Card } from '@features/collection/components/chip-list/cards.models';
 import { IonChip, IonLabel, IonSpinner } from '@ionic/angular/standalone';
+import { Card, StatusCard } from '@models/collection.models';
 
 @Component({
   selector: 'app-chip',
@@ -12,6 +12,8 @@ import { IonChip, IonLabel, IonSpinner } from '@ionic/angular/standalone';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChipComponent {
+  readonly status = StatusCard;
+
   chip = input.required<Card>();
   isLoading = input.required<boolean>();
 
