@@ -7,7 +7,7 @@ import { MockInterceptorRegistryService } from '../mock-interceptor-registry/moc
 import { CollectionCacheManager } from './collection-cache-manager';
 import { CollectionCache } from './collection-cache-manager.models';
 
-export const collctionMockIntrceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
+export const collectionMockInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
   const registry = new MockInterceptorRegistryService();
   const cacheManager = new CollectionCacheManager();
 
