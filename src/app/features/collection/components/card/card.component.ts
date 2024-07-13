@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { IonCard, IonCardContent, IonCheckbox, IonLabel, IonSpinner } from '@ionic/angular/standalone';
-import { Card } from '@models/collection.models';
+import { Card, StatusCard } from '@models/collection.models';
 
 @Component({
   selector: 'app-card',
@@ -12,6 +12,8 @@ import { Card } from '@models/collection.models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardComponent {
+  readonly status = StatusCard;
+
   card = input.required<Card>();
   isLoading = input.required<boolean>();
 

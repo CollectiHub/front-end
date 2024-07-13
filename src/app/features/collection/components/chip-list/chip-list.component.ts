@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ChipComponent } from '@components/chip/chip.component';
+import { Card } from '@models/collection.models';
 
-import { Card } from './cards.models';
 import { stubChipList } from './chip-list.stub';
 
 @Component({

@@ -1,26 +1,28 @@
 <ion-card
   class="tw-flex tw-flex-col tw-justify-between tw-h-full tw-m-0 tw-rounded"
-  [ngClass]="{ 'tw-outline tw-outline-green-300': card().isCollected }"
-  [disabled]="!card().isExists"
+  [ngClass]="{
+    'tw-outline tw-outline-green-300': card().status === status.Collected,
+    'tw-opacity-30': card().status === status.NotExisting
+  }"
   (click)="handleCardClick(card().id)">
   <div class="tw-flex tw-flex-auto tw-items-center">
     <img
       class="tw-w-full"
       alt="image description"
-      [src]="card().isExists ? card().imageUrl : 'assets/img/card-not-found.jpg'"
+      [src]="card().status !== status.NotExisting ? card().image_url : 'assets/img/card-not-found.jpg'"
       (error)="handleImageLoadError($event)" />
   </div>
   <ion-card-content class="tw-flex tw-justify-between tw-items-center tw-p-2">
-    <ion-label class="tw-text-sm">{{ card().id }}</ion-label>
-    @if (card().isExists) {
+    <ion-label class="tw-text-sm">{{ card().serial_number }}</ion-label>
+    @if (card().status !== status.NotExisting) {
       <div class="tw-flex tw-justify-center tw-items-center tw-w-6 tw-h-6">
         @if (!isLoading()) {
           <ion-checkbox
             color="success"
-            [checked]="card().isCollected"
+            [checked]="card().status === status.Collected"
             (click)="handleCheckboxClick($event, card().id)" />
         } @else {
-          <ion-spinner [color]="card().isCollected ? 'success' : 'medium'" name="circular" />
+          <ion-spinner [color]="card().status === status.Collected ? 'success' : 'medium'" name="circular" />
         }
       </div>
     }
