@@ -55,14 +55,9 @@ describe(CardListComponent.name, () => {
 
   describe('handleCardClick', () => {
     it('should translate message for toaster if the card does not exist', () => {
-      const card: Card = {
-        id: 'id-002',
+      const card = {
         status: StatusCard.NotExisting,
-        rarity: 'R',
-        serial_number: 'R-002',
-        character_name: 'FF',
-        image_url: 'assets/img/card-stub.jpg',
-      };
+      } as Card;
 
       component.handleCardClick('id-002', card);
 
@@ -70,14 +65,9 @@ describe(CardListComponent.name, () => {
     });
 
     it('should open toast if the card does not exist', () => {
-      const card: Card = {
-        id: 'id-002',
+      const card = {
         status: StatusCard.NotExisting,
-        rarity: 'R',
-        serial_number: 'R-002',
-        character_name: 'FF',
-        image_url: 'assets/img/card-stub.jpg',
-      };
+      } as Card;
 
       component.handleCardClick('id-002', card);
 

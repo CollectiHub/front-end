@@ -55,14 +55,9 @@ describe(ChipListComponent.name, () => {
 
   describe('handleChipClick', () => {
     it('should translate message for toaster if the chip does not exist', () => {
-      const chip: Card = {
-        id: 'id-002',
+      const chip = {
         status: StatusCard.NotExisting,
-        rarity: 'R',
-        serial_number: 'R-002',
-        character_name: 'FF',
-        image_url: 'assets/img/card-stub.jpg',
-      };
+      } as Card;
 
       component.handleChipClick('id-002', chip);
 
@@ -70,14 +65,9 @@ describe(ChipListComponent.name, () => {
     });
 
     it('should open toast if the chip does not exist', () => {
-      const chip: Card = {
-        id: 'id-002',
+      const chip = {
         status: StatusCard.NotExisting,
-        rarity: 'R',
-        serial_number: 'R-002',
-        character_name: 'FF',
-        image_url: 'assets/img/card-stub.jpg',
-      };
+      } as Card;
 
       component.handleChipClick('id-002', chip);
 
