@@ -42,3 +42,9 @@ ion-toolbar {
     height: fit-content;
   }
 }
+
+.app-no-ripple {
+  --ripple-color: transparent;
+  --background-focused: transparent;
+  --background-activated: transparent;
+}

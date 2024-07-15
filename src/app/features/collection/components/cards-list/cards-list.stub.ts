@@ -1,9 +1,9 @@
-import { Card, StatusCard } from '@models/collection.models';
+import { Card, CardStatus } from '@models/collection.models';
 
 export const stubCardList: Card[] = [
   {
     id: 'id-001',
-    status: StatusCard.Collected,
+    status: CardStatus.Collected,
     rarity: 'R',
     serial_number: 'R-001',
     character_name: 'FF',
@@ -11,7 +11,7 @@ export const stubCardList: Card[] = [
   },
   {
     id: 'id-002',
-    status: StatusCard.Collected,
+    status: CardStatus.Collected,
     rarity: 'R',
     serial_number: 'R-002',
     character_name: 'FF',
@@ -19,7 +19,7 @@ export const stubCardList: Card[] = [
   },
   {
     id: 'id-003',
-    status: StatusCard.NotExisting,
+    status: CardStatus.NotExisting,
     rarity: 'R',
     serial_number: 'R-003',
     character_name: 'FF',
@@ -27,7 +27,7 @@ export const stubCardList: Card[] = [
   },
   {
     id: 'id-004',
-    status: StatusCard.NotCollected,
+    status: CardStatus.NotCollected,
     rarity: 'R',
     serial_number: 'R-004',
     character_name: 'FF',
@@ -35,7 +35,7 @@ export const stubCardList: Card[] = [
   },
   {
     id: 'id-005',
-    status: StatusCard.Collected,
+    status: CardStatus.Collected,
     rarity: 'R',
     serial_number: 'R-005',
     character_name: 'FF',
@@ -43,7 +43,7 @@ export const stubCardList: Card[] = [
   },
   {
     id: 'id-006',
-    status: StatusCard.NotExisting,
+    status: CardStatus.NotExisting,
     rarity: 'R',
     serial_number: 'R-006',
     character_name: 'FF',
@@ -51,7 +51,7 @@ export const stubCardList: Card[] = [
   },
   {
     id: 'id-007',
-    status: StatusCard.Collected,
+    status: CardStatus.Collected,
     rarity: 'R',
     serial_number: 'R-007',
     character_name: 'FF',
@@ -59,7 +59,7 @@ export const stubCardList: Card[] = [
   },
   {
     id: 'id-008',
-    status: StatusCard.Collected,
+    status: CardStatus.Collected,
     rarity: 'R',
     serial_number: 'R-008',
     character_name: 'FF',
@@ -67,7 +67,7 @@ export const stubCardList: Card[] = [
   },
   {
     id: 'id-009',
-    status: StatusCard.NotCollected,
+    status: CardStatus.NotCollected,
     rarity: 'R',
     serial_number: 'R-009',
     character_name: 'FF',
@@ -75,7 +75,7 @@ export const stubCardList: Card[] = [
   },
   {
     id: 'id-010',
-    status: StatusCard.NotCollected,
+    status: CardStatus.NotCollected,
     rarity: 'R',
     serial_number: 'R-010',
     character_name: 'FF',

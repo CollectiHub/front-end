@@ -1,4 +1,4 @@
-import { StatusCard } from '@models/collection.models';
+import { CardStatus } from '@models/collection.models';
 
 import { CollectionCache } from './collection-cache-manager.models';
 
@@ -9,7 +9,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '1',
       rarity: 'R',
-      status: StatusCard.NotCollected,
+      status: CardStatus.NotCollected,
       character_name: 'Sasuke',
       serial_number: 'R-001',
       image_url: 'assets/img/card-stub.jpg',
@@ -17,7 +17,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '2',
       rarity: 'R',
-      status: StatusCard.NotCollected,
+      status: CardStatus.NotCollected,
       character_name: 'Naruto',
       serial_number: 'R-002',
       image_url: 'assets/img/card-stub.jpg',
@@ -25,7 +25,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '3',
       rarity: 'R',
-      status: StatusCard.NotExisting,
+      status: CardStatus.NotExisting,
       character_name: 'Sakura',
       serial_number: 'R-003',
       image_url: 'assets/img/card-stub.jpg',
@@ -33,7 +33,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '4',
       rarity: 'R',
-      status: StatusCard.Collected,
+      status: CardStatus.Collected,
       character_name: 'Kakashi',
       serial_number: 'R-004',
       image_url: 'assets/img/card-stub.jpg',
@@ -41,7 +41,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '5',
       rarity: 'SR',
-      status: StatusCard.NotCollected,
+      status: CardStatus.NotCollected,
       character_name: 'Sasuke',
       serial_number: 'SR-001',
       image_url: 'assets/img/card-stub.jpg',
@@ -49,7 +49,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '6',
       rarity: 'SR',
-      status: StatusCard.Collected,
+      status: CardStatus.Collected,
       character_name: 'Naruto',
       serial_number: 'SR-002',
       image_url: 'assets/img/card-stub.jpg',
@@ -57,7 +57,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '7',
       rarity: 'SR',
-      status: StatusCard.NotCollected,
+      status: CardStatus.NotCollected,
       character_name: 'Sakura',
       serial_number: 'SR-003',
       image_url: 'assets/img/card-stub.jpg',
@@ -65,7 +65,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '8',
       rarity: 'SR',
-      status: StatusCard.Collected,
+      status: CardStatus.Collected,
       character_name: 'Kakashi',
       serial_number: 'SR-004',
       image_url: 'assets/img/card-stub.jpg',
@@ -73,7 +73,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '9',
       rarity: 'TR',
-      status: StatusCard.NotCollected,
+      status: CardStatus.NotCollected,
       character_name: 'Boruto',
       serial_number: 'TR-001',
       image_url: 'assets/img/card-stub.jpg',
@@ -81,7 +81,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '10',
       rarity: 'TR',
-      status: StatusCard.NotCollected,
+      status: CardStatus.NotCollected,
       character_name: 'Suzune',
       serial_number: 'TR-002',
       image_url: 'assets/img/card-stub.jpg',
@@ -89,7 +89,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '11',
       rarity: 'TR',
-      status: StatusCard.Collected,
+      status: CardStatus.Collected,
       character_name: 'Tsunade',
       serial_number: 'TR-003',
       image_url: 'assets/img/card-stub.jpg',
@@ -97,7 +97,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '12',
       rarity: 'TR',
-      status: StatusCard.Collected,
+      status: CardStatus.Collected,
       character_name: 'Juraia',
       serial_number: 'TR-004',
       image_url: 'assets/img/card-stub.jpg',
@@ -105,7 +105,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '13',
       rarity: 'HR',
-      status: StatusCard.Collected,
+      status: CardStatus.Collected,
       character_name: 'Juraia',
       serial_number: 'HR-001',
       image_url: 'assets/img/card-stub.jpg',
@@ -113,7 +113,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '14',
       rarity: 'HR',
-      status: StatusCard.NotExisting,
+      status: CardStatus.NotExisting,
       character_name: 'Pain',
       serial_number: 'HR-002',
       image_url: 'assets/img/card-stub.jpg',
@@ -121,7 +121,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '15',
       rarity: 'HR',
-      status: StatusCard.NotCollected,
+      status: CardStatus.NotCollected,
       character_name: 'Nagato',
       serial_number: 'HR-003',
       image_url: 'assets/img/card-stub.jpg',
@@ -129,7 +129,7 @@ export const COLLECTION_CACHE_INITIAL_STATE: CollectionCache = {
     {
       id: '16',
       rarity: 'HR',
-      status: StatusCard.NotCollected,
+      status: CardStatus.NotCollected,
       character_name: 'Hanzo',
       serial_number: 'HR-004',
       image_url: 'assets/img/card-stub.jpg',

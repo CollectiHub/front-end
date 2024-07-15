@@ -1,4 +1,4 @@
-import { Card, StatusCard } from '@models/collection.models';
+import { Card, CardStatus } from '@models/collection.models';
 import { TranslateService } from '@ngx-translate/core';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { ToastColor } from '@services/toast/toast.models';
@@ -6,10 +6,10 @@ import { ToastService } from '@services/toast/toast.service';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of } from 'rxjs';
 
-import { ChipListComponent } from './chip-list.component';
+import { ChipsListComponent } from './chips-list.component';
 
-describe(ChipListComponent.name, () => {
-  let component: ChipListComponent;
+describe(ChipsListComponent.name, () => {
+  let component: ChipsListComponent;
   let translateServiceMock: MockProxy<TranslateService>;
   let toastServiceMock: MockProxy<ToastService>;
 
@@ -21,7 +21,7 @@ describe(ChipListComponent.name, () => {
     toastServiceMock.open$.mockReturnValue(of({} as HTMLIonToastElement));
 
     component = classWithProviders({
-      token: ChipListComponent,
+      token: ChipsListComponent,
       providers: [
         {
           provide: TranslateService,
@@ -56,7 +56,7 @@ describe(ChipListComponent.name, () => {
   describe('handleChipClick', () => {
     it('should translate message for toaster if the chip does not exist', () => {
       const chip = {
-        status: StatusCard.NotExisting,
+        status: CardStatus.NotExisting,
       } as Card;
 
       component.handleChipClick('id-002', chip);
@@ -66,7 +66,7 @@ describe(ChipListComponent.name, () => {
 
     it('should open toast if the chip does not exist', () => {
       const chip = {
-        status: StatusCard.NotExisting,
+        status: CardStatus.NotExisting,
       } as Card;
 
       component.handleChipClick('id-002', chip);

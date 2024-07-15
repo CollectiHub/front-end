@@ -1,19 +1,19 @@
 <div class="tw-relative">
   <ion-chip
-    class="tw-rounded"
+    class="tw-rounded tw-m-0"
     [ngClass]="{
-      'tw-opacity-30': chip().status === status.NotExisting,
+      'tw-opacity-30': card().status === status.NotExisting,
       'tw-text-transparent': isLoading()
     }"
-    [color]="chip().status === status.Collected ? 'success' : 'medium'"
+    [color]="card().status === status.Collected ? 'success' : 'medium'"
     [disabled]="isLoading()"
-    (click)="handleChipClick(chip().id)">
-    <ion-label>{{ chip().serial_number }}</ion-label>
+    (click)="handleChipClick(card().id)">
+    <ion-label>{{ card().serial_number }}</ion-label>
   </ion-chip>
 
   @if (isLoading()) {
     <div class="tw-absolute tw-flex tw-justify-center tw-items-center tw-inset-x-0 tw-inset-y-0">
-      <ion-spinner [color]="chip().status === status.Collected ? 'success' : 'medium'" name="dots" />
+      <ion-spinner [color]="card().status === status.Collected ? 'success' : 'medium'" name="dots" />
     </div>
   }
 </div>
