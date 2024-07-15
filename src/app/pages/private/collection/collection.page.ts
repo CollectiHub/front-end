@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CardListComponent } from '@features/collection/components/card-list/card-list.component';
-import { ChipListComponent } from '@features/collection/components/chip-list/chip-list.component';
+import { CardsListComponent } from '@features/collection/components/cards-list/cards-list.component';
+import { ChipsListComponent } from '@features/collection/components/chips-list/chips-list.component';
 import { ProgressBarComponent } from '@features/collection/components/progress-bar/progress-bar.component';
 import { stubRarityList } from '@features/collection/components/rarity-slider/rarities.stub';
 import { RaritySliderComponent } from '@features/collection/components/rarity-slider/rarity-slider.component';
@@ -34,8 +34,8 @@ import { settingsOutline } from 'ionicons/icons';
     IonIcon,
     IonMenu,
     IonMenuToggle,
-    ChipListComponent,
-    CardListComponent,
+    ChipsListComponent,
+    CardsListComponent,
     CollectionSettingsComponent,
     ProgressBarComponent,
     RaritySliderComponent,

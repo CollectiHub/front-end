@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { CardComponent } from '@components/card/card.component';
+import { ChipComponent } from '@components/chip/chip.component';
 import { CardsDisplayMode, CollectionProgressMode } from '@features/collection-settings/collection-settings.models';
 import CollectionProgressSettingsComponent from '@features/collection-settings/rarity-mode-setting/collection-progress-setting.component';
 import { CollectionSettingsStore } from '@features/collection-settings/store/collection-settings.store';
@@ -16,6 +18,7 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/angular/standalone';
+import { Card, CardStatus } from '@models/collection.models';
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { addOutline, closeOutline, imageOutline, tabletLandscapeOutline } from 'ionicons/icons';
@@ -38,6 +41,8 @@ import { addOutline, closeOutline, imageOutline, tabletLandscapeOutline } from '
     IonMenuToggle,
     TranslateModule,
     CollectionProgressSettingsComponent,
+    ChipComponent,
+    CardComponent,
   ],
   templateUrl: './collection-settings.component.html',
   styleUrl: './collection-settings.component.scss',
@@ -45,6 +50,15 @@ import { addOutline, closeOutline, imageOutline, tabletLandscapeOutline } from '
 })
 export class CollectionSettingsComponent {
   private readonly collectionSettingsStore = inject(CollectionSettingsStore);
+
+  readonly cardExample: Card = {
+    id: 'id',
+    rarity: 'R',
+    serial_number: 'R-001',
+    status: CardStatus.NotCollected,
+    character_name: 'Sakura',
+    image_url: 'assets/img/card-stub.jpg',
+  };
 
   globalProgressMode = this.collectionSettingsStore.globalProgressDisplayMode;
   rarityProgressMode = this.collectionSettingsStore.rarityProgressDisplayMode;

@@ -1,5 +1,5 @@
 import { HttpErrorResponse, HttpHandlerFn, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Card, StatusCard } from '@models/collection.models';
+import { Card, CardStatus } from '@models/collection.models';
 import { from, map, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -74,7 +74,7 @@ export const collectionMockInterceptor = (req: HttpRequest<unknown>, next: HttpH
     const targetCards = cache.cards.filter(card => {
       const isMatchCharacterName = card.character_name.toLocaleLowerCase().includes(searchTerm);
       const isMatchNumber = card.serial_number.toLocaleLowerCase().includes(searchTerm);
-      const isCardExisting = card.status !== StatusCard.NotExisting;
+      const isCardExisting = card.status !== CardStatus.NotExisting;
 
       return isCardExisting && (isMatchCharacterName || isMatchNumber);
     });
@@ -110,7 +110,7 @@ export const collectionMockInterceptor = (req: HttpRequest<unknown>, next: HttpH
     }
     const cache = cacheManager.getCacheData();
 
-    const areCardsCollected = requestCards.some(card => card.status === StatusCard.Collected);
+    const areCardsCollected = requestCards.some(card => card.status === CardStatus.Collected);
     const updatedCardsCollected = areCardsCollected
       ? cache.cards_collected + requestCards.length
       : cache.cards_collected - requestCards.length;

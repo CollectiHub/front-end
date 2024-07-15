@@ -28,23 +28,24 @@
         (progressModeChange)="handleRarityProgressModeChange($event)" />
     </ion-item>
 
-    <ion-item>
-      <div class="tw-flex tw-flex-col tw-py-2">
+    <ion-item class="app-no-ripple">
+      <div class="tw-w-full tw-flex tw-flex-col tw-py-2">
         <ion-text class="tw-text-sm tw-mb-2" translate="collection_settings.cards_mode.label" />
 
         <div class="tw-flex">
-          <ion-button
-            class="tw-mr-2"
-            [fill]="cardsDisplayMode() === CardsDisplayMode.Image ? 'solid' : 'outline'"
+          <div
+            class="tw-w-24 tw-border-2 tw-border-transparent"
+            [class.!tw-border-green-400]="cardsDisplayMode() === CardsDisplayMode.Image"
             (click)="handleCardsViewModeChange(CardsDisplayMode.Image)">
-            <ion-icon class="tw-text-3xl tw-p-1" slot="icon-only" name="image-outline" />
-          </ion-button>
+            <app-card class="tw-pointer-events-none" [card]="cardExample" [isLoading]="false" />
+          </div>
 
-          <ion-button
-            [fill]="cardsDisplayMode() === CardsDisplayMode.Chip ? 'solid' : 'outline'"
+          <div
+            class="tw-ml-3 tw-border-2 tw-h-fit tw-border-transparent tw-rounded"
+            [class.!tw-border-green-400]="cardsDisplayMode() === CardsDisplayMode.Chip"
             (click)="handleCardsViewModeChange(CardsDisplayMode.Chip)">
-            <ion-icon class="tw-text-3xl tw-p-1" slot="icon-only" name="tablet-landscape-outline" />
-          </ion-button>
+            <app-chip class="tw-pointer-events-none" [card]="cardExample" [isLoading]="false" />
+          </div>
         </div>
       </div>
     </ion-item>
