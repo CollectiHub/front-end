@@ -60,15 +60,12 @@ describe(CollectionApiService.name, () => {
       );
     });
 
-    it('should return the data from the response', done => {
-      service
-        .getCollectionInfo$()
-        .pipe(take(1))
-        .subscribe(res => {
-          expect(res).toBe(responseMock.data);
+    it('should return the data from the response', () => {
+      const spy = jest.fn();
 
-          done();
-        });
+      service.getCollectionInfo$().pipe(take(1)).subscribe(spy);
+
+      expect(spy).toHaveBeenCalledWith(responseMock.data);
     });
   });
 
@@ -95,20 +92,16 @@ describe(CollectionApiService.name, () => {
       );
     });
 
-    it('should return the cards from the response', done => {
+    it('should return the cards from the response', () => {
+      const spy = jest.fn();
       const cardsMock = mock();
       const resnonseWithCardsMock = { data: { cards: cardsMock } };
 
       validationServiceMock.validate.mockReturnValueOnce(resnonseWithCardsMock);
 
-      service
-        .getCardsByRarity$('R')
-        .pipe(take(1))
-        .subscribe(res => {
-          expect(res).toBe(cardsMock);
+      service.getCardsByRarity$('S').pipe(take(1)).subscribe(spy);
 
-          done();
-        });
+      expect(spy).toHaveBeenCalledWith(cardsMock);
     });
   });
 
@@ -135,20 +128,16 @@ describe(CollectionApiService.name, () => {
       );
     });
 
-    it('should return the cards from the response', done => {
+    it('should return the cards from the response', () => {
+      const spy = jest.fn();
       const cardsMock = mock();
       const resnonseWithCardsMock = { data: { cards: cardsMock } };
 
       validationServiceMock.validate.mockReturnValueOnce(resnonseWithCardsMock);
 
-      service
-        .getCardsBySearchTerm$('R')
-        .pipe(take(1))
-        .subscribe(res => {
-          expect(res).toBe(cardsMock);
+      service.getCardsBySearchTerm$('Sasuke').pipe(take(1)).subscribe(spy);
 
-          done();
-        });
+      expect(spy).toHaveBeenCalledWith(cardsMock);
     });
   });
 
@@ -177,21 +166,17 @@ describe(CollectionApiService.name, () => {
       );
     });
 
-    it('should return the number of cards collected from the response', done => {
-      const updateCardsMock = mock<UpdateCardDto[]>();
+    it('should return the number of cards collected from the response', () => {
+      const spy = jest.fn();
       const amountCollectedCards = 120;
+      const updateCardsMock = mock<UpdateCardDto[]>();
       const resnonseUpdateMock = { data: { cards_collected: amountCollectedCards } };
 
       validationServiceMock.validate.mockReturnValueOnce(resnonseUpdateMock);
 
-      service
-        .updateCollection$(updateCardsMock)
-        .pipe(take(1))
-        .subscribe(res => {
-          expect(res).toBe(amountCollectedCards);
+      service.updateCollection$(updateCardsMock).pipe(take(1)).subscribe(spy);
 
-          done();
-        });
+      expect(spy).toHaveBeenCalledWith(amountCollectedCards);
     });
   });
 });
