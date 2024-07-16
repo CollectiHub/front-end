@@ -1,4 +1,4 @@
-import { HttpClient, HttpContext } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '@environments/environment';
 import { AuthConstants } from '@features/auth/auth.constants';
@@ -35,9 +35,13 @@ export class CollectionApiService {
 
   getCardsByRarity$(rarity: string): Observable<Card[]> {
     const context = new HttpContext().set(AuthConstants.skipLoadingContextToken, true);
+    const params = new HttpParams().set('rarity', rarity);
 
     return this.httpClient
-      .get<CollectionCardsResponseDto>(`${environment.endpoints.collection.getByRarity}?rarity=${rarity}`, { context })
+      .get<CollectionCardsResponseDto>(environment.endpoints.collection.getByRarity, {
+        context,
+        params,
+      })
       .pipe(
         map((res: CollectionCardsResponseDto) =>
           this.validationService.validate(CollectionSchemas.collectionCardsResponseDto, res),
@@ -48,9 +52,10 @@ export class CollectionApiService {
 
   getCardsBySearchTerm$(searchTerm: string): Observable<Card[]> {
     const context = new HttpContext().set(AuthConstants.skipLoadingContextToken, true);
+    const params = new HttpParams().set('term', searchTerm);
 
     return this.httpClient
-      .get<CollectionCardsResponseDto>(`${environment.endpoints.collection.search}?term=${searchTerm}`, { context })
+      .get<CollectionCardsResponseDto>(environment.endpoints.collection.search, { context, params })
       .pipe(
         map((res: CollectionCardsResponseDto) =>
           this.validationService.validate(CollectionSchemas.collectionCardsResponseDto, res),

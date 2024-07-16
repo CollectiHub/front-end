@@ -1,4 +1,4 @@
-import { HttpClient, HttpContext } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { AuthConstants } from '@features/auth/auth.constants';
 import { CollectionSchemas } from '@features/collection/collection.schemas';
@@ -19,9 +19,7 @@ describe(CollectionApiService.name, () => {
 
   beforeEach(() => {
     httpClientMock = mock<HttpClient>();
-    httpClientMock.post.mockReturnValue(of(responseMock));
     httpClientMock.get.mockReturnValue(of(responseMock));
-    httpClientMock.delete.mockReturnValue(of(responseMock));
     httpClientMock.patch.mockReturnValue(of(responseMock));
 
     validationServiceMock = mock<ValidationService>();
@@ -78,13 +76,14 @@ describe(CollectionApiService.name, () => {
     it('should trigger "get" method with the correct args', () => {
       const contextMock = new HttpContext().set(AuthConstants.skipLoadingContextToken, true);
       const rarity = 'SSR';
+      const paramsMock = new HttpParams().set('rarity', rarity);
 
       service.getCardsByRarity$(rarity).pipe(take(1)).subscribe();
 
-      expect(httpClientMock.get).toHaveBeenCalledWith(
-        `${environment.endpoints.collection.getByRarity}?rarity=${rarity}`,
-        { context: contextMock },
-      );
+      expect(httpClientMock.get).toHaveBeenCalledWith(environment.endpoints.collection.getByRarity, {
+        context: contextMock,
+        params: paramsMock,
+      });
     });
 
     it('should validate the response', () => {
@@ -97,7 +96,7 @@ describe(CollectionApiService.name, () => {
     });
 
     it('should return the cards from the response', done => {
-      const cardsMock = [{}];
+      const cardsMock = mock();
       const resnonseWithCardsMock = { data: { cards: cardsMock } };
 
       validationServiceMock.validate.mockReturnValueOnce(resnonseWithCardsMock);
@@ -117,11 +116,13 @@ describe(CollectionApiService.name, () => {
     it('should trigger "get" method with the correct args', () => {
       const contextMock = new HttpContext().set(AuthConstants.skipLoadingContextToken, true);
       const searchTerm = 'Sasuke';
+      const paramsMock = new HttpParams().set('term', searchTerm);
 
       service.getCardsBySearchTerm$(searchTerm).pipe(take(1)).subscribe();
 
-      expect(httpClientMock.get).toHaveBeenCalledWith(`${environment.endpoints.collection.search}?term=${searchTerm}`, {
+      expect(httpClientMock.get).toHaveBeenCalledWith(environment.endpoints.collection.search, {
         context: contextMock,
+        params: paramsMock,
       });
     });
 
@@ -135,7 +136,7 @@ describe(CollectionApiService.name, () => {
     });
 
     it('should return the cards from the response', done => {
-      const cardsMock = [{}];
+      const cardsMock = mock();
       const resnonseWithCardsMock = { data: { cards: cardsMock } };
 
       validationServiceMock.validate.mockReturnValueOnce(resnonseWithCardsMock);
@@ -153,7 +154,7 @@ describe(CollectionApiService.name, () => {
 
   describe('updateCollection$', () => {
     it('should trigger "patch" method with the correct args', () => {
-      const updateCardsMock = [{} as UpdateCardDto];
+      const updateCardsMock = mock<UpdateCardDto[]>();
       const contextMock = new HttpContext().set(AuthConstants.skipLoadingContextToken, true);
 
       service.updateCollection$(updateCardsMock).pipe(take(1)).subscribe();
@@ -166,7 +167,7 @@ describe(CollectionApiService.name, () => {
     });
 
     it('should validate the response', () => {
-      const updateCardsMock = [{} as UpdateCardDto];
+      const updateCardsMock = mock<UpdateCardDto[]>();
 
       service.updateCollection$(updateCardsMock).pipe(take(1)).subscribe();
 
@@ -177,7 +178,7 @@ describe(CollectionApiService.name, () => {
     });
 
     it('should return the number of cards collected from the response', done => {
-      const updateCardsMock = [{} as UpdateCardDto];
+      const updateCardsMock = mock<UpdateCardDto[]>();
       const amountCollectedCards = 120;
       const resnonseUpdateMock = { data: { cards_collected: amountCollectedCards } };
 
