@@ -1,5 +1,6 @@
 import { HttpErrorResponse, HttpHandlerFn, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Card, CardStatus } from '@models/collection.models';
+import { CollectionInfoDto } from '@features/collection/collection.models';
+import { CardStatus, UpdateCardDto } from '@models/collection.models';
 import { from, map, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -37,19 +38,19 @@ export const collectionMockInterceptor = (req: HttpRequest<unknown>, next: HttpH
 
     return from(import('./rarities-mock.json')).pipe(
       map(raritiesMock => {
-        const collectionInfo = {
+        const collectionInfo: CollectionInfoDto = {
           cards_total: cache.cards_total,
-          cardsCollected: cache.cards_collected,
+          cards_collected: cache.cards_collected,
           rarities: raritiesMock.rarities,
         };
 
-        return new HttpResponse({ status: 200, body: { data: collectionInfo } });
+        return new HttpResponse({ status: 200, body: { data: collectionInfo, message: 'Success!' } });
       }),
     );
   });
 
   registry.get(environment.endpoints.collection.search, (_, params) => {
-    const searchTerm = params['searchTerm']?.toLocaleLowerCase();
+    const searchTerm = params['term']?.toLocaleLowerCase();
 
     if (searchTerm === 'showError') {
       return throwError(
@@ -79,13 +80,13 @@ export const collectionMockInterceptor = (req: HttpRequest<unknown>, next: HttpH
       return isCardExisting && (isMatchCharacterName || isMatchNumber);
     });
 
-    return of(new HttpResponse({ status: 200, body: { data: targetCards } }));
+    return of(new HttpResponse({ status: 200, body: { data: { cards: targetCards }, message: 'Success!' } }));
   });
 
   registry.patch(environment.endpoints.collection.update, req => {
-    const requestCards = (req.body as Record<string, []>)['cards'] as Card[];
+    const requestCards = (req.body as Record<string, []>)['cards'] as UpdateCardDto[];
 
-    const reqCardsMap = requestCards.reduce((memo: Record<string, Card>, card) => {
+    const reqCardsMap = requestCards.reduce((memo: Record<string, UpdateCardDto>, card) => {
       memo[card.id] = card;
       return memo;
     }, {});
@@ -115,7 +116,14 @@ export const collectionMockInterceptor = (req: HttpRequest<unknown>, next: HttpH
       ? cache.cards_collected + requestCards.length
       : cache.cards_collected - requestCards.length;
 
-    const updatedCards = cache.cards.map(card => reqCardsMap[card.id] ?? card);
+    const updatedCards = cache.cards.map(card => {
+      if (reqCardsMap[card.id]) {
+        return { ...card, status: reqCardsMap[card.id].status };
+      }
+
+      return card;
+    });
+
     const updatedCache: CollectionCache = {
       ...cache,
       cards: updatedCards,
@@ -124,7 +132,12 @@ export const collectionMockInterceptor = (req: HttpRequest<unknown>, next: HttpH
 
     cacheManager.put(updatedCache);
 
-    return of(new HttpResponse({ status: 200, body: { data: { cards_collected: updatedCardsCollected } } }));
+    return of(
+      new HttpResponse({
+        status: 200,
+        body: { data: { cards_collected: updatedCardsCollected }, message: 'Success!' },
+      }),
+    );
   });
 
   registry.get(environment.endpoints.collection.getByRarity, (_, params) => {
@@ -153,7 +166,7 @@ export const collectionMockInterceptor = (req: HttpRequest<unknown>, next: HttpH
 
     const targetCards = cache.cards.filter(card => card.rarity === targetRarity);
 
-    return of(new HttpResponse({ status: 200, body: { data: targetCards } }));
+    return of(new HttpResponse({ status: 200, body: { data: { cards: targetCards }, message: 'Success!' } }));
   });
 
   return registry.processRequest$(req, next);
