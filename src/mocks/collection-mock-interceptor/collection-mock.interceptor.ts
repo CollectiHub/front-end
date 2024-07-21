@@ -49,10 +49,10 @@ export const collectionMockInterceptor = (req: HttpRequest<unknown>, next: HttpH
     );
   });
 
-  registry.get(environment.endpoints.collection.search, (_, params) => {
-    const searchTerm = params['term']?.toLocaleLowerCase();
+  registry.get(environment.endpoints.collection.search, req => {
+    const searchTerm = req.params.get('term')?.toLocaleLowerCase() as string;
 
-    if (searchTerm === 'showError') {
+    if (searchTerm === 'showerror') {
       return throwError(
         () =>
           new HttpErrorResponse({

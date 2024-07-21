@@ -3,7 +3,7 @@
     class="tw-p-2"
     color="primary"
     [scrollable]="true"
-    [value]="selectedRarity()"
+    [value]="isResetSelectedValue() ? '' : selectedRarity()"
     (ionChange)="handleRarityChange($event)">
     @for (rarity of rarities(); track rarity) {
       <ion-segment-button [value]="rarity">
