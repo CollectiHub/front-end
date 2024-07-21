@@ -1,0 +1,12 @@
+<div class="tw-flex tw-justify-between tw-items-center tw-gap-2 tw-px-2 tw-rounded tw-border tw-bg-white">
+  <ion-icon name="search-outline" />
+  <ion-input
+    class="tw-min-h-0 tw-text-xs"
+    type="text"
+    color="medium"
+    clear-input-icon="close-circle-outline"
+    [debounce]="300"
+    [clearInput]="true"
+    [formControl]="control"
+    [placeholder]="'search_bar.placeholder' | translate" />
+</div>
