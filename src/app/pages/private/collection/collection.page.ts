@@ -1,12 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  inject,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject, signal, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardsListComponent } from '@features/collection/components/cards-list/cards-list.component';
 import { stubCardList } from '@features/collection/components/cards-list/cards-list.stub';
@@ -32,7 +24,7 @@ import {
 import { Card } from '@models/collection.models';
 import { addIcons } from 'ionicons';
 import { settingsOutline } from 'ionicons/icons';
-import { of, switchMap } from 'rxjs';
+import { BehaviorSubject, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-collection',
@@ -57,13 +49,14 @@ import { of, switchMap } from 'rxjs';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class CollectionPage implements AfterViewInit {
+export default class CollectionPage implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly collectionApiService = inject(CollectionApiService);
   private readonly collectionSettingsStore = inject(CollectionSettingsStore);
 
   readonly progressDisplayMode = CollectionProgressMode;
   readonly cardsDisplayModeEnum = CardsDisplayMode;
+  readonly searchTermSubject$ = new BehaviorSubject<string>('');
 
   searchBar = viewChild.required(SearchBarComponent);
 
@@ -79,39 +72,37 @@ export default class CollectionPage implements AfterViewInit {
   rarities = signal<string[]>(stubRarityList);
 
   cardsList = signal<Card[]>(stubCardList);
-  searchList = signal<Card[] | null>(null);
-  isSearchActive = signal<boolean>(false);
+  searchCards = signal<Card[] | null>(null);
 
   constructor() {
     addIcons({ settingsOutline });
   }
 
-  ngAfterViewInit(): void {
-    this.searchBar()
-      .searchTerm$()
+  ngOnInit(): void {
+    this.searchTermSubject$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         switchMap((searchTerm: string) => {
           if (searchTerm) {
-            this.isSearchActive.set(true);
-
             return this.collectionApiService.getCardsBySearchTerm$(searchTerm);
           }
-
-          this.isSearchActive.set(false);
 
           return of(null);
         }),
       )
       .subscribe({
         next: (res: Card[] | null) => {
-          this.searchList.set(res);
+          this.searchCards.set(res);
         },
       });
   }
 
+  handleSearchInput(searchTerm: string): void {
+    this.searchTermSubject$.next(searchTerm);
+  }
+
   handleSelectRarity(rarity: string): void {
-    if (this.isSearchActive()) {
+    if (this.searchCards()) {
       this.searchBar()?.clearInput();
     }
 

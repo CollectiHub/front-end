@@ -12,7 +12,6 @@ import { IonLabel, IonSegment, IonSegmentButton, SegmentCustomEvent } from '@ion
 export class RaritySliderComponent {
   rarities = input.required<string[]>();
   selectedRarity = input.required<string>();
-  isResetSelectedValue = input.required<boolean>();
 
   selectRarity = output<string>();
 
