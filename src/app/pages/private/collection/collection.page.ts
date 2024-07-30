@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { LoaderComponent } from '@components/loader/loader.component';
 import { CardsListComponent } from '@features/collection/components/cards-list/cards-list.component';
 import { stubCardList } from '@features/collection/components/cards-list/cards-list.stub';
 import { ChipsListComponent } from '@features/collection/components/chips-list/chips-list.component';
@@ -21,13 +20,14 @@ import {
   IonMenu,
   IonMenuToggle,
   IonSearchbar,
+  IonSpinner,
   IonToolbar,
 } from '@ionic/angular/standalone';
 import { Card } from '@models/collection.models';
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { closeCircleOutline, settingsOutline } from 'ionicons/icons';
-import { of, switchMap, tap } from 'rxjs';
+import { of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-collection',
@@ -35,6 +35,7 @@ import { of, switchMap, tap } from 'rxjs';
   styleUrls: ['./collection.page.scss'],
   standalone: true,
   imports: [
+    IonSpinner,
     IonContent,
     IonButton,
     IonButtons,
@@ -44,7 +45,6 @@ import { of, switchMap, tap } from 'rxjs';
     IonMenu,
     IonMenuToggle,
     IonSearchbar,
-    LoaderComponent,
     ChipsListComponent,
     CardsListComponent,
     CollectionSettingsComponent,
@@ -90,9 +90,9 @@ export default class CollectionPage implements OnInit {
       .pipe(
         switchMap((searchTerm: string) => {
           if (searchTerm) {
-            return this.collectionApiService
-              .getCardsBySearchTerm$(searchTerm)
-              .pipe(tap(() => this.isLoadingCards.set(true)));
+            this.isLoadingCards.set(true);
+
+            return this.collectionApiService.getCardsBySearchTerm$(searchTerm);
           }
 
           return of(null);

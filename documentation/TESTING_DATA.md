@@ -17,6 +17,6 @@ Users:
 
 Collection:
 
-- use 'showError' as sarch term - to receive error for 'search' cards request;
+- use 'showerror' as search term - to receive error for 'search' cards request;
 - update card with id '3' (R-003) to receive error for 'update' cards request;
 - try to fetch cards for 'SSR' rarity, to receive error for fetching cards by rarity;

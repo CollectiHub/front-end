@@ -30,7 +30,9 @@
 
   <ion-content>
     @if(isLoadingCards()){
-    <app-loader />
+    <div class="tw-flex tw-justify-center tw-items-center tw-w-full tw-h-full">
+      <ion-spinner name="bubbles" color="medium" />
+    </div>
     } @else if(searchCardsList() || isImageDisplayMode()){
     <app-cards-list [cardList]="searchCardsList() || cardsList()" />
     } @else {
