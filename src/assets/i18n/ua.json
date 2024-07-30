@@ -75,5 +75,7 @@
   "collection_settings.import_collection_button": "Імпортувати колекцію",
   "progress_bar.global_progress.label": "Прогрес колекції",
   "progress_bar.rarity_progress.label": "Прогрес рідкості",
-  "collection.card_not_exists.toast": "Ця картка не існує, оскільки вона ніколи не була опублікована. Це не вплине на прогрес вашої колекції"
+  "collection.card_not_exists.toast": "Ця картка не існує, оскільки вона ніколи не була опублікована. Це не вплине на прогрес вашої колекції",
+  "collection.search_bar.placeholder": "Пошук карток за номером, рідкістю, персонажем",
+  "collection.cards_not_found.message": "Карток не знайдено"
 }

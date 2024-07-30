@@ -1,6 +1,16 @@
 <div class="ion-page">
   <ion-header>
-    <ion-toolbar class="!tw-py-0 tw-px-4">
+    <ion-toolbar class="!tw-py-2 tw-px-4">
+      <ion-searchbar
+        slot="start"
+        class="collection-searchbar !tw-min-h-0 !tw-p-0 tw-mr-4 tw-rounded tw-border-2"
+        type="text"
+        show-clear-button="focus"
+        clear-icon="close-circle-outline"
+        [formControl]="searchControl"
+        [debounce]="300"
+        [placeholder]="'collection.search_bar.placeholder' | translate" />
+
       <ion-buttons slot="end">
         <ion-menu-toggle menu="collection-settings-menu" class="tw-text-2xl">
           <ion-button class="app-icon-button">
@@ -19,10 +29,14 @@
     [displayMode]="globalProgressDisplayMode()" />}
 
   <ion-content>
-    @if(cardsDisplayMode() === cardsDisplayModeEnum.Chip) {
-    <app-chips-list />
+    @if(isLoadingCards()){
+    <div class="tw-flex tw-justify-center tw-items-center tw-w-full tw-h-full">
+      <ion-spinner name="bubbles" color="medium" />
+    </div>
+    } @else if(searchCardsList() || isImageDisplayMode()){
+    <app-cards-list [cardList]="searchCardsList() || cardsList()" />
     } @else {
-    <app-cards-list />
+    <app-chips-list />
     }
   </ion-content>
 
@@ -35,6 +49,6 @@
 
   <app-rarity-slider
     [rarities]="rarities()"
-    [selectedRarity]="selectedRarity()"
+    [selectedRarity]="searchCardsList() ? undefined : selectedRarity()"
     (selectRarity)="handleSelectRarity($event)" />
 </div>

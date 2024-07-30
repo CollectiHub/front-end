@@ -48,3 +48,9 @@ ion-toolbar {
   --background-focused: transparent;
   --background-activated: transparent;
 }
+
+ion-searchbar {
+  input {
+    font-size: 0.8rem !important;
+  }
+}
