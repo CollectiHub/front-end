@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
 import { CardComponent } from '@components/card/card.component';
 import { Card, CardStatus } from '@models/collection.models';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastColor } from '@services/toast/toast.models';
 import { ToastService } from '@services/toast/toast.service';
 import { take } from 'rxjs';
@@ -9,7 +9,7 @@ import { take } from 'rxjs';
 @Component({
   selector: 'app-cards-list',
   standalone: true,
-  imports: [CardComponent],
+  imports: [CardComponent, TranslateModule],
   templateUrl: './cards-list.component.html',
   styleUrl: './cards-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,7 +18,7 @@ export class CardsListComponent {
   private readonly translateService = inject(TranslateService);
   private readonly toastService = inject(ToastService);
 
-  cardList = input.required<Card[]>();
+  cardList = input.required<Card[] | null>();
   cardsPendingResponse = signal<string[]>([]);
 
   getLoadingStatus(cardIds: string[], cardId: string): boolean {

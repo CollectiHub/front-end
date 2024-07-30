@@ -6,5 +6,9 @@
       [isLoading]="getLoadingStatus(cardsPendingResponse(), card.id)"
       (clickCard)="handleCardClick($event, card)"
       (clickCheckbox)="handleCheckboxClick($event)" />
+  } @empty {
+    <div class="tw-flex tw-justify-center tw-w-full tw-py-2">
+      <p>{{ 'collection.cards_not_found.message' | translate }}</p>
+    </div>
   }
 </div>

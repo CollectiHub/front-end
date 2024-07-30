@@ -1,12 +1,13 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { LoaderComponent } from '@components/loader/loader.component';
 import { CardsListComponent } from '@features/collection/components/cards-list/cards-list.component';
 import { stubCardList } from '@features/collection/components/cards-list/cards-list.stub';
 import { ChipsListComponent } from '@features/collection/components/chips-list/chips-list.component';
 import { ProgressBarComponent } from '@features/collection/components/progress-bar/progress-bar.component';
 import { stubRarityList } from '@features/collection/components/rarity-slider/rarities.stub';
 import { RaritySliderComponent } from '@features/collection/components/rarity-slider/rarity-slider.component';
-import { SearchBarComponent } from '@features/collection/components/search-bar/search-bar.component';
 import { CollectionApiService } from '@features/collection/services/collection-api.service';
 import { CardsDisplayMode, CollectionProgressMode } from '@features/collection-settings/collection-settings.models';
 import { CollectionSettingsComponent } from '@features/collection-settings/components/collection-settings/collection-settings.component';
@@ -19,12 +20,14 @@ import {
   IonIcon,
   IonMenu,
   IonMenuToggle,
+  IonSearchbar,
   IonToolbar,
 } from '@ionic/angular/standalone';
 import { Card } from '@models/collection.models';
+import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { settingsOutline } from 'ionicons/icons';
-import { BehaviorSubject, of, switchMap } from 'rxjs';
+import { closeCircleOutline, settingsOutline } from 'ionicons/icons';
+import { of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-collection',
@@ -40,12 +43,15 @@ import { BehaviorSubject, of, switchMap } from 'rxjs';
     IonIcon,
     IonMenu,
     IonMenuToggle,
+    IonSearchbar,
+    LoaderComponent,
     ChipsListComponent,
     CardsListComponent,
     CollectionSettingsComponent,
     ProgressBarComponent,
     RaritySliderComponent,
-    SearchBarComponent,
+    ReactiveFormsModule,
+    TranslateModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -55,10 +61,8 @@ export default class CollectionPage implements OnInit {
   private readonly collectionSettingsStore = inject(CollectionSettingsStore);
 
   readonly progressDisplayMode = CollectionProgressMode;
-  readonly cardsDisplayModeEnum = CardsDisplayMode;
-  readonly searchTermSubject$ = new BehaviorSubject<string>('');
 
-  searchBar = viewChild.required(SearchBarComponent);
+  searchControl = new FormControl('', { nonNullable: true });
 
   globalProgressDisplayMode = this.collectionSettingsStore.globalProgressDisplayMode;
   rarityProgressDisplayMode = this.collectionSettingsStore.rarityProgressDisplayMode;
@@ -72,38 +76,43 @@ export default class CollectionPage implements OnInit {
   rarities = signal<string[]>(stubRarityList);
 
   cardsList = signal<Card[]>(stubCardList);
-  searchCards = signal<Card[] | null>(null);
+  searchCardsList = signal<Card[] | null>(null);
+  isLoadingCards = signal<boolean>(false);
+
+  isImageDisplayMode = computed(() => this.cardsDisplayMode() === CardsDisplayMode.Image);
 
   constructor() {
-    addIcons({ settingsOutline });
+    addIcons({ settingsOutline, closeCircleOutline });
   }
 
   ngOnInit(): void {
-    this.searchTermSubject$
+    this.searchControl.valueChanges
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         switchMap((searchTerm: string) => {
           if (searchTerm) {
-            return this.collectionApiService.getCardsBySearchTerm$(searchTerm);
+            return this.collectionApiService
+              .getCardsBySearchTerm$(searchTerm)
+              .pipe(tap(() => this.isLoadingCards.set(true)));
           }
 
           return of(null);
         }),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
-        next: (res: Card[] | null) => {
-          this.searchCards.set(res);
+        next: res => {
+          this.isLoadingCards.set(false);
+          this.searchCardsList.set(res);
+        },
+        error: () => {
+          this.isLoadingCards.set(false);
         },
       });
   }
 
-  handleSearchInput(searchTerm: string): void {
-    this.searchTermSubject$.next(searchTerm);
-  }
-
   handleSelectRarity(rarity: string): void {
-    if (this.searchCards()) {
-      this.searchBar()?.clearInput();
+    if (this.searchCardsList() !== null) {
+      this.searchControl.reset();
     }
 
     if (rarity === this.selectedRarity()) return;

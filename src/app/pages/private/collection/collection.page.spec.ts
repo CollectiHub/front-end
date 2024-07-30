@@ -1,5 +1,4 @@
-import { signal } from '@angular/core';
-import { SearchBarComponent } from '@features/collection/components/search-bar/search-bar.component';
+import { FormControl } from '@angular/forms';
 import { CollectionApiService } from '@features/collection/services/collection-api.service';
 import { CollectionSettingsStoreMock } from '@features/collection-settings/store/collection-settings.state.testing';
 import { CollectionSettingsStore } from '@features/collection-settings/store/collection-settings.store';
@@ -12,7 +11,6 @@ import CollectionPage from './collection.page';
 
 describe(CollectionPage.name, () => {
   let component: CollectionPage;
-  let searchBarComponent: SearchBarComponent;
   let collectionApiServiceMock: MockProxy<CollectionApiService>;
   let collectionSettingsStoreMock: MockProxy<CollectionSettingsStoreMock>;
 
@@ -37,22 +35,65 @@ describe(CollectionPage.name, () => {
       ],
     });
 
-    searchBarComponent = classWithProviders({
-      token: SearchBarComponent,
-      providers: [],
-    });
-
-    component.searchBar = signal(searchBarComponent);
+    component.searchControl = {
+      reset: () => {},
+      get valueChanges() {
+        return of(undefined);
+      },
+    } as FormControl;
   });
 
   describe('ngOnInit', () => {
     describe('search term is valid', () => {
-      it('should set searchCards with cards', () => {
+      it('should trigger "getCardsBySearchTerm$" of collectionApiService', () => {
+        const spy = jest.spyOn(collectionApiServiceMock, 'getCardsBySearchTerm$');
+
+        jest.spyOn(component.searchControl, 'valueChanges', 'get').mockReturnValue(of('RR'));
+
+        component.ngOnInit();
+
+        expect(spy).toHaveBeenCalled();
+      });
+
+      it('should set isLoadingCards to true when a search request is sent', () => {
+        const spy = jest.spyOn(component.isLoadingCards, 'set');
+
+        jest.spyOn(component.searchControl, 'valueChanges', 'get').mockReturnValue(of('RR'));
+
+        component.ngOnInit();
+
+        expect(spy).toHaveBeenNthCalledWith(1, true);
+      });
+
+      it('should set isLoadingCards to false after receiving a response', () => {
+        const spy = jest.spyOn(component.isLoadingCards, 'set');
+
+        jest.spyOn(component.searchControl, 'valueChanges', 'get').mockReturnValue(of('RR'));
+
+        component.ngOnInit();
+
+        expect(spy).toHaveBeenLastCalledWith(false);
+      });
+
+      it('should set isLoadingCards to false after receiving a error response', () => {
+        const spy = jest.spyOn(component.isLoadingCards, 'set');
+        const spySearchList = jest.spyOn(component.searchCardsList, 'set');
+
+        jest.spyOn(collectionApiServiceMock, 'getCardsBySearchTerm$').mockRejectedValueOnce(new Error() as never);
+        jest.spyOn(component.searchControl, 'valueChanges', 'get').mockReturnValue(of('RR'));
+
+        component.ngOnInit();
+
+        expect(spySearchList).not.toHaveBeenCalled();
+        expect(spy).toHaveBeenLastCalledWith(false);
+      });
+
+      it('should set searchCardsList with cards', () => {
         const mockCards = [{} as Card];
-        const spy = jest.spyOn(component.searchCards, 'set');
+        const spy = jest.spyOn(component.searchCardsList, 'set');
 
         collectionApiServiceMock.getCardsBySearchTerm$.mockReturnValue(of(mockCards));
-        component.searchTermSubject$.next('SR');
+        jest.spyOn(component.searchControl, 'valueChanges', 'get').mockReturnValue(of('RR'));
 
         component.ngOnInit();
 
@@ -61,26 +102,25 @@ describe(CollectionPage.name, () => {
     });
 
     describe('search term is empty', () => {
-      it('should set searchCards with null', () => {
-        const spy = jest.spyOn(component.searchCards, 'set');
+      it('should does not trigger "getCardsBySearchTerm$" of collectionApiService', () => {
+        const spy = jest.spyOn(collectionApiServiceMock, 'getCardsBySearchTerm$');
 
-        component.searchTermSubject$.next('');
+        jest.spyOn(component.searchControl, 'valueChanges', 'get').mockReturnValue(of(''));
+
+        component.ngOnInit();
+
+        expect(spy).not.toHaveBeenCalled();
+      });
+
+      it('should set searchCardsList with null', () => {
+        const spy = jest.spyOn(component.searchCardsList, 'set');
+
+        jest.spyOn(component.searchControl, 'valueChanges', 'get').mockReturnValue(of(''));
 
         component.ngOnInit();
 
         expect(spy).toHaveBeenCalledWith(null);
       });
-    });
-  });
-
-  describe('handleSearchInput', () => {
-    it('should trigger "next" method of searchTermSubject$', () => {
-      const testValue = 'SSR-001';
-      const spy = jest.spyOn(component.searchTermSubject$, 'next');
-
-      component.handleSearchInput(testValue);
-
-      expect(spy).toHaveBeenCalledWith(testValue);
     });
   });
 
@@ -97,9 +137,9 @@ describe(CollectionPage.name, () => {
       expect(collectionSettingsStoreMock.updateSettings).toHaveBeenCalledWith({ selectedRarity: 'SSR' });
     });
 
-    it('should trigger "clearInput" of searchbar if searchCards is not null', () => {
-      const spy = jest.spyOn(component.searchBar(), 'clearInput');
-      component.searchCards.set(mock<Card[]>());
+    it('should trigger "reset" of searchControl if searchCardsList is not null', () => {
+      const spy = jest.spyOn(component.searchControl, 'reset');
+      component.searchCardsList.set(mock<Card[]>());
 
       component.handleSelectRarity('SSR');
 
