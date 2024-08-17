@@ -9,9 +9,9 @@ import {
   CollectionUpdateResponseDto,
 } from '@features/collection/collection.models';
 import { CollectionSchemas } from '@features/collection/collection.schemas';
-import { Card, UpdateCardDto } from '@models/collection.models';
+import { Card, UpdateCardsDto } from '@models/collection.models';
 import { ValidationService } from '@services/validation/validation.service';
-import { Observable, map } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -64,11 +64,11 @@ export class CollectionApiService {
       );
   }
 
-  updateCollection$(cards: UpdateCardDto[]): Observable<number> {
+  updateCards$(cards: UpdateCardsDto): Observable<number> {
     const context = new HttpContext().set(AuthConstants.skipLoadingContextToken, true);
 
     return this.httpClient
-      .patch<CollectionUpdateResponseDto>(environment.endpoints.collection.update, { cards }, { context })
+      .post<CollectionUpdateResponseDto>(environment.endpoints.collection.update, { cards }, { context })
       .pipe(
         map((res: CollectionUpdateResponseDto) =>
           this.validationService.validate(CollectionSchemas.collectionUpdateResponseDto, res),

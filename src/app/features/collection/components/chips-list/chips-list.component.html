@@ -1,9 +1,9 @@
 <div class="tw-flex tw-flex-wrap tw-justify-center tw-py-1">
-  @for (chip of chipList(); track chip.id) {
+  @for (card of cardsList(); track card.id) {
     <app-chip
       class="tw-m-1"
-      [card]="chip"
-      [isLoading]="getLoadingStatus(chipsPendingResponse(), chip.id)"
-      (clickChip)="handleChipClick($event, chip)" />
+      [card]="card"
+      [isLoading]="getLoadingStatus(chipsPendingResponse(), card.id)"
+      (clickChip)="handleChipClick(card)" />
   }
 </div>
