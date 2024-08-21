@@ -23,15 +23,17 @@ export class CardComponent {
   clickCheckbox = output<string>();
 
   cardCheckboxControl = new FormControl();
-  cardCheckboxValueChange = toSignal(this.cardCheckboxControl.valueChanges);
+  cardCheckboxValue = toSignal(this.cardCheckboxControl.valueChanges);
 
   constructor() {
     effect(() => {
-      this.cardCheckboxControl.setValue(this.card().status === CardStatus.Collected, { emitEvent: false });
+      if (this.cardCheckboxValue() === undefined) return;
+
+      this.clickCheckbox.emit(this.cardCheckboxValue());
     });
 
     effect(() => {
-      this.clickCheckbox.emit(this.cardCheckboxValueChange());
+      this.cardCheckboxControl.setValue(this.card().status === CardStatus.Collected, { emitEvent: false });
     });
   }
 

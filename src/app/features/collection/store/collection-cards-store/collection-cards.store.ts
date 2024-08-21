@@ -5,21 +5,20 @@ import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { setEntities, updateEntities, withEntities } from '@ngrx/signals/entities';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { switchWith } from '@tools/rxjs/switch-with.operator';
-import { pipe, switchMap } from 'rxjs';
+import { mergeMap, pipe, switchMap, tap } from 'rxjs';
 
 import { CollectionApiService } from '../../services/collection-api.service';
 import { CollectionInfoStore } from '../collection-info/collection-info.store';
+import { SearchCardsStore } from '../search-cards/search-cards.store';
 
 import { COLLECTION_CARDS_INITIAL_STATE } from './collection-cards.state';
+import { CollectionCardsStoreFunctions } from './collection-cards.store.functions';
 
 export const CollectionCardsStore = signalStore(
   { providedIn: 'root' },
   withState(COLLECTION_CARDS_INITIAL_STATE),
   withEntities<Card>(),
   withComputed(({ entities }) => ({
-    // TODO: check why entities not set in store
-
     cardsByRarity: computed(() => {
       return entities().reduce((memo: Record<string, Card[]>, card: Card) => {
         const cardsByRarity = memo[card.rarity] ?? [];
@@ -36,6 +35,7 @@ export const CollectionCardsStore = signalStore(
   withMethods(store => {
     const collectionApiService = inject(CollectionApiService);
     const collectionInfoStore = inject(CollectionInfoStore);
+    const searchCardsStore = inject(SearchCardsStore);
 
     return {
       fatchByRarity: rxMethod<string>(
@@ -56,19 +56,45 @@ export const CollectionCardsStore = signalStore(
       ),
       update: rxMethod<UpdateCardsDto>(
         pipe(
-          switchWith((updateCardsData: UpdateCardsDto) => collectionApiService.updateCards$(updateCardsData)),
-          tapResponse(
-            ([updateCardsData, cardsCollected]: [UpdateCardsDto, number]) => {
-              collectionInfoStore.updateCardsCollected(cardsCollected);
+          tap((updateCardsData: UpdateCardsDto) => {
+            patchState(store, ({ cardsLoadingMap }) => {
+              const updatedLoadingMap = CollectionCardsStoreFunctions.buildCardsLoadingMap(
+                updateCardsData.ids,
+                cardsLoadingMap,
+                true,
+              );
 
-              patchState(store, updateEntities(updateCardsData));
-            },
-            (error: HttpErrorResponse) => {
-              console.log(error);
-              const errorMessage = error.error.message;
+              return { cardsLoadingMap: updatedLoadingMap };
+            });
+          }),
+          mergeMap((updateCardsData: UpdateCardsDto) =>
+            collectionApiService.updateCards$(updateCardsData).pipe(
+              tapResponse(
+                (cardsCollected: number) => {
+                  searchCardsStore.update(updateCardsData);
 
-              patchState(store, { error: errorMessage });
-            },
+                  collectionInfoStore.updateCardsCollected(cardsCollected);
+
+                  patchState(store, updateEntities(updateCardsData));
+                },
+                (error: HttpErrorResponse) => {
+                  const errorMessage = error.error.message;
+
+                  patchState(store, { error: errorMessage });
+                },
+                () => {
+                  patchState(store, ({ cardsLoadingMap }) => {
+                    const updatedLoadingMap = CollectionCardsStoreFunctions.buildCardsLoadingMap(
+                      updateCardsData.ids,
+                      cardsLoadingMap,
+                      false,
+                    );
+
+                    return { cardsLoadingMap: updatedLoadingMap };
+                  });
+                },
+              ),
+            ),
           ),
         ),
       ),

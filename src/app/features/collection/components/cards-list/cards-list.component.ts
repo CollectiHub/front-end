@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
 import { CardComponent } from '@components/card/card.component';
+import { CardsLoadingMap } from '@features/collection/store/collection-cards-store/collection-cards.store.models';
 import { Card, CardStatus } from '@models/collection.models';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastColor } from '@services/toast/toast.models';
@@ -19,6 +20,7 @@ export class CardsListComponent {
   private readonly toastService = inject(ToastService);
 
   cardsList = input.required<Card[] | null>();
+  cardsLoadingMap = input.required<CardsLoadingMap>();
   cardCheckboxClicked = output<Card>();
 
   cardsPendingResponse = signal<string[]>([]);

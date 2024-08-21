@@ -3,7 +3,7 @@
     <app-card
       class="tw-w-1/3 tw-p-2"
       [card]="card"
-      [isLoading]="getLoadingStatus(cardsPendingResponse(), card.id)"
+      [isLoading]="cardsLoadingMap()[card.id]"
       (clickCard)="handleCardClick(card)"
       (clickCheckbox)="handleCheckboxClick(card)" />
   } @empty {

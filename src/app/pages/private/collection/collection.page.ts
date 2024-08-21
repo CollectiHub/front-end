@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, OnInit, Signal, computed, inject, signal, viewChild } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CardsListComponent } from '@features/collection/components/cards-list/cards-list.component';
 import { stubCardList } from '@features/collection/components/cards-list/cards-list.stub';
 import { ChipsListComponent } from '@features/collection/components/chips-list/chips-list.component';
@@ -8,6 +7,7 @@ import { ProgressBarComponent } from '@features/collection/components/progress-b
 import { RaritySliderComponent } from '@features/collection/components/rarity-slider/rarity-slider.component';
 import { CollectionApiService } from '@features/collection/services/collection-api.service';
 import { CollectionCardsStore } from '@features/collection/store/collection-cards-store/collection-cards.store';
+import { CardsLoadingMap } from '@features/collection/store/collection-cards-store/collection-cards.store.models';
 import { CollectionInfoStore } from '@features/collection/store/collection-info/collection-info.store';
 import { SearchCardsStore } from '@features/collection/store/search-cards/search-cards.store';
 import { CardsDisplayMode, CollectionProgressMode } from '@features/collection-settings/collection-settings.models';
@@ -29,7 +29,6 @@ import { Card, CardStatus } from '@models/collection.models';
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { closeCircleOutline, settingsOutline } from 'ionicons/icons';
-import { of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-collection',
@@ -58,7 +57,6 @@ import { of, switchMap } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class CollectionPage implements OnInit {
-  private readonly destroyRef = inject(DestroyRef);
   private readonly collectionApiService = inject(CollectionApiService);
   private readonly collectionSettingsStore = inject(CollectionSettingsStore);
   private readonly collectionCardsStore = inject(CollectionCardsStore);
@@ -67,20 +65,21 @@ export default class CollectionPage implements OnInit {
 
   readonly progressDisplayMode = CollectionProgressMode;
 
-  searchControl = new FormControl('', { nonNullable: true });
+  cardsSearchbar: Signal<IonSearchbar | undefined> = viewChild('cardsSearchbar');
 
-  globalProgressDisplayMode = this.collectionSettingsStore.globalProgressDisplayMode;
-  rarityProgressDisplayMode = this.collectionSettingsStore.rarityProgressDisplayMode;
-  selectedRarity = this.collectionSettingsStore.selectedRarity;
-  cardsDisplayMode = this.collectionSettingsStore.cardsDisplayMode;
+  globalProgressDisplayMode: Signal<CollectionProgressMode> = this.collectionSettingsStore.globalProgressDisplayMode;
+  rarityProgressDisplayMode: Signal<CollectionProgressMode> = this.collectionSettingsStore.rarityProgressDisplayMode;
+  selectedRarity: Signal<string> = this.collectionSettingsStore.selectedRarity;
+  cardsDisplayMode: Signal<CardsDisplayMode> = this.collectionSettingsStore.cardsDisplayMode;
 
-  cardsByRarity = this.collectionCardsStore.cardsByRarity;
+  cardsByRarity: Signal<Record<string, Card[]>> = this.collectionCardsStore.cardsByRarity;
+  cardsLoadingMap: Signal<CardsLoadingMap> = this.collectionCardsStore.cardsLoadingMap;
 
-  searchCards = this.searchCardsStore.entities;
+  searchCards: Signal<Card[]> = this.searchCardsStore.entities;
 
-  rarities = this.collectionInfoStore.rarities;
-  cardsTotal = this.collectionInfoStore.cards_total;
-  cardsCollected = this.collectionInfoStore.cards_collected;
+  rarities: Signal<string[] | undefined> = this.collectionInfoStore.rarities;
+  cardsTotal: Signal<number | undefined> = this.collectionInfoStore.cards_total;
+  cardsCollected: Signal<number | undefined> = this.collectionInfoStore.cards_collected;
   // TODO: Add loader (global) for collection info fetching
 
   globalCollectedCardCount = signal<number>(25);
@@ -111,33 +110,9 @@ export default class CollectionPage implements OnInit {
 
   ngOnInit(): void {
     this.collectionInfoStore.getCollectionInfo();
-
-    this.searchControl.valueChanges
-      .pipe(
-        switchMap((searchTerm: string) => {
-          if (searchTerm) {
-            this.isLoadingCards.set(true);
-
-            return this.collectionApiService.getCardsBySearchTerm$(searchTerm);
-          }
-
-          return of(null);
-        }),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe({
-        next: res => {
-          this.isLoadingCards.set(false);
-          // this.searchCardsList.set(res);
-        },
-        error: () => {
-          this.isLoadingCards.set(false);
-        },
-      });
   }
 
   handleSearchValueChange(event: CustomEvent): void {
-    console.log('here', event)
     const searchTerm = event.detail.value;
 
     if (!searchTerm) {
@@ -148,8 +123,8 @@ export default class CollectionPage implements OnInit {
   }
 
   handleSelectRarity(rarity: string): void {
-    if (this.searchCards()?.length) {
-      this.searchControl.reset();
+    if (this.searchCards().length) {
+      this.cardsSearchbar()!.value = null;
     }
 
     if (rarity === this.selectedRarity()) return;
@@ -164,10 +139,6 @@ export default class CollectionPage implements OnInit {
         status: card.status === CardStatus.Collected ? CardStatus.NotCollected : CardStatus.Collected,
       },
     };
-
-    if (this.searchCards().length) {
-      this.searchCardsStore.update(patch);
-    }
 
     this.collectionCardsStore.update(patch);
   }

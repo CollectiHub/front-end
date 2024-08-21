@@ -3,7 +3,7 @@
     <app-chip
       class="tw-m-1"
       [card]="card"
-      [isLoading]="getLoadingStatus(chipsPendingResponse(), card.id)"
+      [isLoading]="cardsLoadingMap()[card.id]"
       (clickChip)="handleChipClick(card)" />
   }
 </div>

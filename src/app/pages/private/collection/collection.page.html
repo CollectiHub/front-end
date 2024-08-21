@@ -36,10 +36,14 @@
     </div>
     } @else if(cardsSearchbar.value || isImageDisplayMode()){
     <app-cards-list
+      [cardsLoadingMap]="cardsLoadingMap()"
       [cardsList]="cardsSearchbar.value ? searchCards() : cardsForCurrentRarity()"
       (cardCheckboxClicked)="updateCardStatus($event)" />
     } @else {
-    <app-chips-list [cardsList]="cardsForCurrentRarity()" (chipClicked)="updateCardStatus($event)" />
+    <app-chips-list
+      [cardsLoadingMap]="cardsLoadingMap()"
+      [cardsList]="cardsForCurrentRarity()"
+      (chipClicked)="updateCardStatus($event)" />
     }
   </ion-content>
 
