@@ -20,14 +20,17 @@ export const CollectionInfoStore = signalStore(
       getCollectionInfo: rxMethod<void>(
         pipe(
           tap(() => patchState(store, { error: undefined, loading: true })),
-          switchMap(() => collectionApiService.getCollectionInfo$()),
-          tapResponse(
-            (collectionInfo: CollectionInfoDto) => patchState(store, { loading: false, ...collectionInfo }),
-            (error: HttpErrorResponse) => {
-              const errorMessage = error.error.message;
+          switchMap(() =>
+            collectionApiService.getCollectionInfo$().pipe(
+              tapResponse({
+                next: (collectionInfo: CollectionInfoDto) => patchState(store, { ...collectionInfo, loading: false }),
+                error: (error: HttpErrorResponse) => {
+                  const errorMessage = error.error.message;
 
-              patchState(store, { error: errorMessage, loading: false });
-            },
+                  patchState(store, { error: errorMessage, loading: false });
+                },
+              }),
+            ),
           ),
         ),
       ),

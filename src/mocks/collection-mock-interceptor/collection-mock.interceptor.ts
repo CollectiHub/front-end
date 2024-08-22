@@ -91,7 +91,7 @@ export const collectionMockInterceptor = (req: HttpRequest<unknown>, next: HttpH
       return memo;
     }, {});
 
-    if (reqCardsMap['3']) {
+    if (reqCardsMap['2']) {
       return throwError(
         () =>
           new HttpErrorResponse({
