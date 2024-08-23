@@ -23,12 +23,6 @@ export class CardsListComponent {
   cardsLoadingMap = input.required<CardsLoadingMap>();
   cardCheckboxClicked = output<Card>();
 
-  cardsPendingResponse = signal<string[]>([]);
-
-  getLoadingStatus(cardIds: string[], cardId: string): boolean {
-    return cardIds.includes(cardId);
-  }
-
   handleCardClick(card: Card): void {
     if (card.status === CardStatus.NotExisting) {
       const message = this.translateService.instant('collection.card_not_exists.toast');

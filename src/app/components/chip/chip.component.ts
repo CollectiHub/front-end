@@ -16,7 +16,6 @@ export class ChipComponent {
 
   card = input.required<Card>();
   isLoading = input.required<boolean>();
-
   clickChip = output<string>();
 
   handleChipClick(id: string): void {

@@ -1,7 +1,6 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, effect, input, output } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { IonCard, IonCardContent, IonCheckbox, IonLabel, IonSpinner } from '@ionic/angular/standalone';
 import { Card, CardStatus } from '@models/collection.models';
 
@@ -18,30 +17,14 @@ export class CardComponent {
 
   card = input.required<Card>();
   isLoading = input.required<boolean>();
-
   clickCard = output<string>();
   clickCheckbox = output<string>();
-
-  cardCheckboxControl = new FormControl();
-  cardCheckboxValue = toSignal(this.cardCheckboxControl.valueChanges);
-
-  constructor() {
-    effect(() => {
-      if (this.cardCheckboxValue() === undefined) return;
-
-      this.clickCheckbox.emit(this.cardCheckboxValue());
-    });
-
-    effect(() => {
-      this.cardCheckboxControl.setValue(this.card().status === CardStatus.Collected, { emitEvent: false });
-    });
-  }
 
   handleCardClick(cardId: string): void {
     this.clickCard.emit(cardId);
   }
 
-  handleCheckboxClick(event: MouseEvent, cardId: string): void {
+  handleCardCheckboxClick(event: MouseEvent, cardId: string): void {
     event.stopPropagation();
 
     this.clickCheckbox.emit(cardId);

@@ -27,7 +27,8 @@
     label="progress_bar.global_progress.label"
     [maxValue]="cardsTotal()!"
     [currentValue]="cardsCollected()!"
-    [displayMode]="globalProgressDisplayMode()" /> }
+    [displayMode]="globalProgressDisplayMode()" />
+  }
 
   <ion-content>
     @if(isDataLoading()){
@@ -50,12 +51,13 @@
   @if(canDisplayRarityProgressBar()){
   <app-progress-bar
     label="progress_bar.rarity_progress.label"
-    [maxValue]="rarityTotalCardCount()"
-    [currentValue]="rarityCollectedCardCount()"
-    [displayMode]="rarityProgressDisplayMode()" />}
-
+    [maxValue]="cardsForCurrentRarity.length"
+    [currentValue]="currentRarityCollectedCardsAmount"
+    [displayMode]="rarityProgressDisplayMode()" />
+  } @if (isCollectionDataLoadedSuccessfuly()) {
   <app-rarity-slider
     [rarities]="rarities()!"
     [selectedRarity]="cardsSearchbar.value ? undefined : selectedRarity()"
     (selectRarity)="handleSelectRarity($event)" />
+  }
 </div>

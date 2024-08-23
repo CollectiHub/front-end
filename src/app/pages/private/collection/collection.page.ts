@@ -6,16 +6,13 @@ import {
   computed,
   effect,
   inject,
-  signal,
   viewChild,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CardsListComponent } from '@features/collection/components/cards-list/cards-list.component';
-import { stubCardList } from '@features/collection/components/cards-list/cards-list.stub';
 import { ChipsListComponent } from '@features/collection/components/chips-list/chips-list.component';
 import { ProgressBarComponent } from '@features/collection/components/progress-bar/progress-bar.component';
 import { RaritySliderComponent } from '@features/collection/components/rarity-slider/rarity-slider.component';
-import { CollectionApiService } from '@features/collection/services/collection-api.service';
 import { CollectionCardsStore } from '@features/collection/store/collection-cards-store/collection-cards.store';
 import { CardsLoadingMap } from '@features/collection/store/collection-cards-store/collection-cards.store.models';
 import { CollectionInfoStore } from '@features/collection/store/collection-info/collection-info.store';
@@ -67,7 +64,6 @@ import { closeCircleOutline, settingsOutline } from 'ionicons/icons';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class CollectionPage implements OnInit {
-  private readonly collectionApiService = inject(CollectionApiService);
   private readonly collectionSettingsStore = inject(CollectionSettingsStore);
   private readonly collectionCardsStore = inject(CollectionCardsStore);
   private readonly collectionInfoStore = inject(CollectionInfoStore);
@@ -95,17 +91,17 @@ export default class CollectionPage implements OnInit {
   collectionInfoError: Signal<string | undefined> = this.collectionInfoStore.error;
   isCollectionInfoLoading: Signal<boolean> = this.collectionInfoStore.loading;
 
-  globalCollectedCardCount = signal<number>(25);
-  globalTotalCardCount = signal<number>(100);
-  rarityCollectedCardCount = signal<number>(10);
-  rarityTotalCardCount = signal<number>(20);
+  isCollectionDataLoadedSuccessfuly: Signal<boolean> = computed(() => {
+    const isLoaded = this.isCollectionInfoLoading() === false;
+    const hasNoError = this.collectionInfoError() === undefined;
 
-  cardsList = signal<Card[]>(stubCardList);
-  isLoadingCards = signal<boolean>(false);
+    return isLoaded && hasNoError;
+  });
 
   canDisplayGlobalProgressBar = computed(() => {
     const isEnabled = this.globalProgressDisplayMode() !== CollectionProgressMode.None;
 
+    // TODO: Move 'isCollectionDataLoadedSuccessfuly' to computed
     return isEnabled && this.isCollectionDataLoadedSuccessfuly();
   });
 
@@ -118,9 +114,13 @@ export default class CollectionPage implements OnInit {
   isDataLoading = computed(() => {
     return this.isCollectionInfoLoading() || this.isSearchCardsLoading() || this.isCollectionCardsLoading();
   });
+
   isImageDisplayMode = computed(() => this.cardsDisplayMode() === CardsDisplayMode.Image);
 
   cardsForCurrentRarity: Card[] = [];
+  currentRarityCollectedCardsAmount: number = 0;
+
+  // TODO: All tapResponse should be attached to API request in effect to keep effect working and use object instead of arguments
 
   constructor() {
     addIcons({ settingsOutline, closeCircleOutline });
@@ -131,9 +131,13 @@ export default class CollectionPage implements OnInit {
       if (existingCardsByRarity) {
         this.cardsForCurrentRarity = existingCardsByRarity;
       } else {
-        // TODO: All tapResponse should be attached to API request in effect to keep effect working
         this.collectionCardsStore.fatchByRarity(this.selectedRarity());
+        this.cardsForCurrentRarity = [];
       }
+
+      this.currentRarityCollectedCardsAmount = this.cardsForCurrentRarity.filter(
+        (card: Card) => card.status === CardStatus.Collected,
+      ).length;
     });
   }
 
@@ -170,12 +174,5 @@ export default class CollectionPage implements OnInit {
     };
 
     this.collectionCardsStore.update(patch);
-  }
-
-  private isCollectionDataLoadedSuccessfuly(): boolean {
-    const isLoaded = this.isCollectionInfoLoading() === false;
-    const hasNoError = this.collectionInfoError() === undefined;
-
-    return isLoaded && hasNoError;
   }
 }

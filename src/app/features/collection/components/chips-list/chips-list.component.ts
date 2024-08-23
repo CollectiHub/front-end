@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, input, output, signal } fro
 import { ChipComponent } from '@components/chip/chip.component';
 import { CardsLoadingMap } from '@features/collection/store/collection-cards-store/collection-cards.store.models';
 import { Card, CardStatus } from '@models/collection.models';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastColor } from '@services/toast/toast.models';
 import { ToastService } from '@services/toast/toast.service';
 import { take } from 'rxjs';
@@ -10,7 +10,7 @@ import { take } from 'rxjs';
 @Component({
   selector: 'app-chips-list',
   standalone: true,
-  imports: [ChipComponent],
+  imports: [ChipComponent, TranslateModule],
   templateUrl: './chips-list.component.html',
   styleUrl: './chips-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,12 +22,6 @@ export class ChipsListComponent {
   cardsList = input.required<Card[]>();
   cardsLoadingMap = input.required<CardsLoadingMap>();
   chipClicked = output<Card>();
-
-  chipsPendingResponse = signal<string[]>([]);
-
-  getLoadingStatus(chipIds: string[], chipId: string): boolean {
-    return chipIds.includes(chipId);
-  }
 
   handleChipClick(card: Card): void {
     if (card.status === CardStatus.NotExisting) {

@@ -19,7 +19,8 @@
         @if (!isLoading()) {
           <ion-checkbox
             color="success"
-            [formControl]="cardCheckboxControl" />
+            [checked]="card().status === status.Collected"
+            (click)="handleCardCheckboxClick($event, card().id)" />
         } @else {
           <ion-spinner [color]="card().status === status.Collected ? 'success' : 'medium'" name="circular" />
         }
