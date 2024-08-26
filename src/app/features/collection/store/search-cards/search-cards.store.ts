@@ -23,14 +23,17 @@ export const SearchCardsStore = signalStore(
       search: rxMethod<string>(
         pipe(
           tap(() => patchState(store, { error: undefined, loading: true })),
-          switchMap((searchTerm: string) => collectionApiService.getCardsBySearchTerm$(searchTerm)),
-          tapResponse(
-            (cards: Card[]) => patchState(store, setEntities(cards), { loading: false }),
-            (error: HttpErrorResponse) => {
-              const errorMessage = error.error.message;
+          switchMap((searchTerm: string) =>
+            collectionApiService.getCardsBySearchTerm$(searchTerm).pipe(
+              tapResponse({
+                next: (cards: Card[]) => patchState(store, setEntities(cards), { loading: false }),
+                error: (error: HttpErrorResponse) => {
+                  const errorMessage = error.error.message;
 
-              patchState(store, { error: errorMessage, loading: false });
-            },
+                  patchState(store, { error: errorMessage, loading: false });
+                },
+              }),
+            ),
           ),
         ),
       ),

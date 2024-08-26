@@ -1,13 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  Signal,
-  computed,
-  effect,
-  inject,
-  viewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Signal, computed, effect, inject, viewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CardsListComponent } from '@features/collection/components/cards-list/cards-list.component';
 import { ChipsListComponent } from '@features/collection/components/chips-list/chips-list.component';
@@ -120,25 +111,29 @@ export default class CollectionPage implements OnInit {
   cardsForCurrentRarity: Card[] = [];
   currentRarityCollectedCardsAmount: number = 0;
 
-  // TODO: All tapResponse should be attached to API request in effect to keep effect working and use object instead of arguments
-
   constructor() {
     addIcons({ settingsOutline, closeCircleOutline });
 
     effect(() => {
-      const existingCardsByRarity = this.cardsByRarity()[this.selectedRarity()];
+      this.handleRarityChange(this.cardsByRarity(), this.selectedRarity());
 
-      if (existingCardsByRarity) {
-        this.cardsForCurrentRarity = existingCardsByRarity;
-      } else {
-        this.collectionCardsStore.fatchByRarity(this.selectedRarity());
-        this.cardsForCurrentRarity = [];
-      }
-
-      this.currentRarityCollectedCardsAmount = this.cardsForCurrentRarity.filter(
-        (card: Card) => card.status === CardStatus.Collected,
-      ).length;
+      this.currentRarityCollectedCardsAmount = this.getCollectedCardsForRarity(this.cardsForCurrentRarity).length;
     });
+  }
+
+  handleRarityChange(cardsByRarity: Record<string, Card[]>, selectedRarity: string) {
+    const existingCardsByRarity = cardsByRarity[selectedRarity];
+
+    if (existingCardsByRarity) {
+      this.cardsForCurrentRarity = existingCardsByRarity;
+    } else {
+      this.collectionCardsStore.fetchByRarity(this.selectedRarity());
+      this.cardsForCurrentRarity = [];
+    }
+  }
+
+  getCollectedCardsForRarity(cardsForCurrentRarity: Card[]): Card[] {
+    return cardsForCurrentRarity.filter((card: Card) => card.status === CardStatus.Collected);
   }
 
   ngOnInit(): void {

@@ -31,14 +31,13 @@ export const CollectionCardsStore = signalStore(
       }, {});
     }),
   })),
-
   withMethods(store => {
     const collectionApiService = inject(CollectionApiService);
     const collectionInfoStore = inject(CollectionInfoStore);
     const searchCardsStore = inject(SearchCardsStore);
 
     return {
-      fatchByRarity: rxMethod<string>(
+      fetchByRarity: rxMethod<string>(
         pipe(
           observeOn(asyncScheduler),
           tap(() => patchState(store, { error: undefined, loading: true })),
@@ -56,7 +55,6 @@ export const CollectionCardsStore = signalStore(
           ),
         ),
       ),
-      // TODO: Add functionality to toggle checkbox back in case if update failed
       update: rxMethod<UpdateCardsDto>(
         pipe(
           tap((updateCardsData: UpdateCardsDto) => {

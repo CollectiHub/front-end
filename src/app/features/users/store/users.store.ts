@@ -44,17 +44,20 @@ export const UsersStore = signalStore(
       },
       updateUserData: rxMethod<UpdateUserBody>(
         pipe(
-          switchWith((updateData: UpdateUserBody) => usersApiService.updateUserData$(updateData)),
-          tapResponse(
-            ([updateData]: [UpdateUserBody, GenericApiResponse]) => {
-              patchState(store, state => ({ userData: { ...state.userData!, ...updateData } }));
-              void router.navigate(['/profile']);
-            },
-            (error: HttpErrorResponse) => {
-              const errorMessage = error.error.message;
+          switchMap((updateData: UpdateUserBody) =>
+            usersApiService.updateUserData$(updateData).pipe(
+              tapResponse({
+                next: () => {
+                  patchState(store, state => ({ userData: { ...state.userData!, ...updateData } }));
+                  void router.navigate(['/profile']);
+                },
+                error: (error: HttpErrorResponse) => {
+                  const errorMessage = error.error.message;
 
-              patchState(store, { error: errorMessage });
-            },
+                  patchState(store, { error: errorMessage });
+                },
+              }),
+            ),
           ),
         ),
       ),
@@ -68,23 +71,23 @@ export const UsersStore = signalStore(
             const localCleanups$ = forkJoin([cleanStore$, clearPreferences$]);
             const stream$ = forkJoin([concat(...apiRequests, localCleanups$)]);
 
-            return loaderService.showUntilCompleted$(
-              stream$,
-              translateService.instant('profile.delete_account_loader'),
-            );
+            return loaderService
+              .showUntilCompleted$(stream$, translateService.instant('profile.delete_account_loader'))
+              .pipe(
+                tapResponse({
+                  next: () => {
+                    patchState(store, { userData: undefined, error: undefined });
+
+                    void router.navigate(['/registration']);
+                  },
+                  error: (error: HttpErrorResponse) => {
+                    const errorMessage = error.error.message;
+
+                    patchState(store, { error: errorMessage });
+                  },
+                }),
+              );
           }),
-          tapResponse(
-            () => {
-              patchState(store, { userData: undefined, error: undefined });
-
-              void router.navigate(['/registration']);
-            },
-            (error: HttpErrorResponse) => {
-              const errorMessage = error.error.message;
-
-              patchState(store, { error: errorMessage });
-            },
-          ),
         ),
       ),
     };
