@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
 import { CardComponent } from '@components/card/card.component';
 import { CardsLoadingMap } from '@features/collection/store/collection-cards-store/collection-cards.store.models';
-import { Card, CardStatus } from '@models/collection.models';
+import { Card, CardStatus } from '@models/cards.models';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastColor } from '@services/toast/toast.models';
 import { ToastService } from '@services/toast/toast.service';

@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Card } from '@models/collection.models';
+import { Card } from '@models/cards.models';
 import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { removeAllEntities, setEntities, updateEntities, withEntities } from '@ngrx/signals/entities';

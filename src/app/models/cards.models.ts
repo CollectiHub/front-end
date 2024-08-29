@@ -13,7 +13,3 @@ export enum CardStatus {
   NotExisting = 'not_existing',
 }
 
-export interface UpdateCardsDto {
-  ids: string[];
-  changes: Partial<Card>;
-}

@@ -1,4 +1,4 @@
-import { Card } from '@models/collection.models';
+import { Card } from '@models/cards.models';
 
 export interface CollectionInfoResponseDto {
   data: CollectionInfoDto;
@@ -23,4 +23,13 @@ export interface CollectionUpdateResponseDto {
     cards_collected: number;
   };
   message: string;
+}
+
+export interface UpdateCardsResponseData {
+  cards_collected: number;
+}
+
+export interface UpdateCardsDto {
+  ids: string[];
+  changes: Partial<Card>;
 }

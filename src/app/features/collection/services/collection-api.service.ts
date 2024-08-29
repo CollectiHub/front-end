@@ -7,11 +7,13 @@ import {
   CollectionInfoDto,
   CollectionInfoResponseDto,
   CollectionUpdateResponseDto,
+  UpdateCardsDto,
+  UpdateCardsResponseData,
 } from '@features/collection/collection.models';
 import { CollectionSchemas } from '@features/collection/collection.schemas';
-import { Card, UpdateCardsDto } from '@models/collection.models';
+import { Card } from '@models/cards.models';
 import { ValidationService } from '@services/validation/validation.service';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -64,7 +66,7 @@ export class CollectionApiService {
       );
   }
 
-  updateCards$(cards: UpdateCardsDto): Observable<number> {
+  updateCards$(cards: UpdateCardsDto): Observable<UpdateCardsResponseData> {
     const context = new HttpContext().set(AuthConstants.skipLoadingContextToken, true);
 
     return this.httpClient
@@ -73,7 +75,7 @@ export class CollectionApiService {
         map((res: CollectionUpdateResponseDto) =>
           this.validationService.validate(CollectionSchemas.collectionUpdateResponseDto, res),
         ),
-        map((res: CollectionUpdateResponseDto) => res.data.cards_collected),
+        map((res: CollectionUpdateResponseDto) => res.data),
       );
   }
 }

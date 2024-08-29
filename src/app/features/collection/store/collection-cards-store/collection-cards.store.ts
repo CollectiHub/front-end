@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { computed, inject } from '@angular/core';
-import { Card, UpdateCardsDto } from '@models/collection.models';
+import { Card } from '@models/cards.models';
 import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { setEntities, updateEntities, withEntities } from '@ngrx/signals/entities';
@@ -13,6 +13,7 @@ import { SearchCardsStore } from '../search-cards/search-cards.store';
 
 import { COLLECTION_CARDS_INITIAL_STATE } from './collection-cards.state';
 import { CollectionCardsStoreFunctions } from './collection-cards.store.functions';
+import { UpdateCardsDto, UpdateCardsResponseData } from '@features/collection/collection.models';
 
 export const CollectionCardsStore = signalStore(
   { providedIn: 'root' },
@@ -71,10 +72,10 @@ export const CollectionCardsStore = signalStore(
           mergeMap((updateCardsData: UpdateCardsDto) =>
             collectionApiService.updateCards$(updateCardsData).pipe(
               tapResponse({
-                next: (cardsCollected: number) => {
+                next: (response: UpdateCardsResponseData) => {
                   searchCardsStore.update(updateCardsData);
 
-                  collectionInfoStore.updateCardsCollected(cardsCollected);
+                  collectionInfoStore.updateCardsCollected(response);
 
                   patchState(store, updateEntities(updateCardsData), ({ cardsLoadingMap }) => {
                     const updatedLoadingMap = CollectionCardsStoreFunctions.buildCardsLoadingMap(

@@ -1,4 +1,4 @@
-import { Card } from '@models/collection.models';
+import { Card } from '@models/cards.models';
 
 export type CardsLoadingMap = Record<string, boolean>;
 

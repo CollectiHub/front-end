@@ -3,7 +3,7 @@ import {
   CollectionInfoResponseDto,
   CollectionUpdateResponseDto,
 } from '@features/collection/collection.models';
-import { CardStatus } from '@models/collection.models';
+import { CardStatus } from '@models/cards.models';
 import { JSONSchemaType } from 'ajv';
 
 export namespace CollectionSchemas {

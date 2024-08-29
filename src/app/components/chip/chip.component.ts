@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { IonChip, IonLabel, IonSpinner } from '@ionic/angular/standalone';
-import { Card, CardStatus } from '@models/collection.models';
+import { Card, CardStatus } from '@models/cards.models';
 
 @Component({
   selector: 'app-chip',

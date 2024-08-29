@@ -5,7 +5,7 @@ import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap, tap } from 'rxjs';
 
-import { CollectionInfoDto } from '../../collection.models';
+import { CollectionInfoDto, UpdateCardsResponseData } from '../../collection.models';
 import { CollectionApiService } from '../../services/collection-api.service';
 
 import { COLLECTION_INFO_INITIAL_STATE } from './collection-info.state';
@@ -34,8 +34,8 @@ export const CollectionInfoStore = signalStore(
           ),
         ),
       ),
-      updateCardsCollected(updatedAmount: number): void {
-        patchState(store, { cards_collected: updatedAmount });
+      updateCardsCollected(updateData: UpdateCardsResponseData): void {
+        patchState(store, updateData);
       },
     };
   }),

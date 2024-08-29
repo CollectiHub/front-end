@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpHandlerFn, HttpRequest, HttpResponse } from '@angular/common/http';
-import { CollectionInfoDto } from '@features/collection/collection.models';
-import { Card, CardStatus, UpdateCardsDto } from '@models/collection.models';
+import { CollectionInfoDto, UpdateCardsDto } from '@features/collection/collection.models';
+import { Card, CardStatus } from '@models/cards.models';
 import { from, map, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
