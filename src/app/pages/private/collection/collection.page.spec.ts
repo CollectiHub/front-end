@@ -9,7 +9,7 @@ import { CardsDisplayMode, CollectionProgressMode } from '@features/collection-s
 import { CollectionSettingsStore } from '@features/collection-settings/store/collection-settings.store';
 import { CollectionSettingsStoreMock } from '@features/collection-settings/store/collection-settings.store.testing';
 import { IonSearchbar } from '@ionic/angular/standalone';
-import { Card, CardStatus } from '@models/collection.models';
+import { Card, CardStatus } from '@models/cards.models';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { MockProxy, mock } from 'jest-mock-extended';
 
@@ -38,7 +38,7 @@ describe(CollectionPage.name, () => {
     collectionSettingsStoreMock.selectedRarity.mockReturnValue('R');
 
     collectionCardsStoreMock = mock<CollectionCardsStoreMock>();
-    collectionCardsStoreMock.cardsByRarity.mockReturnValue({ R: []})
+    collectionCardsStoreMock.cardsByRarity.mockReturnValue({ R: [] });
 
     collectionInfoStoreMock = mock<CollectionInfoStoreMock>();
 

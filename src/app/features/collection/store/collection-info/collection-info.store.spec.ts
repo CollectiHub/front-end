@@ -1,11 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { CollectionInfoDto } from '@features/collection/collection.models';
 import { CollectionApiService } from '@features/collection/services/collection-api.service';
 import * as ngrxSignalsImport from '@ngrx/signals';
 import { runFnInContext } from '@ngx-unit-test/inject-mocks';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of, throwError } from 'rxjs';
+
 import { CollectionInfoStore } from './collection-info.store';
-import { CollectionInfoDto } from '@features/collection/collection.models';
 
 jest.mock('@ngrx/signals', () => {
   const actual = jest.requireActual('@ngrx/signals');

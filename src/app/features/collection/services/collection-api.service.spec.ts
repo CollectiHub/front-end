@@ -2,11 +2,12 @@ import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { AuthConstants } from '@features/auth/auth.constants';
 import { CollectionSchemas } from '@features/collection/collection.schemas';
-import { UpdateCardDto } from '@models/collection.models';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { ValidationService } from '@services/validation/validation.service';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { of, take } from 'rxjs';
+
+import { UpdateCardsDto } from '../collection.models';
 
 import { CollectionApiService } from './collection-api.service';
 
@@ -20,7 +21,7 @@ describe(CollectionApiService.name, () => {
   beforeEach(() => {
     httpClientMock = mock<HttpClient>();
     httpClientMock.get.mockReturnValue(of(responseMock));
-    httpClientMock.patch.mockReturnValue(of(responseMock));
+    httpClientMock.post.mockReturnValue(of(responseMock));
 
     validationServiceMock = mock<ValidationService>();
     validationServiceMock.validate.mockReturnValue(responseMock);
@@ -142,13 +143,13 @@ describe(CollectionApiService.name, () => {
   });
 
   describe('updateCollection$', () => {
-    it('should trigger "patch" method with the correct args', () => {
-      const updateCardsMock = mock<UpdateCardDto>();
+    it('should trigger "post" method with the correct args', () => {
+      const updateCardsMock = mock<UpdateCardsDto>();
       const contextMock = new HttpContext().set(AuthConstants.skipLoadingContextToken, true);
 
       service.updateCards$(updateCardsMock).pipe(take(1)).subscribe();
 
-      expect(httpClientMock.patch).toHaveBeenCalledWith(
+      expect(httpClientMock.post).toHaveBeenCalledWith(
         environment.endpoints.collection.update,
         { cards: updateCardsMock },
         { context: contextMock },
@@ -156,7 +157,7 @@ describe(CollectionApiService.name, () => {
     });
 
     it('should validate the response', () => {
-      const updateCardsMock = mock<UpdateCardDto>();
+      const updateCardsMock = mock<UpdateCardsDto>();
 
       service.updateCards$(updateCardsMock).pipe(take(1)).subscribe();
 
@@ -168,15 +169,14 @@ describe(CollectionApiService.name, () => {
 
     it('should return the number of cards collected from the response', () => {
       const spy = jest.fn();
-      const amountCollectedCards = 120;
-      const updateCardsMock = mock<UpdateCardDto>();
-      const resnonseUpdateMock = { data: { cards_collected: amountCollectedCards } };
+      const updateCardsMock = mock<UpdateCardsDto>();
+      const resnonseUpdateMock = { data: { cards_collected: 3 } };
 
       validationServiceMock.validate.mockReturnValueOnce(resnonseUpdateMock);
 
       service.updateCards$(updateCardsMock).pipe(take(1)).subscribe(spy);
 
-      expect(spy).toHaveBeenCalledWith(amountCollectedCards);
+      expect(spy).toHaveBeenCalledWith({ cards_collected: 3 });
     });
   });
 });

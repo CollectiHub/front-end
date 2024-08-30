@@ -1,10 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { fakeAsync, tick } from '@angular/core/testing';
 import { CollectionApiService } from '@features/collection/services/collection-api.service';
-import * as ngrxSignalsImport from '@ngrx/signals';
+import { Card, CardStatus } from '@models/cards.models';
 import * as entitiesImport from '@ngrx/signals/entities';
 import { runFnInContext } from '@ngx-unit-test/inject-mocks';
 import { MockProxy, mock } from 'jest-mock-extended';
-import { of, throwError } from 'rxjs';
+import { EMPTY, of, throwError } from 'rxjs';
 
 import { CollectionInfoStore } from '../collection-info/collection-info.store';
 import { CollectionInfoStoreMock } from '../collection-info/collection-info.store.testing';
@@ -13,8 +14,6 @@ import { SearchCardsStoreMock } from '../search-cards/search-cards.store.testing
 
 import { CollectionCardsStore } from './collection-cards.store';
 import { CollectionCardsStoreFunctions } from './collection-cards.store.functions';
-import { Card, CardStatus } from '@models/cards.models';
-import { fakeAsync, tick } from '@angular/core/testing';
 
 jest.mock('@ngrx/signals/entities', () => {
   const actual = jest.requireActual('@ngrx/signals/entities');
@@ -69,71 +68,93 @@ describe('CollectionCardsStore', () => {
   });
 
   describe('fetchByRarity', () => {
-    // it('should reset store metadata before API call', fakeAsync(() => {
-    //   const spy = jest.spyOn(ngrxSignalsImport, 'patchState');
+    describe('pre actions', () => {
+      it('should reset error in store when called', fakeAsync(() => {
+        collectionApiServiceMock.getCardsByRarity$.mockReturnValue(EMPTY);
 
-    //   store.fetchByRarity('R');
-    //   tick();
+        store.fetchByRarity('R');
+        tick();
 
-    //   expect(spy).toHaveBeenNthCalledWith(1, expect.anything(), { error: undefined, loading: true });
-    // }));
+        expect(store.error()).toBe(undefined);
+      }));
 
-    it('should trigger "getCardsByRarity$" method of api service', fakeAsync(() => {
-      store.fetchByRarity('R');
-      tick();
+      it('should set loading to true when called', fakeAsync(() => {
+        collectionApiServiceMock.getCardsByRarity$.mockReturnValue(EMPTY);
 
-      expect(collectionApiServiceMock.getCardsByRarity$).toHaveBeenCalledWith('R');
-    }));
+        store.fetchByRarity('R');
+        tick();
 
-    it('should save entities to store if received from API', fakeAsync(() => {
-      const spy = jest.spyOn(entitiesImport, 'setEntities');
+        expect(store.loading()).toBe(true);
+      }));
+    });
 
-      store.fetchByRarity('R');
-      tick();
+    describe('API call', () => {
+      it('should trigger "getCardsByRarity$" method of api service', fakeAsync(() => {
+        store.fetchByRarity('R');
+        tick();
 
-      expect(spy).toHaveBeenCalledWith(cardsMock);
-    }));
+        expect(collectionApiServiceMock.getCardsByRarity$).toHaveBeenCalledWith('R');
+      }));
+    });
 
-    // it('should set loading to false after API call finished', fakeAsync(() => {
-    //   const spy = jest.spyOn(ngrxSignalsImport, 'patchState');
+    describe('API call successful', () => {
+      it('should save entities to store if received from API', fakeAsync(() => {
+        const spy = jest.spyOn(entitiesImport, 'setEntities');
 
-    //   store.fetchByRarity('R');
-    //   tick();
+        store.fetchByRarity('R');
+        tick();
 
-    //   expect(spy).toHaveBeenNthCalledWith(2, expect.anything(), undefined, { loading: false });
-    // }));
+        expect(spy).toHaveBeenCalledWith(cardsMock);
+      }));
 
-    // it('should save error message to store and set loading to false if error received during API call', fakeAsync(() => {
-    //   const spy = jest.spyOn(ngrxSignalsImport, 'patchState');
-    //   collectionApiServiceMock.getCardsByRarity$.mockReturnValue(
-    //     throwError(() => new HttpErrorResponse({ error: { message: 'errorMessage' } })),
-    //   );
+      it('should set loading to false after API call finished', fakeAsync(() => {
+        store.fetchByRarity('R');
+        tick();
 
-    //   store.fetchByRarity('R');
-    //   tick();
+        expect(store.loading()).toBe(false);
+      }));
+    });
 
-    //   expect(spy).toHaveBeenNthCalledWith(2, expect.anything(), { error: 'errorMessage', loading: false });
-    // }));
+    describe('error received', () => {
+      beforeEach(() => {
+        collectionApiServiceMock.getCardsByRarity$.mockReturnValue(
+          throwError(() => new HttpErrorResponse({ error: { message: 'errorMessage' } })),
+        );
+      });
+
+      it('should save error message to store if error received during API call', fakeAsync(() => {
+        store.fetchByRarity('R');
+        tick();
+
+        expect(store.error()).toBe('errorMessage');
+      }));
+
+      it('should change loading to false if error received during API call', fakeAsync(() => {
+        store.fetchByRarity('R');
+        tick();
+
+        expect(store.loading()).toBe(false);
+      }));
+    });
   });
 
   describe('update', () => {
     describe('loading map', () => {
-      it('should build  loading map before sending API call', () => {
+      it('should build loading map before sending API call', () => {
         const spy = jest.spyOn(CollectionCardsStoreFunctions, 'buildCardsLoadingMap').mockReturnValue({});
 
         store.update(updatePatchMock);
 
-        expect(spy).toHaveBeenNthCalledWith(1, ['1'], {}, false);
+        expect(spy).toHaveBeenNthCalledWith(1, ['1'], {}, true);
       });
 
-      // it('should update loading map in store before sending API call', () => {
-      //   const spy = jest.spyOn(ngrxSignalsImport, 'patchState');
-      //   jest.spyOn(CollectionCardsStoreFunctions, 'buildCardsLoadingMap').mockReturnValue({});
+      it('should update loading map in store before sending API call', () => {
+        jest.spyOn(CollectionCardsStoreFunctions, 'buildCardsLoadingMap').mockReturnValue({});
 
-      //   store.update(updatePatchMock);
+        store.update(updatePatchMock);
 
-      //   expect(spy).toHaveBeenNthCalledWith(1, { cardsLoadingMap: {} });
-      // });
+        expect(store.cardsLoadingMap()).toStrictEqual({});
+      });
     });
 
     describe('API request', () => {
@@ -173,14 +194,13 @@ describe('CollectionCardsStore', () => {
         expect(spy).toHaveBeenNthCalledWith(2, ['1'], {}, false);
       });
 
-      // it('should update loading data in store', () => {
-      //   const spy = jest.spyOn(ngrxSignalsImport, 'patchState');
-      //   jest.spyOn(CollectionCardsStoreFunctions, 'buildCardsLoadingMap').mockReturnValue({});
+      it('should update loading data in store', () => {
+        jest.spyOn(CollectionCardsStoreFunctions, 'buildCardsLoadingMap').mockReturnValue({ '1': true });
 
-      //   store.update(updatePatchMock);
+        store.update(updatePatchMock);
 
-      //   expect(spy).toHaveBeenNthCalledWith(2, expect.anything(), undefined, { cardsLoadingMap: {} });
-      // });
+        expect(store.cardsLoadingMap()).toStrictEqual({ '1': true });
+      });
     });
 
     describe('error case', () => {
@@ -204,7 +224,7 @@ describe('CollectionCardsStore', () => {
 
       it('should save loading map to store', () => {
         buildCardsLoadingMapSpy.mockReturnValue({ '1': true });
-        
+
         store.update(updatePatchMock);
 
         expect(store.cardsLoadingMap()).toStrictEqual({ '1': true });

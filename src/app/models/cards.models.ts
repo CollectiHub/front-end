@@ -12,4 +12,3 @@ export enum CardStatus {
   NotCollected = 'not_collected',
   NotExisting = 'not_existing',
 }
-

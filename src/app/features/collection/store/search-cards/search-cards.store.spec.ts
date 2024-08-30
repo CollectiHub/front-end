@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { CollectionApiService } from '@features/collection/services/collection-api.service';
-import { Card, CardStatus } from '@models/collection.models';
+import { Card, CardStatus } from '@models/cards.models';
 import * as ngrxSignalsImport from '@ngrx/signals';
 import * as entitiesImport from '@ngrx/signals/entities';
 import { runFnInContext } from '@ngx-unit-test/inject-mocks';

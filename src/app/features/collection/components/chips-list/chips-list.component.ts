@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { ChipComponent } from '@components/chip/chip.component';
 import { CardsLoadingMap } from '@features/collection/store/collection-cards-store/collection-cards.store.models';
 import { Card, CardStatus } from '@models/cards.models';

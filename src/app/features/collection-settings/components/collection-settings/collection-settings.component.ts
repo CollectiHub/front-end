@@ -13,7 +13,7 @@ import {
   IonIcon,
   IonItem,
   IonList,
-  IonMenuToggle, 
+  IonMenuToggle,
   IonText,
   IonTitle,
   IonToolbar,

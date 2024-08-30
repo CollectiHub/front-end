@@ -3,14 +3,12 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
 import { AuthApiService } from '@features/auth/services/auth-api/auth-api.service';
-import { GenericApiResponse } from '@models/api.models';
 import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { TranslateService } from '@ngx-translate/core';
 import { LoaderService } from '@services/loader/loader.service';
 import { StorageService } from '@services/storage/storage.service';
-import { switchWith } from '@tools/rxjs/switch-with.operator';
 import { concat, forkJoin, from, pipe, switchMap, take } from 'rxjs';
 
 import { UsersApiService } from '../services/users-api.service';

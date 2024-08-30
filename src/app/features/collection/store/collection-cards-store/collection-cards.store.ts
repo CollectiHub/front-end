@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { computed, inject } from '@angular/core';
+import { UpdateCardsDto, UpdateCardsResponseData } from '@features/collection/collection.models';
 import { Card } from '@models/cards.models';
 import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
@@ -13,7 +14,6 @@ import { SearchCardsStore } from '../search-cards/search-cards.store';
 
 import { COLLECTION_CARDS_INITIAL_STATE } from './collection-cards.state';
 import { CollectionCardsStoreFunctions } from './collection-cards.store.functions';
-import { UpdateCardsDto, UpdateCardsResponseData } from '@features/collection/collection.models';
 
 export const CollectionCardsStore = signalStore(
   { providedIn: 'root' },

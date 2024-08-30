@@ -1,4 +1,4 @@
-import { Card, CardStatus } from '@models/collection.models';
+import { Card, CardStatus } from '@models/cards.models';
 import { TranslateService } from '@ngx-translate/core';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { ToastColor } from '@services/toast/toast.models';
@@ -35,31 +35,13 @@ describe(CardsListComponent.name, () => {
     });
   });
 
-  describe('getLoadingStatus', () => {
-    it('should return true if cardId is present in cardsPendingResponse', () => {
-      const cardId: string = 'R-007';
-
-      const isLoading = component.getLoadingStatus([cardId], cardId);
-
-      expect(isLoading).toBe(true);
-    });
-
-    it('should return false if cardId is not present in cardsPendingResponse', () => {
-      const cardId: string = 'R-007';
-
-      const isLoading = component.getLoadingStatus(['R-005'], cardId);
-
-      expect(isLoading).toBe(false);
-    });
-  });
-
   describe('handleCardClick', () => {
     it('should translate message for toaster if the card does not exist', () => {
       const card = {
         status: CardStatus.NotExisting,
       } as Card;
 
-      component.handleCardClick('id-002', card);
+      component.handleCardClick(card);
 
       expect(translateServiceMock.instant).toHaveBeenCalledWith('collection.card_not_exists.toast');
     });
@@ -69,7 +51,7 @@ describe(CardsListComponent.name, () => {
         status: CardStatus.NotExisting,
       } as Card;
 
-      component.handleCardClick('id-002', card);
+      component.handleCardClick(card);
 
       expect(toastServiceMock.open$).toHaveBeenCalledWith('collection.card_not_exists.toast', ToastColor.Medium);
     });
