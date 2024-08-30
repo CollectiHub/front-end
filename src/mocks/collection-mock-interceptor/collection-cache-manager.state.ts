@@ -1,4 +1,4 @@
-import { CardStatus } from '@models/collection.models';
+import { CardStatus } from '@models/cards.models';
 
 import { CollectionCache } from './collection-cache-manager.models';
 

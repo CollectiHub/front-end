@@ -1,24 +1,49 @@
-import { CollectionApiService } from '@features/collection/services/collection-api.service';
-import { CollectionSettingsStoreMock } from '@features/collection-settings/store/collection-settings.state.testing';
+import { signal } from '@angular/core';
+import { CollectionCardsStore } from '@features/collection/store/collection-cards-store/collection-cards.store';
+import { CollectionCardsStoreMock } from '@features/collection/store/collection-cards-store/collection-cards.store.testing';
+import { CollectionInfoStore } from '@features/collection/store/collection-info/collection-info.store';
+import { CollectionInfoStoreMock } from '@features/collection/store/collection-info/collection-info.store.testing';
+import { SearchCardsStore } from '@features/collection/store/search-cards/search-cards.store';
+import { SearchCardsStoreMock } from '@features/collection/store/search-cards/search-cards.store.testing';
+import { CardsDisplayMode, CollectionProgressMode } from '@features/collection-settings/collection-settings.models';
 import { CollectionSettingsStore } from '@features/collection-settings/store/collection-settings.store';
-import { Card } from '@models/collection.models';
+import { CollectionSettingsStoreMock } from '@features/collection-settings/store/collection-settings.store.testing';
+import { IonSearchbar } from '@ionic/angular/standalone';
+import { Card, CardStatus } from '@models/cards.models';
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { MockProxy, mock } from 'jest-mock-extended';
-import { of, throwError } from 'rxjs';
 
 import CollectionPage from './collection.page';
 
+jest.mock('@angular/core', () => {
+  const actual = jest.requireActual('@angular/core');
+
+  return {
+    ...actual,
+    effect: (fn: any) => {
+      fn();
+    },
+  };
+});
+
 describe(CollectionPage.name, () => {
   let component: CollectionPage;
-  let collectionApiServiceMock: MockProxy<CollectionApiService>;
   let collectionSettingsStoreMock: MockProxy<CollectionSettingsStoreMock>;
+  let collectionCardsStoreMock: MockProxy<CollectionCardsStoreMock>;
+  let collectionInfoStoreMock: MockProxy<CollectionInfoStoreMock>;
+  let searchCardsStoreMock: MockProxy<SearchCardsStoreMock>;
 
   beforeEach(() => {
-    collectionApiServiceMock = mock<CollectionApiService>();
-    collectionApiServiceMock.getCardsBySearchTerm$.mockReturnValue(of([{} as Card]));
-
     collectionSettingsStoreMock = mock<CollectionSettingsStoreMock>();
     collectionSettingsStoreMock.selectedRarity.mockReturnValue('R');
+
+    collectionCardsStoreMock = mock<CollectionCardsStoreMock>();
+    collectionCardsStoreMock.cardsByRarity.mockReturnValue({ R: [] });
+
+    collectionInfoStoreMock = mock<CollectionInfoStoreMock>();
+
+    searchCardsStoreMock = mock<SearchCardsStoreMock>();
+    searchCardsStoreMock.entities.mockReturnValue([]);
 
     component = classWithProviders({
       token: CollectionPage,
@@ -28,88 +53,225 @@ describe(CollectionPage.name, () => {
           useValue: collectionSettingsStoreMock,
         },
         {
-          provide: CollectionApiService,
-          useValue: collectionApiServiceMock,
+          provide: CollectionCardsStore,
+          useValue: collectionCardsStoreMock,
+        },
+        {
+          provide: CollectionInfoStore,
+          useValue: collectionInfoStoreMock,
+        },
+        {
+          provide: SearchCardsStore,
+          useValue: searchCardsStoreMock,
         },
       ],
     });
   });
 
-  describe('ngOnInit', () => {
-    describe('search term is valid', () => {
-      it('should trigger "getCardsBySearchTerm$" of collectionApiService', () => {
-        const spy = jest.spyOn(collectionApiServiceMock, 'getCardsBySearchTerm$');
+  describe('currentRarityCollectedCardsAmount', () => {
+    it('should update "currentRarityCollectedCardsAmount"', () => {
+      expect(component.currentRarityCollectedCardsAmount).toBe(0);
+    });
+  });
 
-        component.ngOnInit();
-        component.searchControl.setValue('RR', { emitEvent: true });
+  describe('isCollectionDataLoadedSuccessfuly', () => {
+    it('should return true if data loaded and no error in sollection info store', () => {
+      collectionInfoStoreMock.loading.mockReturnValueOnce(false);
+      collectionInfoStoreMock.error.mockReturnValueOnce(undefined);
 
-        expect(spy).toHaveBeenCalled();
-      });
+      const result = component.isCollectionDataLoadedSuccessfuly();
 
-      it('should set isLoadingCards to true when a search request is sent', () => {
-        const spy = jest.spyOn(component.isLoadingCards, 'set');
-
-        component.ngOnInit();
-        component.searchControl.setValue('RR', { emitEvent: true });
-
-        expect(spy).toHaveBeenNthCalledWith(1, true);
-      });
-
-      it('should set isLoadingCards to false after receiving a response', () => {
-        const spy = jest.spyOn(component.isLoadingCards, 'set');
-
-        component.ngOnInit();
-        component.searchControl.setValue('RR', { emitEvent: true });
-
-        expect(spy).toHaveBeenLastCalledWith(false);
-      });
-
-      it('should set isLoadingCards to false after receiving a error response', () => {
-        const spy = jest.spyOn(component.isLoadingCards, 'set');
-        const spySearchList = jest.spyOn(component.searchCardsList, 'set');
-
-        jest
-          .spyOn(collectionApiServiceMock, 'getCardsBySearchTerm$')
-          .mockReturnValueOnce(throwError(() => new Error('Test')));
-
-        component.ngOnInit();
-        component.searchControl.setValue('RR', { emitEvent: true });
-
-        expect(spySearchList).not.toHaveBeenCalled();
-        expect(spy).toHaveBeenLastCalledWith(false);
-      });
-
-      it('should set searchCardsList with cards', () => {
-        const mockCards = [{} as Card];
-        const spy = jest.spyOn(component.searchCardsList, 'set');
-
-        collectionApiServiceMock.getCardsBySearchTerm$.mockReturnValue(of(mockCards));
-
-        component.ngOnInit();
-        component.searchControl.setValue('RR', { emitEvent: true });
-
-        expect(spy).toHaveBeenCalledWith(mockCards);
-      });
+      expect(result).toBe(true);
     });
 
-    describe('search term is empty', () => {
-      it('should does not trigger "getCardsBySearchTerm$" of collectionApiService', () => {
-        const spy = jest.spyOn(collectionApiServiceMock, 'getCardsBySearchTerm$');
+    it('should return false if data was not loaded', () => {
+      collectionInfoStoreMock.loading.mockReturnValueOnce(true);
+      collectionInfoStoreMock.error.mockReturnValueOnce(undefined);
 
-        component.ngOnInit();
-        component.searchControl.setValue('', { emitEvent: true });
+      const result = component.isCollectionDataLoadedSuccessfuly();
 
-        expect(spy).not.toHaveBeenCalled();
-      });
+      expect(result).toBe(false);
+    });
 
-      it('should set searchCardsList with null', () => {
-        const spy = jest.spyOn(component.searchCardsList, 'set');
+    it('should return false if error received during data loding', () => {
+      collectionInfoStoreMock.loading.mockReturnValueOnce(false);
+      collectionInfoStoreMock.error.mockReturnValueOnce('error');
 
-        component.ngOnInit();
-        component.searchControl.setValue('', { emitEvent: true });
+      const result = component.isCollectionDataLoadedSuccessfuly();
 
-        expect(spy).toHaveBeenCalledWith(null);
-      });
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('canDisplayGlobalProgressBar', () => {
+    it('should return true if selected display mode if not "none" and collection info loaded', () => {
+      component.isCollectionDataLoadedSuccessfuly = signal(true);
+      collectionSettingsStoreMock.globalProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.Numbers);
+
+      const result = component.canDisplayGlobalProgressBar();
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false if selected display mode is "none"', () => {
+      component.isCollectionDataLoadedSuccessfuly = signal(true);
+      collectionSettingsStoreMock.globalProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.None);
+
+      const result = component.canDisplayGlobalProgressBar();
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if collection info was not loaded', () => {
+      component.isCollectionDataLoadedSuccessfuly = signal(false);
+      collectionSettingsStoreMock.globalProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.Numbers);
+
+      const result = component.canDisplayGlobalProgressBar();
+
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('canDisplayRarityProgressBar', () => {
+    it('should return true if selected display mode if not "none" and collection info loaded', () => {
+      component.isCollectionDataLoadedSuccessfuly = signal(true);
+      collectionSettingsStoreMock.rarityProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.Numbers);
+
+      const result = component.canDisplayRarityProgressBar();
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false if selected display mode is "none"', () => {
+      component.isCollectionDataLoadedSuccessfuly = signal(true);
+      collectionSettingsStoreMock.rarityProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.None);
+
+      const result = component.canDisplayRarityProgressBar();
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if collection info was not loaded', () => {
+      component.isCollectionDataLoadedSuccessfuly = signal(false);
+      collectionSettingsStoreMock.rarityProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.Numbers);
+
+      const result = component.canDisplayRarityProgressBar();
+
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('isDataLoading', () => {
+    it('should return true if only collectionInfo loading in progresss', () => {
+      collectionInfoStoreMock.loading.mockReturnValueOnce(true);
+      searchCardsStoreMock.loading.mockReturnValueOnce(false);
+      collectionCardsStoreMock.loading.mockReturnValueOnce(false);
+
+      const result = component.isDataLoading();
+
+      expect(result).toBe(true);
+    });
+
+    it('should return true if only searchCards loading in progresss', () => {
+      collectionInfoStoreMock.loading.mockReturnValueOnce(false);
+      searchCardsStoreMock.loading.mockReturnValueOnce(true);
+      collectionCardsStoreMock.loading.mockReturnValueOnce(false);
+
+      const result = component.isDataLoading();
+
+      expect(result).toBe(true);
+    });
+
+    it('should return true if only collectionCards loading in progresss', () => {
+      collectionInfoStoreMock.loading.mockReturnValueOnce(false);
+      searchCardsStoreMock.loading.mockReturnValueOnce(false);
+      collectionCardsStoreMock.loading.mockReturnValueOnce(true);
+
+      const result = component.isDataLoading();
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false if all the stores have loading false', () => {
+      collectionInfoStoreMock.loading.mockReturnValueOnce(false);
+      searchCardsStoreMock.loading.mockReturnValueOnce(false);
+      collectionCardsStoreMock.loading.mockReturnValueOnce(false);
+
+      const result = component.isDataLoading();
+
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('isImageDisplayMode', () => {
+    it('should return true if cards display mode is "Image"', () => {
+      collectionSettingsStoreMock.cardsDisplayMode.mockReturnValueOnce(CardsDisplayMode.Image);
+
+      const result = component.isImageDisplayMode();
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false if cards display mode is not "Image"', () => {
+      collectionSettingsStoreMock.cardsDisplayMode.mockReturnValueOnce(CardsDisplayMode.Chip);
+
+      const result = component.isImageDisplayMode();
+
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('handleRarityChange', () => {
+    it('should assign empty array as value if no cards for rarity', () => {
+      component.handleRarityChange({}, 'R');
+
+      expect(component.cardsForCurrentRarity).toStrictEqual([]);
+    });
+
+    it('should trigger "fatchByRarity" if no cards for rarity', () => {
+      component.handleRarityChange({}, 'R');
+
+      expect(collectionCardsStoreMock.fetchByRarity).toHaveBeenCalledTimes(1);
+    });
+
+    it('should assign array with cards as value if there are cards for rarity', () => {
+      const cardsMock = [mock<Card>()];
+
+      component.handleRarityChange({ R: cardsMock }, 'R');
+
+      expect(component.cardsForCurrentRarity).toStrictEqual(cardsMock);
+    });
+  });
+
+  describe('getCollectedCardsForRarity', () => {
+    it('should filter out cards that are not collected', () => {
+      const cardsMock = [mock<Card>({ status: CardStatus.Collected }), mock<Card>({ status: CardStatus.NotCollected })];
+
+      const result = component.getCollectedCardsForRarity(cardsMock);
+
+      expect(result.length).toBe(1);
+    });
+  });
+
+  describe('ngOnInit', () => {
+    it('should trigger "getCollectionInfo" of collection info store', () => {
+      component.ngOnInit();
+
+      expect(collectionInfoStoreMock.getCollectionInfo).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('handleSearchValueChange', () => {
+    it('should trigger "clearSearchCards" of searchCards store if no search term', () => {
+      component.handleSearchValueChange(mock<CustomEvent>({ detail: { value: '' } }));
+
+      expect(searchCardsStoreMock.clearSearchCards).toHaveBeenCalledTimes(1);
+    });
+
+    it('should trigger "search" of searchCards store if there is search term', () => {
+      component.handleSearchValueChange(mock<CustomEvent>({ detail: { value: '123' } }));
+
+      expect(searchCardsStoreMock.search).toHaveBeenCalledWith('123');
     });
   });
 
@@ -126,22 +288,40 @@ describe(CollectionPage.name, () => {
       expect(collectionSettingsStoreMock.updateSettings).toHaveBeenCalledWith({ selectedRarity: 'SSR' });
     });
 
-    it('should trigger "reset" of searchControl if searchCardsList is not null', () => {
-      const spy = jest.spyOn(component.searchControl, 'reset');
-      component.searchCardsList.set(mock<Card[]>());
+    it('should rest serchbar value if searchCardsList is not empty', () => {
+      const searchbarMock = mock<IonSearchbar>({ value: '' });
+      component.cardsSearchbar = signal(searchbarMock);
+      searchCardsStoreMock.entities.mockReturnValueOnce([mock<Card>()]);
 
       component.handleSelectRarity('SSR');
 
-      expect(spy).toHaveBeenCalled();
+      expect(searchbarMock.value).toBe(null);
     });
 
-    it('should not trigger "reset" of searchControl if searchCardsList is null', () => {
-      const spy = jest.spyOn(component.searchControl, 'reset');
-      component.searchCardsList.set(null);
+    it('should not reset value of cardsSearchbar if searchCardsList is emoty', () => {
+      const searchbarMock = mock<IonSearchbar>({ value: '123' });
+      component.cardsSearchbar = signal(searchbarMock);
+      searchCardsStoreMock.entities.mockRejectedValueOnce([]);
 
       component.handleSelectRarity('SSR');
 
-      expect(spy).not.toHaveBeenCalled();
+      expect(searchbarMock.value).toBe('123');
+    });
+  });
+
+  describe('updateCardStatus', () => {
+    it('should build patch and trigger "update" method of collection cards store', () => {
+      const cardMock = mock<Card>({ status: CardStatus.Collected });
+      const expectedPatch = {
+        ids: [cardMock.id],
+        changes: {
+          status: CardStatus.NotCollected,
+        },
+      };
+
+      component.updateCardStatus(cardMock);
+
+      expect(collectionCardsStoreMock.update).toHaveBeenCalledWith(expectedPatch);
     });
   });
 });

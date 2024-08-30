@@ -3,7 +3,7 @@ import { CollectionSettingsStore } from '@features/collection-settings/store/col
 import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 import { MockProxy, mock } from 'jest-mock-extended';
 
-import { CollectionSettingsStoreMock } from '../../store/collection-settings.state.testing';
+import { CollectionSettingsStoreMock } from '../../store/collection-settings.store.testing';
 
 import { CollectionSettingsComponent } from './collection-settings.component';
 

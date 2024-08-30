@@ -2,14 +2,15 @@
   <ion-header>
     <ion-toolbar class="!tw-py-2 tw-px-4">
       <ion-searchbar
+        #cardsSearchbar
         slot="start"
         class="collection-searchbar !tw-min-h-0 !tw-p-0 tw-mr-4 tw-rounded tw-border-2"
         type="text"
-        show-clear-button="focus"
+        show-clear-button="always"
         clear-icon="close-circle-outline"
-        [formControl]="searchControl"
         [debounce]="300"
-        [placeholder]="'collection.search_bar.placeholder' | translate" />
+        [placeholder]="'collection.search_bar.placeholder' | translate"
+        (ionInput)="handleSearchValueChange($event)" />
 
       <ion-buttons slot="end">
         <ion-menu-toggle menu="collection-settings-menu" class="tw-text-2xl">
@@ -21,34 +22,42 @@
     </ion-toolbar>
   </ion-header>
 
-  @if(globalProgressDisplayMode() !== progressDisplayMode.None){
+  @if(canDisplayGlobalProgressBar()){
   <app-progress-bar
     label="progress_bar.global_progress.label"
-    [maxValue]="globalTotalCardCount()"
-    [currentValue]="globalCollectedCardCount()"
-    [displayMode]="globalProgressDisplayMode()" />}
+    [maxValue]="cardsTotal()!"
+    [currentValue]="cardsCollected()!"
+    [displayMode]="globalProgressDisplayMode()" />
+  }
 
   <ion-content>
-    @if(isLoadingCards()){
+    @if(isDataLoading()){
     <div class="tw-flex tw-justify-center tw-items-center tw-w-full tw-h-full">
       <ion-spinner name="bubbles" color="medium" />
     </div>
-    } @else if(searchCardsList() || isImageDisplayMode()){
-    <app-cards-list [cardList]="searchCardsList() || cardsList()" />
+    } @else if(cardsSearchbar.value || isImageDisplayMode()){
+    <app-cards-list
+      [cardsLoadingMap]="cardsLoadingMap()"
+      [cardsList]="cardsSearchbar.value ? searchCards() : cardsForCurrentRarity"
+      (cardCheckboxClicked)="updateCardStatus($event)" />
     } @else {
-    <app-chips-list />
+    <app-chips-list
+      [cardsLoadingMap]="cardsLoadingMap()"
+      [cardsList]="cardsForCurrentRarity"
+      (chipClicked)="updateCardStatus($event)" />
     }
   </ion-content>
 
-  @if(rarityProgressDisplayMode() !== progressDisplayMode.None){
+  @if(canDisplayRarityProgressBar()){
   <app-progress-bar
     label="progress_bar.rarity_progress.label"
-    [maxValue]="rarityTotalCardCount()"
-    [currentValue]="rarityCollectedCardCount()"
-    [displayMode]="rarityProgressDisplayMode()" />}
-
+    [maxValue]="cardsForCurrentRarity.length"
+    [currentValue]="currentRarityCollectedCardsAmount"
+    [displayMode]="rarityProgressDisplayMode()" />
+  } @if (isCollectionDataLoadedSuccessfuly()) {
   <app-rarity-slider
-    [rarities]="rarities()"
-    [selectedRarity]="searchCardsList() ? undefined : selectedRarity()"
+    [rarities]="rarities()!"
+    [selectedRarity]="cardsSearchbar.value ? undefined : selectedRarity()"
     (selectRarity)="handleSelectRarity($event)" />
+  }
 </div>

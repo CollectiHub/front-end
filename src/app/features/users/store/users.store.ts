@@ -3,14 +3,12 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
 import { AuthApiService } from '@features/auth/services/auth-api/auth-api.service';
-import { GenericApiResponse } from '@models/api.models';
 import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { TranslateService } from '@ngx-translate/core';
 import { LoaderService } from '@services/loader/loader.service';
 import { StorageService } from '@services/storage/storage.service';
-import { switchWith } from '@tools/rxjs/switch-with.operator';
 import { concat, forkJoin, from, pipe, switchMap, take } from 'rxjs';
 
 import { UsersApiService } from '../services/users-api.service';
@@ -44,17 +42,20 @@ export const UsersStore = signalStore(
       },
       updateUserData: rxMethod<UpdateUserBody>(
         pipe(
-          switchWith((updateData: UpdateUserBody) => usersApiService.updateUserData$(updateData)),
-          tapResponse(
-            ([updateData]: [UpdateUserBody, GenericApiResponse]) => {
-              patchState(store, state => ({ userData: { ...state.userData!, ...updateData } }));
-              void router.navigate(['/profile']);
-            },
-            (error: HttpErrorResponse) => {
-              const errorMessage = error.error.message;
+          switchMap((updateData: UpdateUserBody) =>
+            usersApiService.updateUserData$(updateData).pipe(
+              tapResponse({
+                next: () => {
+                  patchState(store, state => ({ userData: { ...state.userData!, ...updateData } }));
+                  void router.navigate(['/profile']);
+                },
+                error: (error: HttpErrorResponse) => {
+                  const errorMessage = error.error.message;
 
-              patchState(store, { error: errorMessage });
-            },
+                  patchState(store, { error: errorMessage });
+                },
+              }),
+            ),
           ),
         ),
       ),
@@ -68,23 +69,23 @@ export const UsersStore = signalStore(
             const localCleanups$ = forkJoin([cleanStore$, clearPreferences$]);
             const stream$ = forkJoin([concat(...apiRequests, localCleanups$)]);
 
-            return loaderService.showUntilCompleted$(
-              stream$,
-              translateService.instant('profile.delete_account_loader'),
-            );
+            return loaderService
+              .showUntilCompleted$(stream$, translateService.instant('profile.delete_account_loader'))
+              .pipe(
+                tapResponse({
+                  next: () => {
+                    patchState(store, { userData: undefined, error: undefined });
+
+                    void router.navigate(['/registration']);
+                  },
+                  error: (error: HttpErrorResponse) => {
+                    const errorMessage = error.error.message;
+
+                    patchState(store, { error: errorMessage });
+                  },
+                }),
+              );
           }),
-          tapResponse(
-            () => {
-              patchState(store, { userData: undefined, error: undefined });
-
-              void router.navigate(['/registration']);
-            },
-            (error: HttpErrorResponse) => {
-              const errorMessage = error.error.message;
-
-              patchState(store, { error: errorMessage });
-            },
-          ),
         ),
       ),
     };

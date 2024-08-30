@@ -39,7 +39,7 @@ export class MockInterceptorRegistryService {
       }
     }
 
-    return next(req).pipe(delay(300));
+    return next(req).pipe(delay(500));
   }
 
   private isUrlMatch(url: string, pattern: string): boolean {

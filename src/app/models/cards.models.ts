@@ -7,11 +7,6 @@ export interface Card {
   image_url: string;
 }
 
-export interface UpdateCardDto {
-  id: string;
-  status: CardStatus;
-}
-
 export enum CardStatus {
   Collected = 'collected',
   NotCollected = 'not_collected',

@@ -1,12 +1,13 @@
 import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { IonCard, IonCardContent, IonCheckbox, IonLabel, IonSpinner } from '@ionic/angular/standalone';
-import { Card, CardStatus } from '@models/collection.models';
+import { Card, CardStatus } from '@models/cards.models';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [NgClass, IonLabel, IonCard, IonCardContent, IonCheckbox, IonSpinner],
+  imports: [NgClass, IonLabel, IonCard, IonCardContent, IonCheckbox, IonSpinner, ReactiveFormsModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,7 +17,6 @@ export class CardComponent {
 
   card = input.required<Card>();
   isLoading = input.required<boolean>();
-
   clickCard = output<string>();
   clickCheckbox = output<string>();
 
@@ -24,7 +24,7 @@ export class CardComponent {
     this.clickCard.emit(cardId);
   }
 
-  handleCheckboxClick(event: MouseEvent, cardId: string): void {
+  handleCardCheckboxClick(event: MouseEvent, cardId: string): void {
     event.stopPropagation();
 
     this.clickCheckbox.emit(cardId);

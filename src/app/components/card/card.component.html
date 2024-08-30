@@ -20,7 +20,7 @@
           <ion-checkbox
             color="success"
             [checked]="card().status === status.Collected"
-            (click)="handleCheckboxClick($event, card().id)" />
+            (click)="handleCardCheckboxClick($event, card().id)" />
         } @else {
           <ion-spinner [color]="card().status === status.Collected ? 'success' : 'medium'" name="circular" />
         }

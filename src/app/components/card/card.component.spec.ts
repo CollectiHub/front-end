@@ -28,7 +28,7 @@ describe(CardComponent.name, () => {
     it('should stop event propagation', () => {
       const eventMock = mock<MouseEvent>();
 
-      component.handleCheckboxClick(eventMock, 'R-007');
+      component.handleCardCheckboxClick(eventMock, 'R-007');
 
       expect(eventMock.stopPropagation).toHaveBeenCalledTimes(1);
     });
@@ -38,7 +38,7 @@ describe(CardComponent.name, () => {
       const cardId: string = 'R-007';
       const spy = jest.spyOn(component.clickCheckbox, 'emit');
 
-      component.handleCheckboxClick(eventMock, cardId);
+      component.handleCardCheckboxClick(eventMock, cardId);
 
       expect(spy).toHaveBeenCalledWith(cardId);
     });

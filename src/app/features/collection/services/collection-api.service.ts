@@ -7,9 +7,11 @@ import {
   CollectionInfoDto,
   CollectionInfoResponseDto,
   CollectionUpdateResponseDto,
+  UpdateCardsDto,
+  UpdateCardsResponseData,
 } from '@features/collection/collection.models';
 import { CollectionSchemas } from '@features/collection/collection.schemas';
-import { Card, UpdateCardDto } from '@models/collection.models';
+import { Card } from '@models/cards.models';
 import { ValidationService } from '@services/validation/validation.service';
 import { Observable, map } from 'rxjs';
 
@@ -64,16 +66,16 @@ export class CollectionApiService {
       );
   }
 
-  updateCollection$(cards: UpdateCardDto[]): Observable<number> {
+  updateCards$(cards: UpdateCardsDto): Observable<UpdateCardsResponseData> {
     const context = new HttpContext().set(AuthConstants.skipLoadingContextToken, true);
 
     return this.httpClient
-      .patch<CollectionUpdateResponseDto>(environment.endpoints.collection.update, { cards }, { context })
+      .post<CollectionUpdateResponseDto>(environment.endpoints.collection.update, { cards }, { context })
       .pipe(
         map((res: CollectionUpdateResponseDto) =>
           this.validationService.validate(CollectionSchemas.collectionUpdateResponseDto, res),
         ),
-        map((res: CollectionUpdateResponseDto) => res.data.cards_collected),
+        map((res: CollectionUpdateResponseDto) => res.data),
       );
   }
 }
