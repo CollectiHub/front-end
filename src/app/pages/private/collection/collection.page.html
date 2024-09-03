@@ -8,6 +8,7 @@
         type="text"
         show-clear-button="always"
         clear-icon="close-circle-outline"
+        [disabled]="isCollectionDataLoadedSuccessfuly() === false"
         [debounce]="300"
         [placeholder]="'collection.search_bar.placeholder' | translate"
         (ionInput)="handleSearchValueChange($event)" />
@@ -40,7 +41,7 @@
       [label]="'collection.info_fetch_failed' | translate"
       [buttonText]="'collection.info_fetch_failed_button' | translate"
       (tryAgainClicked)="reFetchCollectionInfo()" />
-    } @else if (collectionCardsError() !== undefined) {
+    } @else if (collectionCardsError() !== undefined && !cardsSearchbar.value) {
     <app-collection-fetch-error
       [label]="'collection.cards_fetch_failed' | translate"
       [buttonText]="'collection.cards_fetch_failed_button' | translate"
