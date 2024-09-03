@@ -221,38 +221,6 @@ describe(CollectionPage.name, () => {
     });
   });
 
-  describe('handleRarityChange', () => {
-    it('should assign empty array as value if no cards for rarity', () => {
-      component.handleRarityChange({}, 'R');
-
-      expect(component.cardsForCurrentRarity).toStrictEqual([]);
-    });
-
-    it('should trigger "fatchByRarity" if no cards for rarity', () => {
-      component.handleRarityChange({}, 'R');
-
-      expect(collectionCardsStoreMock.fetchByRarity).toHaveBeenCalledTimes(1);
-    });
-
-    it('should assign array with cards as value if there are cards for rarity', () => {
-      const cardsMock = [mock<Card>()];
-
-      component.handleRarityChange({ R: cardsMock }, 'R');
-
-      expect(component.cardsForCurrentRarity).toStrictEqual(cardsMock);
-    });
-  });
-
-  describe('getCollectedCardsForRarity', () => {
-    it('should filter out cards that are not collected', () => {
-      const cardsMock = [mock<Card>({ status: CardStatus.Collected }), mock<Card>({ status: CardStatus.NotCollected })];
-
-      const result = component.getCollectedCardsForRarity(cardsMock);
-
-      expect(result.length).toBe(1);
-    });
-  });
-
   describe('ngOnInit', () => {
     it('should trigger "getCollectionInfo" of collection info store', () => {
       component.ngOnInit();
@@ -322,6 +290,62 @@ describe(CollectionPage.name, () => {
       component.updateCardStatus(cardMock);
 
       expect(collectionCardsStoreMock.update).toHaveBeenCalledWith(expectedPatch);
+    });
+  });
+
+  describe('reFetchCollectionInfo', () => {
+    it('should trigger "getCollectionInfo" method of collection info store', () => {
+      component.reFetchCollectionInfo();
+
+      expect(collectionInfoStoreMock.getCollectionInfo).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('reFetchCardsByRarity', () => {
+    it('should trigger "fatchByRarity" store method', () => {
+      component.reFetchCardsByRarity();
+
+      expect(collectionCardsStoreMock.fetchByRarity).toHaveBeenCalledTimes(1);
+    });
+
+    it('should trigger "getCollectedCardsForRarity" method to update collected cards amount', () => {
+      const spy = jest.spyOn(component, 'getCollectedCardsForRarity');
+
+      component.reFetchCardsByRarity();
+
+      expect(spy).toHaveBeenCalledWith([]);
+    });
+  });
+
+  describe('handleRarityChange', () => {
+    it('should assign empty array as value if no cards for rarity', () => {
+      component.handleRarityChange({}, 'R');
+
+      expect(component.cardsForCurrentRarity).toStrictEqual([]);
+    });
+
+    it('should trigger "fatchByRarity" if no cards for rarity', () => {
+      component.handleRarityChange({}, 'R');
+
+      expect(collectionCardsStoreMock.fetchByRarity).toHaveBeenCalledTimes(1);
+    });
+
+    it('should assign array with cards as value if there are cards for rarity', () => {
+      const cardsMock = [mock<Card>()];
+
+      component.handleRarityChange({ R: cardsMock }, 'R');
+
+      expect(component.cardsForCurrentRarity).toStrictEqual(cardsMock);
+    });
+  });
+
+  describe('getCollectedCardsForRarity', () => {
+    it('should filter out cards that are not collected', () => {
+      const cardsMock = [mock<Card>({ status: CardStatus.Collected }), mock<Card>({ status: CardStatus.NotCollected })];
+
+      const result = component.getCollectedCardsForRarity(cardsMock);
+
+      expect(result.length).toBe(1);
     });
   });
 });

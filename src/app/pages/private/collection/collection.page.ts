@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, Signal, computed, effect, i
 import { ReactiveFormsModule } from '@angular/forms';
 import { CardsListComponent } from '@features/collection/components/cards-list/cards-list.component';
 import { ChipsListComponent } from '@features/collection/components/chips-list/chips-list.component';
+import { CollectionFetchErrorComponent } from '@features/collection/components/collection-fetch-error/collection-fetch-error.component';
 import { ProgressBarComponent } from '@features/collection/components/progress-bar/progress-bar.component';
 import { RaritySliderComponent } from '@features/collection/components/rarity-slider/rarity-slider.component';
 import { CollectionCardsStore } from '@features/collection/store/collection-cards-store/collection-cards.store';
@@ -51,6 +52,7 @@ import { closeCircleOutline, settingsOutline } from 'ionicons/icons';
     RaritySliderComponent,
     ReactiveFormsModule,
     TranslateModule,
+    CollectionFetchErrorComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -71,6 +73,7 @@ export default class CollectionPage implements OnInit {
 
   cardsByRarity: Signal<Record<string, Card[]>> = this.collectionCardsStore.cardsByRarity;
   cardsLoadingMap: Signal<CardsLoadingMap> = this.collectionCardsStore.cardsLoadingMap;
+  collectionCardsError: Signal<string | undefined> = this.collectionCardsStore.error;
   isCollectionCardsLoading: Signal<boolean> = this.collectionCardsStore.loading;
 
   searchCards: Signal<Card[]> = this.searchCardsStore.entities;
@@ -92,7 +95,6 @@ export default class CollectionPage implements OnInit {
   canDisplayGlobalProgressBar = computed(() => {
     const isEnabled = this.globalProgressDisplayMode() !== CollectionProgressMode.None;
 
-    // TODO: Move 'isCollectionDataLoadedSuccessfuly' to computed
     return isEnabled && this.isCollectionDataLoadedSuccessfuly();
   });
 
@@ -119,21 +121,6 @@ export default class CollectionPage implements OnInit {
 
       this.currentRarityCollectedCardsAmount = this.getCollectedCardsForRarity(this.cardsForCurrentRarity).length;
     });
-  }
-
-  handleRarityChange(cardsByRarity: Record<string, Card[]>, selectedRarity: string) {
-    const existingCardsByRarity = cardsByRarity[selectedRarity];
-
-    if (existingCardsByRarity) {
-      this.cardsForCurrentRarity = existingCardsByRarity;
-    } else {
-      this.collectionCardsStore.fetchByRarity(this.selectedRarity());
-      this.cardsForCurrentRarity = [];
-    }
-  }
-
-  getCollectedCardsForRarity(cardsForCurrentRarity: Card[]): Card[] {
-    return cardsForCurrentRarity.filter((card: Card) => card.status === CardStatus.Collected);
   }
 
   ngOnInit(): void {
@@ -169,5 +156,29 @@ export default class CollectionPage implements OnInit {
     };
 
     this.collectionCardsStore.update(patch);
+  }
+
+  reFetchCollectionInfo(): void {
+    this.collectionInfoStore.getCollectionInfo();
+  }
+
+  reFetchCardsByRarity(): void {
+    this.collectionCardsStore.fetchByRarity(this.selectedRarity());
+    this.currentRarityCollectedCardsAmount = this.getCollectedCardsForRarity(this.cardsForCurrentRarity).length;
+  }
+
+  handleRarityChange(cardsByRarity: Record<string, Card[]>, selectedRarity: string) {
+    const existingCardsByRarity = cardsByRarity[selectedRarity];
+
+    if (existingCardsByRarity) {
+      this.cardsForCurrentRarity = existingCardsByRarity;
+    } else {
+      this.collectionCardsStore.fetchByRarity(this.selectedRarity());
+      this.cardsForCurrentRarity = [];
+    }
+  }
+
+  getCollectedCardsForRarity(cardsForCurrentRarity: Card[]): Card[] {
+    return cardsForCurrentRarity.filter((card: Card) => card.status === CardStatus.Collected);
   }
 }
