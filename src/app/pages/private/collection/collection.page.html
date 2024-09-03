@@ -35,6 +35,16 @@
     <div class="tw-flex tw-justify-center tw-items-center tw-w-full tw-h-full">
       <ion-spinner name="bubbles" color="medium" />
     </div>
+    } @else if (collectionInfoError() !== undefined) {
+    <app-collection-fetch-error
+      [label]="'collection.info_fetch_failed' | translate"
+      [buttonText]="'collection.info_fetch_failed_button' | translate"
+      (tryAgainClicked)="reFetchCollectionInfo()" />
+    } @else if (collectionCardsError() !== undefined) {
+    <app-collection-fetch-error
+      [label]="'collection.cards_fetch_failed' | translate"
+      [buttonText]="'collection.cards_fetch_failed_button' | translate"
+      (tryAgainClicked)="reFetchCardsByRarity()" />
     } @else if(cardsSearchbar.value || isImageDisplayMode()){
     <app-cards-list
       [cardsLoadingMap]="cardsLoadingMap()"
