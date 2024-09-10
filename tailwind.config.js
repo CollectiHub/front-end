@@ -3,7 +3,11 @@ module.exports = {
   prefix: 'tw-',
   content: ["./src/**/*.{html, ts}"],
   theme: {
-    extend: {},
+    extend: {
+      gridTemplateColumns: {
+        'chips-sheet': 'repeat(auto-fit, minmax(90px, min-content))',
+      }
+    },
   },
 }
 

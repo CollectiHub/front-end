@@ -8,8 +8,10 @@
   <div class="tw-flex tw-flex-auto tw-items-center">
     <img
       class="tw-w-full"
+      width="165"
+      height="271"
       alt="image description"
-      [src]="card().status !== status.NotExisting ? card().image_url : 'assets/img/card-not-found.jpg'"
+      [ngSrc]="card().status !== status.NotExisting ? card().image_url : 'assets/img/card-not-found.jpg'"
       (error)="handleImageLoadError($event)" />
   </div>
   <ion-card-content class="tw-flex tw-justify-between tw-items-center tw-p-2">
