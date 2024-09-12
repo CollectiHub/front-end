@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import { CardComponent } from '@components/card/card.component';
 import { CardsLoadingMap } from '@features/collection/store/collection-cards-store/collection-cards.store.models';
+import { IonButton } from '@ionic/angular/standalone';
 import { Card, CardStatus } from '@models/cards.models';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastColor } from '@services/toast/toast.models';
@@ -10,7 +12,7 @@ import { take } from 'rxjs';
 @Component({
   selector: 'app-cards-list',
   standalone: true,
-  imports: [CardComponent, TranslateModule],
+  imports: [CardComponent, TranslateModule, IonButton, NgIf],
   templateUrl: './cards-list.component.html',
   styleUrl: './cards-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,8 +22,21 @@ export class CardsListComponent {
   private readonly toastService = inject(ToastService);
 
   cardsList = input.required<Card[] | null>();
+  canMarkAllAsCollected = computed(
+    () => !this.getIsCardsListEmpty(this.cardsList()) && !this.getIsEveryCardCollected(this.cardsList()),
+  );
   cardsLoadingMap = input.required<CardsLoadingMap>();
   cardCheckboxClicked = output<Card>();
+
+  getIsCardsListEmpty(list: Card[] | null): boolean {
+    return list === null || list.length === 0;
+  }
+
+  getIsEveryCardCollected(cardsList: Card[] | null): boolean {
+    if (cardsList === null) return false;
+
+    return cardsList.every(card => card.status === CardStatus.Collected || card.status === CardStatus.NotExisting);
+  }
 
   handleCardClick(card: Card): void {
     if (card.status === CardStatus.NotExisting) {
