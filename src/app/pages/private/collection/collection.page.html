@@ -23,6 +23,12 @@
     </ion-toolbar>
   </ion-header>
 
+  @if (canDisplayGlobalProgressBarSkeleton()) {
+    <app-progress-bar-skeleton
+      label="progress_bar.global_progress.label"
+    />
+  }
+
   @if(canDisplayGlobalProgressBar()){
   <app-progress-bar
     label="progress_bar.global_progress.label"
@@ -58,6 +64,12 @@
       (chipClicked)="updateCardStatus($event)" />
     }
   </ion-content>
+
+  @if (canDisplayRarityProgressBarSkeleton()){
+    <app-progress-bar-skeleton
+      label="progress_bar.rarity_progress.label"
+    />
+  }
 
   @if(canDisplayRarityProgressBar()){
   <app-progress-bar

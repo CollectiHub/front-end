@@ -28,6 +28,9 @@ import { Card, CardStatus } from '@models/cards.models';
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { closeCircleOutline, settingsOutline } from 'ionicons/icons';
+import {
+  ProgressBarSkeletonComponent
+} from '@features/collection/components/progress-bar-skeleton/progress-bar-skeleton.component';
 
 @Component({
   selector: 'app-collection',
@@ -53,6 +56,7 @@ import { closeCircleOutline, settingsOutline } from 'ionicons/icons';
     ReactiveFormsModule,
     TranslateModule,
     CollectionFetchErrorComponent,
+    ProgressBarSkeletonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -92,14 +96,34 @@ export default class CollectionPage implements OnInit {
     return isLoaded && hasNoError;
   });
 
+  isGlobalProgressBarEnabled = computed(() => {
+    return this.globalProgressDisplayMode() !== CollectionProgressMode.None;
+  });
+
+  isRarityProgressBarEnabled = computed(() => {
+    return this.rarityProgressDisplayMode() !== CollectionProgressMode.None;
+  });
+
+  canDisplayGlobalProgressBarSkeleton = computed(() => {
+    const isEnabled = this.isGlobalProgressBarEnabled();
+
+    return isEnabled && !this.isCollectionDataLoadedSuccessfuly();
+  });
+
+  canDisplayRarityProgressBarSkeleton = computed(() => {
+    const isEnabled = this.isRarityProgressBarEnabled();
+
+    return isEnabled && !this.isCollectionDataLoadedSuccessfuly();
+  });
+
   canDisplayGlobalProgressBar = computed(() => {
-    const isEnabled = this.globalProgressDisplayMode() !== CollectionProgressMode.None;
+    const isEnabled = this.isGlobalProgressBarEnabled();
 
     return isEnabled && this.isCollectionDataLoadedSuccessfuly();
   });
 
   canDisplayRarityProgressBar = computed(() => {
-    const isEnabled = this.rarityProgressDisplayMode() !== CollectionProgressMode.None;
+    const isEnabled = this.isRarityProgressBarEnabled();
 
     return isEnabled && this.isCollectionDataLoadedSuccessfuly();
   });
