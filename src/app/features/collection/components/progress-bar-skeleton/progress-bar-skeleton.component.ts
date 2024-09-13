@@ -5,13 +5,10 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-progress-bar-skeleton',
   standalone: true,
-  imports: [
-    IonSkeletonText,
-    TranslateModule
-  ],
+  imports: [IonSkeletonText, TranslateModule],
   templateUrl: './progress-bar-skeleton.component.html',
   styleUrl: './progress-bar-skeleton.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgressBarSkeletonComponent {
   label = input.required<string>();

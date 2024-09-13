@@ -1,20 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ProgressBarComponent } from '@features/collection/components/progress-bar/progress-bar.component';
+import { classWithProviders } from '@ngx-unit-test/inject-mocks';
 
 import { ProgressBarSkeletonComponent } from './progress-bar-skeleton.component';
 
-describe('ProgressBarSkeletonComponent', () => {
+describe(ProgressBarSkeletonComponent.name, () => {
   let component: ProgressBarSkeletonComponent;
-  let fixture: ComponentFixture<ProgressBarSkeletonComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ProgressBarSkeletonComponent]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(ProgressBarSkeletonComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    component = classWithProviders({
+      token: ProgressBarComponent,
+      providers: [],
+    });
   });
 
   it('should create', () => {
