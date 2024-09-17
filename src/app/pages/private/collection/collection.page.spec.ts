@@ -293,6 +293,26 @@ describe(CollectionPage.name, () => {
     });
   });
 
+  describe('markAllAsCollected', () => {
+    it('should build patch and trigger "update" method of collection cards store', () => {
+      const mockCards = [
+        mock<Card>({ status: CardStatus.NotCollected }),
+        mock<Card>({ status: CardStatus.Collected }),
+        mock<Card>({ status: CardStatus.NotExisting }),
+      ];
+      const expectedPatch = {
+        ids: [mockCards[0].id],
+        changes: {
+          status: CardStatus.Collected,
+        },
+      };
+
+      component.markAllAsCollected(mockCards);
+
+      expect(collectionCardsStoreMock.update).toHaveBeenCalledWith(expectedPatch);
+    });
+  });
+
   describe('reFetchCollectionInfo', () => {
     it('should trigger "getCollectionInfo" method of collection info store', () => {
       component.reFetchCollectionInfo();

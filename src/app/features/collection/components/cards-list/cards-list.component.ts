@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import { CardComponent } from '@components/card/card.component';
 import { CardsLoadingMap } from '@features/collection/store/collection-cards-store/collection-cards.store.models';
@@ -12,7 +11,7 @@ import { take } from 'rxjs';
 @Component({
   selector: 'app-cards-list',
   standalone: true,
-  imports: [CardComponent, TranslateModule, IonButton, NgIf],
+  imports: [CardComponent, TranslateModule, IonButton],
   templateUrl: './cards-list.component.html',
   styleUrl: './cards-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,6 +26,7 @@ export class CardsListComponent {
   );
   cardsLoadingMap = input.required<CardsLoadingMap>();
   cardCheckboxClicked = output<Card>();
+  markAllAsCollectedClicked = output<Card[]>();
 
   getIsCardsListEmpty(list: Card[] | null): boolean {
     return list === null || list.length === 0;
@@ -35,7 +35,13 @@ export class CardsListComponent {
   getIsEveryCardCollected(cardsList: Card[] | null): boolean {
     if (cardsList === null) return false;
 
-    return cardsList.every(card => card.status === CardStatus.Collected || card.status === CardStatus.NotExisting);
+    return cardsList.every(card => card.status !== CardStatus.NotCollected);
+  }
+
+  handleMarkAllAsCollectedClick(cards: Card[] | null): void {
+    if (cards === null) return;
+
+    this.markAllAsCollectedClicked.emit(cards);
   }
 
   handleCardClick(card: Card): void {

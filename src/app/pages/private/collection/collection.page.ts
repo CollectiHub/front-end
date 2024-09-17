@@ -158,6 +158,19 @@ export default class CollectionPage implements OnInit {
     this.collectionCardsStore.update(patch);
   }
 
+  markAllAsCollected(cards: Card[]): void {
+    const uncollectedCardsIds = cards.filter(card => card.status === CardStatus.NotCollected).map(card => card.id);
+
+    const patch = {
+      ids: uncollectedCardsIds,
+      changes: {
+        status: CardStatus.Collected,
+      },
+    };
+
+    this.collectionCardsStore.update(patch);
+  }
+
   reFetchCollectionInfo(): void {
     this.collectionInfoStore.getCollectionInfo();
   }

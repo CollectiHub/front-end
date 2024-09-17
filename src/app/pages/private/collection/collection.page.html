@@ -50,7 +50,8 @@
     <app-cards-list
       [cardsLoadingMap]="cardsLoadingMap()"
       [cardsList]="cardsSearchbar.value ? searchCards() : cardsForCurrentRarity"
-      (cardCheckboxClicked)="updateCardStatus($event)" />
+      (cardCheckboxClicked)="updateCardStatus($event)"
+      (markAllAsCollectedClicked)="markAllAsCollected($event)" />
     } @else {
     <app-chips-list
       [cardsLoadingMap]="cardsLoadingMap()"
