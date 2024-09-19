@@ -6,7 +6,10 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         'chips-sheet': 'repeat(auto-fit, minmax(90px, min-content))',
-      }
+      },
+      width: {
+        '10p': '10%',
+      },
     },
   },
 }

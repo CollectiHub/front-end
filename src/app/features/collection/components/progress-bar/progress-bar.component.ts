@@ -1,18 +1,19 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { CollectionProgressMode } from '@features/collection-settings/collection-settings.models';
-import { IonProgressBar } from '@ionic/angular/standalone';
+import { IonProgressBar, IonSkeletonText } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-progress-bar',
   standalone: true,
-  imports: [IonProgressBar, TranslateModule],
+  imports: [IonProgressBar, TranslateModule, IonSkeletonText],
   templateUrl: './progress-bar.component.html',
   styleUrl: './progress-bar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgressBarComponent {
   label = input.required<string>();
+  isLoading = input.required<boolean>();
   maxValue = input.required<number>();
   currentValue = input.required<number>();
   displayMode = input.required<CollectionProgressMode>();
