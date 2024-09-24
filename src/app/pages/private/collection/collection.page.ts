@@ -158,7 +158,7 @@ export default class CollectionPage implements OnInit {
     this.collectionCardsStore.update(patch);
   }
 
-  markAllAsCollected(cards: Card[]): void {
+  markAllAsCollectedClick(cards: Card[]): void {
     const uncollectedCardsIds = cards.filter(card => card.status === CardStatus.NotCollected).map(card => card.id);
 
     const patch = {
@@ -193,5 +193,21 @@ export default class CollectionPage implements OnInit {
 
   getCollectedCardsForRarity(cardsForCurrentRarity: Card[]): Card[] {
     return cardsForCurrentRarity.filter((card: Card) => card.status === CardStatus.Collected);
+  }
+
+  getCanMarkAllAsCollected() {
+    return (
+      !this.getIsCardsListEmpty(this.cardsForCurrentRarity) && this.getIsSomeCardUncollected(this.cardsForCurrentRarity)
+    );
+  }
+
+  getIsCardsListEmpty(cards: Card[] | null): boolean {
+    return cards === null || cards.length === 0;
+  }
+
+  getIsSomeCardUncollected(cards: Card[] | null) {
+    if (cards === null) return false;
+
+    return cards.some(card => card.status === CardStatus.NotCollected);
   }
 }

@@ -32,6 +32,17 @@
   }
 
   <ion-content>
+    @if(!cardsSearchbar!.value && getCanMarkAllAsCollected()) {
+      <div class="tw-flex tw-justify-end tw-pt-1 tw-px-4">
+        <ion-button
+          (click)="markAllAsCollectedClick(cardsForCurrentRarity)"
+          class="tw-p-1"
+          type="button"
+          translate="collection.mark_all_as_collected_button"
+        />
+      </div>
+    }
+
     @if(isDataLoading()){
     <div class="tw-flex tw-justify-center tw-items-center tw-w-full tw-h-full">
       <ion-spinner name="bubbles" color="medium" />
@@ -50,8 +61,7 @@
     <app-cards-list
       [cardsLoadingMap]="cardsLoadingMap()"
       [cardsList]="cardsSearchbar.value ? searchCards() : cardsForCurrentRarity"
-      (cardCheckboxClicked)="updateCardStatus($event)"
-      (markAllAsCollectedClicked)="markAllAsCollected($event)" />
+      (cardCheckboxClicked)="updateCardStatus($event)" />
     } @else {
     <app-chips-list
       [cardsLoadingMap]="cardsLoadingMap()"

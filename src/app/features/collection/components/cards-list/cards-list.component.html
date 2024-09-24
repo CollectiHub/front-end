@@ -1,14 +1,3 @@
-@if (canMarkAllAsCollected()) {
-  <div class="tw-flex tw-justify-end tw-pt-1">
-    <ion-button
-      (click)="handleMarkAllAsCollectedClick(cardsList())"
-      class="tw-p-1"
-      type="button"
-      translate="collection.mark_all_as_collected_button"
-    />
-  </div>
-}
-
 <div class="tw-flex tw-flex-wrap tw-justify-around">
   @for (card of cardsList(); track card.id) {
     <app-card
