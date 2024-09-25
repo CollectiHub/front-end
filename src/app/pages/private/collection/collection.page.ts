@@ -21,6 +21,7 @@ import {
   IonMenu,
   IonMenuToggle,
   IonSearchbar,
+  IonSkeletonText,
   IonSpinner,
   IonToolbar,
 } from '@ionic/angular/standalone';
@@ -53,6 +54,7 @@ import { closeCircleOutline, settingsOutline } from 'ionicons/icons';
     ReactiveFormsModule,
     TranslateModule,
     CollectionFetchErrorComponent,
+    IonSkeletonText,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -104,6 +106,8 @@ export default class CollectionPage implements OnInit {
     return isEnabled && this.isCollectionDataLoadedSuccessfuly();
   });
 
+  canMarkAllAsCollected = false;
+
   isDataLoading = computed(() => {
     return this.isCollectionInfoLoading() || this.isSearchCardsLoading() || this.isCollectionCardsLoading();
   });
@@ -118,6 +122,8 @@ export default class CollectionPage implements OnInit {
 
     effect(() => {
       this.handleRarityChange(this.cardsByRarity(), this.selectedRarity());
+
+      this.canMarkAllAsCollected = this.getCanMarkAllAsCollected(this.cardsForCurrentRarity);
 
       this.currentRarityCollectedCardsAmount = this.getCollectedCardsForRarity(this.cardsForCurrentRarity).length;
     });
@@ -195,17 +201,15 @@ export default class CollectionPage implements OnInit {
     return cardsForCurrentRarity.filter((card: Card) => card.status === CardStatus.Collected);
   }
 
-  getCanMarkAllAsCollected() {
-    return (
-      !this.getIsCardsListEmpty(this.cardsForCurrentRarity) && this.getIsSomeCardUncollected(this.cardsForCurrentRarity)
-    );
+  getCanMarkAllAsCollected(cards: Card[]): boolean {
+    return !this.isCardsListEmpty(cards) && this.isSomeCardUncollected(cards);
   }
 
-  getIsCardsListEmpty(cards: Card[] | null): boolean {
+  isCardsListEmpty(cards: Card[] | null): boolean {
     return cards === null || cards.length === 0;
   }
 
-  getIsSomeCardUncollected(cards: Card[] | null) {
+  isSomeCardUncollected(cards: Card[] | null): boolean {
     if (cards === null) return false;
 
     return cards.some(card => card.status === CardStatus.NotCollected);

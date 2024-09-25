@@ -32,11 +32,15 @@
   }
 
   <ion-content>
-    @if(!cardsSearchbar!.value && getCanMarkAllAsCollected()) {
+    @if (isDataLoading()) {
+      <div class="tw-flex tw-justify-end tw-pt-1 tw-px-4">
+        <ion-skeleton-text animated class="tw-w-60 tw-h-14 tw-rounded"/>
+      </div>
+    } @else if (!cardsSearchbar!.value && canMarkAllAsCollected) {
       <div class="tw-flex tw-justify-end tw-pt-1 tw-px-4">
         <ion-button
           (click)="markAllAsCollectedClick(cardsForCurrentRarity)"
-          class="tw-p-1"
+          class="tw-p-1 tw-h-14"
           type="button"
           translate="collection.mark_all_as_collected_button"
         />
