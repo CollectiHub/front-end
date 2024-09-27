@@ -293,6 +293,122 @@ describe(CollectionPage.name, () => {
     });
   });
 
+  describe('isCardsListEmpty', () => {
+    describe('returns false', () => {
+      it('should return false if list is not empty', () => {
+        const cardsList: Card[] = [{} as Card];
+
+        const result = component.isCardsListEmpty(cardsList);
+
+        expect(result).toBeFalsy();
+      });
+    });
+
+    describe('returns true', () => {
+      it('should return true if list is null', () => {
+        const cardsList = null;
+
+        const result = component.isCardsListEmpty(cardsList);
+
+        expect(result).toBeTruthy();
+      });
+
+      it('should return true if list is empty', () => {
+        const cardsList: Card[] = [];
+
+        const result = component.isCardsListEmpty(cardsList);
+
+        expect(result).toBeTruthy();
+      });
+    });
+  });
+
+  describe('isSomeCardUncollected', () => {
+    describe('returns false', () => {
+      it('should return false is list is null', () => {
+        const result = component.isSomeCardUncollected(null);
+
+        expect(result).toBeFalsy();
+      });
+
+      it('should return false if every card is collected or nonexistent', () => {
+        const cardsList: Card[] = [
+          { status: CardStatus.Collected } as Card,
+          { status: CardStatus.NotExisting } as Card,
+        ];
+
+        const result = component.isSomeCardUncollected(cardsList);
+
+        expect(result).toBeFalsy();
+      });
+    });
+
+    describe('returns true', () => {
+      it('should return true if some card is not collected', () => {
+        const cardsList: Card[] = [
+          { status: CardStatus.NotCollected } as Card,
+          { status: CardStatus.Collected } as Card,
+        ];
+
+        const result = component.isSomeCardUncollected(cardsList);
+
+        expect(result).toBeTruthy();
+      });
+    });
+  });
+
+  describe('getCanMarkAllAsCollected', () => {
+    describe("can't mark all as collected", () => {
+      it('should return false if list is empty', () => {
+        jest.spyOn(component, 'isCardsListEmpty').mockReturnValueOnce(true);
+
+        const result = component.getCanMarkAllAsCollected([]);
+
+        expect(result).toBeFalsy();
+      });
+
+      it('should return false if every card is collected', () => {
+        jest.spyOn(component, 'isCardsListEmpty').mockReturnValueOnce(false);
+        jest.spyOn(component, 'isSomeCardUncollected').mockReturnValueOnce(false);
+
+        const result = component.getCanMarkAllAsCollected([]);
+
+        expect(result).toBeFalsy();
+      });
+    });
+
+    describe('can mark all as collected', () => {
+      it('should return true if list is not empty and some card is uncollected', () => {
+        jest.spyOn(component, 'isCardsListEmpty').mockReturnValueOnce(false);
+        jest.spyOn(component, 'isSomeCardUncollected').mockReturnValueOnce(true);
+
+        const result = component.getCanMarkAllAsCollected([]);
+
+        expect(result).toBeTruthy();
+      });
+    });
+  });
+
+  describe('markAllAsCollected', () => {
+    it('should build patch and trigger "update" method of collection cards store', () => {
+      const mockCards = [
+        mock<Card>({ status: CardStatus.NotCollected }),
+        mock<Card>({ status: CardStatus.Collected }),
+        mock<Card>({ status: CardStatus.NotExisting }),
+      ];
+      const expectedPatch = {
+        ids: [mockCards[0].id],
+        changes: {
+          status: CardStatus.Collected,
+        },
+      };
+
+      component.markAllAsCollectedClick(mockCards);
+
+      expect(collectionCardsStoreMock.update).toHaveBeenCalledWith(expectedPatch);
+    });
+  });
+
   describe('reFetchCollectionInfo', () => {
     it('should trigger "getCollectionInfo" method of collection info store', () => {
       component.reFetchCollectionInfo();

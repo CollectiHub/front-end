@@ -75,6 +75,7 @@
   "progress_bar.global_progress.label": "Collection progress",
   "progress_bar.rarity_progress.label": "Rarity progress",
   "collection.card_not_exists.toast": "This card does not exists, because it was never published. This will not affect you collection progress",
+  "collection.mark_all_as_collected_button": "Mark all as collected",
   "collection.search_bar.placeholder": "Search cards by number, rarity, character",
   "collection.cards_not_found.message": "No cards found",
   "collection.info_fetch_failed": "Collection info fetch failed",

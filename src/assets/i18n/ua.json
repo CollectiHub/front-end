@@ -75,6 +75,7 @@
   "progress_bar.global_progress.label": "Прогрес колекції",
   "progress_bar.rarity_progress.label": "Прогрес рідкості",
   "collection.card_not_exists.toast": "Ця картка не існує, оскільки вона ніколи не була опублікована. Це не вплине на прогрес вашої колекції",
+  "collection.mark_all_as_collected_button": "Відмітити всі як зібрані",
   "collection.search_bar.placeholder": "Пошук карток за номером, рідкістю, персонажем",
   "collection.cards_not_found.message": "Карток не знайдено",
   "collection.info_fetch_failed": "Не вдалося отримати інформацію про колекцію",
