@@ -74,8 +74,94 @@ describe(CollectionPage.name, () => {
     });
   });
 
+  describe('collectionHasNoError', () => {
+    it('should return true if collection has no error', () => {
+      collectionInfoStoreMock.error.mockReturnValue(undefined);
+
+      expect(component.collectionHasNoError()).toBe(true);
+    });
+
+    it('should return false if collection has error', () => {
+      collectionInfoStoreMock.error.mockReturnValue('error');
+
+      expect(component.collectionHasNoError()).toBe(false);
+    });
+  });
+
+  describe('isCollectionInfoLoaded', () => {
+    it('should return true if collection info is loaded', () => {
+      collectionInfoStoreMock.loading.mockReturnValue(true);
+
+      expect(component.isCollectionInfoLoaded()).toBe(false);
+    });
+
+    it('should return false if collection has error', () => {
+      collectionInfoStoreMock.loading.mockReturnValue(false);
+
+      expect(component.isCollectionInfoLoaded()).toBe(true);
+    });
+  });
+
   describe('isCollectionDataLoadedSuccessfully', () => {
-    it('should return true if data loaded and no error in sollection info store', () => {
+    it('should return true if collection info is loaded and there is no error', () => {
+      collectionInfoStoreMock.loading.mockReturnValue(false);
+      collectionInfoStoreMock.error.mockReturnValue(undefined);
+
+      expect(component.isCollectionDataLoadedSuccessfully()).toBe(true);
+    });
+
+    it('should return false if collection info is not loaded', () => {
+      collectionInfoStoreMock.loading.mockReturnValue(true);
+      collectionInfoStoreMock.error.mockReturnValue(undefined);
+
+      expect(component.isCollectionDataLoadedSuccessfully()).toBe(false);
+    });
+
+    it('should return false if there is an error in the collection', () => {
+      collectionInfoStoreMock.loading.mockReturnValue(false);
+      collectionInfoStoreMock.error.mockReturnValue('error');
+
+      expect(component.isCollectionDataLoadedSuccessfully()).toBe(false);
+    });
+
+    it('should return false if collection info is not loaded and there is an error', () => {
+      collectionInfoStoreMock.loading.mockReturnValue(true);
+      collectionInfoStoreMock.error.mockReturnValue('error');
+
+      expect(component.isCollectionDataLoadedSuccessfully()).toBe(false);
+    });
+  });
+
+  describe('isGlobalProgressBarEnabled', () => {
+    it('should return true when global progress display mode is not "None"', () => {
+      collectionSettingsStoreMock.globalProgressDisplayMode.mockReturnValue(CollectionProgressMode.Numbers);
+
+      expect(component.isGlobalProgressBarEnabled()).toBe(true);
+    });
+
+    it('should return false when global progress display mode is "None"', () => {
+      collectionSettingsStoreMock.globalProgressDisplayMode.mockReturnValue(CollectionProgressMode.None);
+
+      expect(component.isGlobalProgressBarEnabled()).toBe(false);
+    });
+  });
+
+  describe('isRarityProgressBarEnabled', () => {
+    it('should return true when rarity progress display mode is not "None"', () => {
+      collectionSettingsStoreMock.rarityProgressDisplayMode.mockReturnValue(CollectionProgressMode.Percentages);
+
+      expect(component.isRarityProgressBarEnabled()).toBe(true);
+    });
+
+    it('should return false when rarity progress display mode is "None"', () => {
+      collectionSettingsStoreMock.rarityProgressDisplayMode.mockReturnValue(CollectionProgressMode.None);
+
+      expect(component.isRarityProgressBarEnabled()).toBe(false);
+    });
+  });
+
+  describe('isCollectionDataLoadedSuccessfully', () => {
+    it('should return true if data loaded and no error in collection info store', () => {
       collectionInfoStoreMock.loading.mockReturnValueOnce(false);
       collectionInfoStoreMock.error.mockReturnValueOnce(undefined);
 

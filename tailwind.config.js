@@ -8,7 +8,11 @@ module.exports = {
         'chips-sheet': 'repeat(auto-fit, minmax(90px, min-content))',
       },
       width: {
-        '10p': '10%',
+        '1/10': '10%',
+        '165': '165px',
+      },
+      height: {
+        '311': '311px',
       },
     },
   },

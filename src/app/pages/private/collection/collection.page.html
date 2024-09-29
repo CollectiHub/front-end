@@ -52,7 +52,7 @@
     <div class="tw-flex tw-justify-center tw-items-center tw-w-full">
       <ion-spinner name="bubbles" color="medium" />
     </div>
-    <app-cards-list-skeleton [cardListLength]="6" />
+    <app-cards-list-skeleton/>
     } @else if (!this.collectionHasNoError()) {
     <app-collection-fetch-error
       [label]="'collection.info_fetch_failed' | translate"

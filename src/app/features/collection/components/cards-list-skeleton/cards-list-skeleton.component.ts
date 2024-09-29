@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IonSkeletonText } from '@ionic/angular/standalone';
 
 @Component({
@@ -10,8 +10,5 @@ import { IonSkeletonText } from '@ionic/angular/standalone';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardsListSkeletonComponent {
-  cardListLength = input<number>();
-  array = computed(() => {
-    return new Array(this.cardListLength()).fill(0);
-  });
+  array = new Array(6).fill(0);
 }
