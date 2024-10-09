@@ -74,12 +74,70 @@ describe(CollectionPage.name, () => {
     });
   });
 
-  describe('isCollectionDataLoadedSuccessfuly', () => {
-    it('should return true if data loaded and no error in sollection info store', () => {
+  describe('isCollectionDataLoadedSuccessfully', () => {
+    it('should return true if collection info is loaded and there is no error', () => {
+      collectionInfoStoreMock.loading.mockReturnValue(false);
+      collectionInfoStoreMock.error.mockReturnValue(undefined);
+
+      expect(component.isCollectionDataLoadedSuccessfully()).toBe(true);
+    });
+
+    it('should return false if collection info is not loaded', () => {
+      collectionInfoStoreMock.loading.mockReturnValue(true);
+      collectionInfoStoreMock.error.mockReturnValue(undefined);
+
+      expect(component.isCollectionDataLoadedSuccessfully()).toBe(false);
+    });
+
+    it('should return false if there is an error in the collection', () => {
+      collectionInfoStoreMock.loading.mockReturnValue(false);
+      collectionInfoStoreMock.error.mockReturnValue('error');
+
+      expect(component.isCollectionDataLoadedSuccessfully()).toBe(false);
+    });
+
+    it('should return false if collection info is not loaded and there is an error', () => {
+      collectionInfoStoreMock.loading.mockReturnValue(true);
+      collectionInfoStoreMock.error.mockReturnValue('error');
+
+      expect(component.isCollectionDataLoadedSuccessfully()).toBe(false);
+    });
+  });
+
+  describe('isGlobalProgressBarEnabled', () => {
+    it('should return true when global progress display mode is not "None"', () => {
+      collectionSettingsStoreMock.globalProgressDisplayMode.mockReturnValue(CollectionProgressMode.Numbers);
+
+      expect(component.isGlobalProgressBarEnabled()).toBe(true);
+    });
+
+    it('should return false when global progress display mode is "None"', () => {
+      collectionSettingsStoreMock.globalProgressDisplayMode.mockReturnValue(CollectionProgressMode.None);
+
+      expect(component.isGlobalProgressBarEnabled()).toBe(false);
+    });
+  });
+
+  describe('isRarityProgressBarEnabled', () => {
+    it('should return true when rarity progress display mode is not "None"', () => {
+      collectionSettingsStoreMock.rarityProgressDisplayMode.mockReturnValue(CollectionProgressMode.Percentages);
+
+      expect(component.isRarityProgressBarEnabled()).toBe(true);
+    });
+
+    it('should return false when rarity progress display mode is "None"', () => {
+      collectionSettingsStoreMock.rarityProgressDisplayMode.mockReturnValue(CollectionProgressMode.None);
+
+      expect(component.isRarityProgressBarEnabled()).toBe(false);
+    });
+  });
+
+  describe('isCollectionDataLoadedSuccessfully', () => {
+    it('should return true if data loaded and no error in collection info store', () => {
       collectionInfoStoreMock.loading.mockReturnValueOnce(false);
       collectionInfoStoreMock.error.mockReturnValueOnce(undefined);
 
-      const result = component.isCollectionDataLoadedSuccessfuly();
+      const result = component.isCollectionDataLoadedSuccessfully();
 
       expect(result).toBe(true);
     });
@@ -88,7 +146,7 @@ describe(CollectionPage.name, () => {
       collectionInfoStoreMock.loading.mockReturnValueOnce(true);
       collectionInfoStoreMock.error.mockReturnValueOnce(undefined);
 
-      const result = component.isCollectionDataLoadedSuccessfuly();
+      const result = component.isCollectionDataLoadedSuccessfully();
 
       expect(result).toBe(false);
     });
@@ -97,7 +155,7 @@ describe(CollectionPage.name, () => {
       collectionInfoStoreMock.loading.mockReturnValueOnce(false);
       collectionInfoStoreMock.error.mockReturnValueOnce('error');
 
-      const result = component.isCollectionDataLoadedSuccessfuly();
+      const result = component.isCollectionDataLoadedSuccessfully();
 
       expect(result).toBe(false);
     });
@@ -105,7 +163,7 @@ describe(CollectionPage.name, () => {
 
   describe('canDisplayGlobalProgressBar', () => {
     it('should return true if selected display mode if not "none" and collection info loaded', () => {
-      component.isCollectionDataLoadedSuccessfuly = signal(true);
+      component.isCollectionDataLoadedSuccessfully = signal(true);
       collectionSettingsStoreMock.globalProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.Numbers);
 
       const result = component.canDisplayGlobalProgressBar();
@@ -114,7 +172,7 @@ describe(CollectionPage.name, () => {
     });
 
     it('should return false if selected display mode is "none"', () => {
-      component.isCollectionDataLoadedSuccessfuly = signal(true);
+      component.isCollectionDataLoadedSuccessfully = signal(true);
       collectionSettingsStoreMock.globalProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.None);
 
       const result = component.canDisplayGlobalProgressBar();
@@ -123,7 +181,7 @@ describe(CollectionPage.name, () => {
     });
 
     it('should return false if collection info was not loaded', () => {
-      component.isCollectionDataLoadedSuccessfuly = signal(false);
+      component.isCollectionDataLoadedSuccessfully = signal(false);
       collectionSettingsStoreMock.globalProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.Numbers);
 
       const result = component.canDisplayGlobalProgressBar();
@@ -134,7 +192,7 @@ describe(CollectionPage.name, () => {
 
   describe('canDisplayRarityProgressBar', () => {
     it('should return true if selected display mode if not "none" and collection info loaded', () => {
-      component.isCollectionDataLoadedSuccessfuly = signal(true);
+      component.isCollectionDataLoadedSuccessfully = signal(true);
       collectionSettingsStoreMock.rarityProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.Numbers);
 
       const result = component.canDisplayRarityProgressBar();
@@ -143,7 +201,7 @@ describe(CollectionPage.name, () => {
     });
 
     it('should return false if selected display mode is "none"', () => {
-      component.isCollectionDataLoadedSuccessfuly = signal(true);
+      component.isCollectionDataLoadedSuccessfully = signal(true);
       collectionSettingsStoreMock.rarityProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.None);
 
       const result = component.canDisplayRarityProgressBar();
@@ -152,7 +210,7 @@ describe(CollectionPage.name, () => {
     });
 
     it('should return false if collection info was not loaded', () => {
-      component.isCollectionDataLoadedSuccessfuly = signal(false);
+      component.isCollectionDataLoadedSuccessfully = signal(false);
       collectionSettingsStoreMock.rarityProgressDisplayMode.mockReturnValueOnce(CollectionProgressMode.Numbers);
 
       const result = component.canDisplayRarityProgressBar();

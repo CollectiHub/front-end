@@ -1,0 +1,5 @@
+@mixin skeleton-mixin {
+  --border-radius: 9999px;
+  --background: rgba(var(--ion-color-primary-rgb), 0.065);
+  --background-rgb: var(--ion-color-primary-rgb);
+}

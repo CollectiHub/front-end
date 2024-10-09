@@ -1,5 +1,5 @@
 @use 'mixins' as m;
 
-ion-skeleton-text.progress-bar-skeleton {
+ion-skeleton-text.card-skeleton {
   @include m.skeleton-mixin;
 }

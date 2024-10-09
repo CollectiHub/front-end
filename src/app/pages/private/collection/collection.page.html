@@ -8,7 +8,7 @@
         type="text"
         show-clear-button="always"
         clear-icon="close-circle-outline"
-        [disabled]="isCollectionDataLoadedSuccessfuly() === false"
+        [disabled]="!isCollectionDataLoadedSuccessfully()"
         [debounce]="300"
         [placeholder]="'collection.search_bar.placeholder' | translate"
         (ionInput)="handleSearchValueChange($event)" />
@@ -23,9 +23,10 @@
     </ion-toolbar>
   </ion-header>
 
-  @if(canDisplayGlobalProgressBar()){
+  @if(isGlobalProgressBarEnabled() && this.collectionInfoError() === undefined){
   <app-progress-bar
     label="progress_bar.global_progress.label"
+    [isLoading]="isDataLoading()"
     [maxValue]="cardsTotal()!"
     [currentValue]="cardsCollected()!"
     [displayMode]="globalProgressDisplayMode()" />
@@ -48,10 +49,11 @@
     }
 
     @if(isDataLoading()){
-    <div class="tw-flex tw-justify-center tw-items-center tw-w-full tw-h-full">
+    <div class="tw-flex tw-justify-center tw-items-center tw-w-full">
       <ion-spinner name="bubbles" color="medium" />
     </div>
-    } @else if (collectionInfoError() !== undefined) {
+    <app-cards-list-skeleton/>
+    } @else if (this.collectionInfoError() !== undefined) {
     <app-collection-fetch-error
       [label]="'collection.info_fetch_failed' | translate"
       [buttonText]="'collection.info_fetch_failed_button' | translate"
@@ -77,10 +79,11 @@
   @if(canDisplayRarityProgressBar()){
   <app-progress-bar
     label="progress_bar.rarity_progress.label"
+    [isLoading]="isDataLoading()"
     [maxValue]="cardsForCurrentRarity.length"
     [currentValue]="currentRarityCollectedCardsAmount"
     [displayMode]="rarityProgressDisplayMode()" />
-  } @if (isCollectionDataLoadedSuccessfuly()) {
+  } @if (isCollectionDataLoadedSuccessfully()) {
   <app-rarity-slider
     [rarities]="rarities()!"
     [selectedRarity]="cardsSearchbar.value ? undefined : selectedRarity()"

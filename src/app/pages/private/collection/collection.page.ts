@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, Signal, computed, effect, inject, viewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CardsListComponent } from '@features/collection/components/cards-list/cards-list.component';
+import { CardsListSkeletonComponent } from '@features/collection/components/cards-list-skeleton/cards-list-skeleton.component';
 import { ChipsListComponent } from '@features/collection/components/chips-list/chips-list.component';
 import { CollectionFetchErrorComponent } from '@features/collection/components/collection-fetch-error/collection-fetch-error.component';
 import { ProgressBarComponent } from '@features/collection/components/progress-bar/progress-bar.component';
@@ -55,6 +56,7 @@ import { closeCircleOutline, settingsOutline } from 'ionicons/icons';
     TranslateModule,
     CollectionFetchErrorComponent,
     IonSkeletonText,
+    CardsListSkeletonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -87,23 +89,28 @@ export default class CollectionPage implements OnInit {
   collectionInfoError: Signal<string | undefined> = this.collectionInfoStore.error;
   isCollectionInfoLoading: Signal<boolean> = this.collectionInfoStore.loading;
 
-  isCollectionDataLoadedSuccessfuly: Signal<boolean> = computed(() => {
-    const isLoaded = this.isCollectionInfoLoading() === false;
-    const hasNoError = this.collectionInfoError() === undefined;
+  isCollectionDataLoadedSuccessfully: Signal<boolean> = computed(() => {
+    return !this.isCollectionInfoLoading() && this.collectionInfoError() === undefined;
+  });
 
-    return isLoaded && hasNoError;
+  isGlobalProgressBarEnabled = computed(() => {
+    return this.globalProgressDisplayMode() !== CollectionProgressMode.None;
+  });
+
+  isRarityProgressBarEnabled = computed(() => {
+    return this.rarityProgressDisplayMode() !== CollectionProgressMode.None;
   });
 
   canDisplayGlobalProgressBar = computed(() => {
-    const isEnabled = this.globalProgressDisplayMode() !== CollectionProgressMode.None;
+    const isEnabled = this.isGlobalProgressBarEnabled();
 
-    return isEnabled && this.isCollectionDataLoadedSuccessfuly();
+    return isEnabled && this.isCollectionDataLoadedSuccessfully();
   });
 
   canDisplayRarityProgressBar = computed(() => {
-    const isEnabled = this.rarityProgressDisplayMode() !== CollectionProgressMode.None;
+    const isEnabled = this.isRarityProgressBarEnabled();
 
-    return isEnabled && this.isCollectionDataLoadedSuccessfuly();
+    return isEnabled && this.isCollectionDataLoadedSuccessfully();
   });
 
   canMarkAllAsCollected = false;
