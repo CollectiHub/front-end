@@ -89,16 +89,8 @@ export default class CollectionPage implements OnInit {
   collectionInfoError: Signal<string | undefined> = this.collectionInfoStore.error;
   isCollectionInfoLoading: Signal<boolean> = this.collectionInfoStore.loading;
 
-  collectionHasNoError: Signal<boolean> = computed(() => {
-    return this.collectionInfoError() === undefined;
-  });
-
-  isCollectionInfoLoaded: Signal<boolean> = computed(() => {
-    return this.isCollectionInfoLoading() === false;
-  });
-
   isCollectionDataLoadedSuccessfully: Signal<boolean> = computed(() => {
-    return this.isCollectionInfoLoaded() && this.collectionHasNoError();
+    return !this.isCollectionInfoLoading() && this.collectionInfoError() === undefined;
   });
 
   isGlobalProgressBarEnabled = computed(() => {

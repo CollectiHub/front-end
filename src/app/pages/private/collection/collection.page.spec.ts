@@ -74,34 +74,6 @@ describe(CollectionPage.name, () => {
     });
   });
 
-  describe('collectionHasNoError', () => {
-    it('should return true if collection has no error', () => {
-      collectionInfoStoreMock.error.mockReturnValue(undefined);
-
-      expect(component.collectionHasNoError()).toBe(true);
-    });
-
-    it('should return false if collection has error', () => {
-      collectionInfoStoreMock.error.mockReturnValue('error');
-
-      expect(component.collectionHasNoError()).toBe(false);
-    });
-  });
-
-  describe('isCollectionInfoLoaded', () => {
-    it('should return true if collection info is loaded', () => {
-      collectionInfoStoreMock.loading.mockReturnValue(true);
-
-      expect(component.isCollectionInfoLoaded()).toBe(false);
-    });
-
-    it('should return false if collection has error', () => {
-      collectionInfoStoreMock.loading.mockReturnValue(false);
-
-      expect(component.isCollectionInfoLoaded()).toBe(true);
-    });
-  });
-
   describe('isCollectionDataLoadedSuccessfully', () => {
     it('should return true if collection info is loaded and there is no error', () => {
       collectionInfoStoreMock.loading.mockReturnValue(false);
